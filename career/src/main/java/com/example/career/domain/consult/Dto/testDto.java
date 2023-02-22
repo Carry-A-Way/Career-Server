@@ -1,12 +1,9 @@
-package com.example.career.Dto;
+package com.example.career.domain.consult.Dto;
 
-import com.example.career.Entity.TestEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

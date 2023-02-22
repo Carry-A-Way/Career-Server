@@ -1,7 +1,7 @@
 package com.example.career.Controller;
 
-import com.example.career.Entity.TestEntity;
-import com.example.career.Repository.CareerRepository;
+import com.example.career.domain.user.Entity.TestEntity;
+import com.example.career.domain.user.Repository.CareerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
