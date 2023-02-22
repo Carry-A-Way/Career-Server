@@ -1,4 +1,4 @@
 package com.example.career.domain.consult.Controller;
 
-public class UserController {
+public class ConsultController {
 }
