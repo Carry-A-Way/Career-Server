@@ -1,16 +1,12 @@
 package com.example.career.domain.user.Controller;
 
 import com.example.career.domain.user.Dto.SignUpReqDto;
-import com.example.career.domain.user.Dto.UserResDto;
 import com.example.career.domain.user.Dto.UserReqDto;
-import com.example.career.domain.user.Dto.ValidRespDto;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.valid.ValidCheck;
 
 import lombok.AllArgsConstructor;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +17,18 @@ public class UserController {
 
     private UserService userService;
     
-
-    
+    // 로그인
+    @PostMapping("signin")
+    public ValidCheck signIn(@RequestBody UserReqDto userReqDto) {
+        User user = userService.signIn(userReqDto);
+        ValidCheck validCheck = new ValidCheck(user);
+        
+        return validCheck;
+    }
 
     // 회원가입 버튼
     // TODO : jwt token
-    @PostMapping("signin")
+    @PostMapping("signup")
     public ValidCheck signUp(@RequestBody SignUpReqDto signUpReqDto) {
         System.out.println(signUpReqDto.toString());
         ValidCheck validCheck;

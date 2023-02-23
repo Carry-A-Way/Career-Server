@@ -1,5 +1,6 @@
 package com.example.career.domain.user.Service;
 
+import com.example.career.domain.user.Dto.UserReqDto;
 import com.example.career.domain.user.Dto.SignUpReqDto;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
+    @Override
+    public User signIn(UserReqDto userReqDto) {
+        return userRepository.findByUsernameAndPassword(userReqDto.getUsername(), userReqDto.getPassword());
+    }
     @Override
     public User signUp(SignUpReqDto signUpReqDto) {
         User user = signUpReqDto.toUserEntity();
