@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class testDto {
-    private Long user_id;
-    private String name;
-    private String phoneNumber;
-
+public class UserReqDto {
+    private String username;
+    private String password;
 }
