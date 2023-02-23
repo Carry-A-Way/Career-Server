@@ -2,6 +2,7 @@ package com.example.career.domain.user.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "User")
 public class User {
 
@@ -32,13 +34,13 @@ public class User {
     private String telephone;
 
     @Column(nullable = false)
-    private int authType;
+    private int authType = 1;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String password;
 
     @Column(columnDefinition = "CHAR(7)", nullable = false)
-    private String role;
+    private String role = "USER";
 
     @Column(nullable = false)
     private int status = 0;

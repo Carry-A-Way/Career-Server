@@ -1,7 +1,8 @@
 package com.example.career.Controller;
 
 import com.example.career.domain.user.Entity.TestEntity;
-import com.example.career.domain.user.Repository.CareerRepository;
+import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,15 +15,19 @@ import java.util.List;
 
 public class HomeController {
 
-    final CareerRepository careerRepository;
+    final UserRepository careerRepository;
 
     @GetMapping("/test")
-    public List<TestEntity> test(){
+    public List<User> test(){
         return careerRepository.findAll();
     }
     @PostMapping("/test/insert")
     public String testInsert(){
 
         return "성공";
+    }
+    @GetMapping("/api/hello")
+    public String test2() {
+        return "Hello, world!";
     }
 }
