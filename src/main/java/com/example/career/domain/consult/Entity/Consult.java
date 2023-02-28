@@ -22,7 +22,7 @@ public class Consult {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "review_id")
     private Review review;
 
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
