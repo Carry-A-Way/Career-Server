@@ -57,7 +57,7 @@ public class User
     private Boolean gender = true;
 
     @Lob
-    private String profile_img;
+    private String profileImg;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String introduce;
