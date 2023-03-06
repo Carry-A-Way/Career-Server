@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Entity;
 
+import com.example.career.domain.user.Entity.TutorDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,12 +20,9 @@ public class TutorSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id")
-//    private TutorDetail tutorDetail;
-
-    @Column(nullable = false)
-    private Long tutorId;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    private TutorDetail tutorDetail;
 
     // 상담 시작 날짜 및 시간
     @Column(nullable = false)

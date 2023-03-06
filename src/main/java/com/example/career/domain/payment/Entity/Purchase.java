@@ -1,5 +1,6 @@
 package com.example.career.domain.payment.Entity;
 
+import com.example.career.domain.user.Entity.StudentDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,12 +21,12 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "stu_id")
-//    private StuDetail stuDetail;
+    @ManyToOne
+    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    private StudentDetail stuDetail;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private LessonTicket lessonTicket;
     @Column(nullable = false)
     private LocalDateTime date;

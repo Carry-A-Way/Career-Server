@@ -1,5 +1,6 @@
 package com.example.career.domain.major.Entity;
 
+import com.example.career.domain.user.Entity.TutorDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,12 +23,12 @@ public class TutorMajorDetail { // 전공 소개 댓글
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "major_id")
+    @JoinColumn(name = "major_id", referencedColumnName = "id")
     private Major major;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id")
-//    private TutorDetail tutorDetail;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    private TutorDetail tutorDetail;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String comment;

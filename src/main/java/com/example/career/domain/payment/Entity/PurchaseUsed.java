@@ -1,5 +1,6 @@
 package com.example.career.domain.payment.Entity;
 
+import com.example.career.domain.user.Entity.StudentDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,12 +23,12 @@ public class PurchaseUsed {
     @Column(nullable = false)
     private LocalDateTime usedDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "stu_id")
-//    private StuDetail stuDetail;
+    @ManyToOne
+    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    private StudentDetail stuDetail;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_id")
+    @JoinColumn(name = "purchase_id", referencedColumnName = "id")
     private Purchase purchase;
 
     private LocalDateTime createAt;

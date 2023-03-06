@@ -1,5 +1,8 @@
 package com.example.career.domain.consult.Entity;
 
+import com.example.career.domain.major.Entity.Major;
+import com.example.career.domain.user.Entity.StudentDetail;
+import com.example.career.domain.user.Entity.TutorDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +25,7 @@ public class Consult {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "review_id")
+    @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Review review;
 
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
@@ -34,17 +37,17 @@ public class Consult {
     @Column(nullable = false)
     private int status = 0;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id")
-//    private TutorDetail tutorDetail;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "stu_id")
-//    private StudentDetail studentDetail;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "id")
-//    private Major major;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    private TutorDetail tutorDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    private StudentDetail studentDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "major_id", referencedColumnName = "id")
+    private Major major;
 
     private LocalDateTime studentEnter;
 

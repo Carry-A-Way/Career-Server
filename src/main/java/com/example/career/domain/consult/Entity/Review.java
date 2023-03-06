@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Entity;
 
+import com.example.career.domain.user.Entity.TutorDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,9 +26,9 @@ public class Review {
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String comment;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id")
-//    private TutorDetail tutorDetail;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    private TutorDetail tutorDetail;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
