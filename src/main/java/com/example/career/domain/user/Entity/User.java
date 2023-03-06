@@ -5,14 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Data
@@ -27,6 +21,7 @@ public class User
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
@@ -57,13 +52,19 @@ public class User
     private Boolean gender = true;
 
     @Lob
-    private String profile_img;
+    private String profileImg;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String introduce;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private TutorDetail tutorDetail;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudentDetail studentDetail;
 
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {
