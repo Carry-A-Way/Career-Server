@@ -60,8 +60,11 @@ public class User
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private TutorDetail tutorDetail;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private TutorDetail tutorDetail;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudentDetail studentDetail;
 
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {

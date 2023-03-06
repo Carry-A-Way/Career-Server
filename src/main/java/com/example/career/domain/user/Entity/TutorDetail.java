@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -48,4 +50,12 @@ public class TutorDetail {
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String consultingMethod;
 
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
+
+    @PrePersist // 데이터 생성이 이루어질때 사전 작업
+    public void prePersist() {
+        this.createAt = LocalDateTime.now();
+        this.updateAt = this.createAt;
+    }
 }
