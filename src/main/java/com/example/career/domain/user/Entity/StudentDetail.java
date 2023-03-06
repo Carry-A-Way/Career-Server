@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class StudentDetail {
     @Id
     @OneToOne
-    @JoinColumn(name="studentId", referencedColumnName="id")
+    @JoinColumn(name="student_id", referencedColumnName="id")
     private User user;
 
     private int interestingMajor1;
