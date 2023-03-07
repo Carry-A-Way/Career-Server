@@ -23,7 +23,6 @@ public class TutorSlot {
     @ManyToOne
     @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
     private TutorDetail tutorDetail;
-
     // 상담 시작 날짜 및 시간
     @Column(nullable = false)
     private LocalDateTime startTime;
