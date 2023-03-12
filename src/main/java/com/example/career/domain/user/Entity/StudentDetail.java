@@ -16,8 +16,10 @@ import java.time.LocalDateTime;
 @Table(name = "StudentDetail")
 public class StudentDetail {
     @Id
-    @OneToOne
-    @JoinColumn(name="student_id", referencedColumnName="id")
+    private Long student_id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
     private User user;
 
     private int interestingMajor1;

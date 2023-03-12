@@ -16,10 +16,12 @@ import java.time.LocalDateTime;
 @Table(name = "TutorDetail")
 public class TutorDetail {
     @Id
-    @OneToOne
-    @JoinColumn(name="tutor_id", referencedColumnName="id")
-    private User user;
+    private Long tutor_id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+    private User user;
+    
     @Column(columnDefinition = "VARCHAR(15)", nullable = false)
     private String major1;
 
