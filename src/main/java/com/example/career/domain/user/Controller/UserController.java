@@ -3,12 +3,17 @@ package com.example.career.domain.user.Controller;
 import com.example.career.domain.user.Dto.SignUpReqDto;
 import com.example.career.domain.user.Dto.UserReqDto;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.UserRepository;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.valid.ValidCheck;
 
 import lombok.AllArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -16,6 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @GetMapping("/showInfo")
+    public List<User> showInfo() {
+        return userRepository.findAll();
+    }
     
     // 로그인
     @PostMapping("signin")
@@ -35,6 +46,7 @@ public class UserController {
         try {
             validCheck = new ValidCheck(userService.signUp(signUpReqDto));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             validCheck = new ValidCheck(null);
         }
         
