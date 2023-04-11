@@ -18,15 +18,16 @@ public class StudentDetail {
     @Id
     private Long student_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private User user;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "student_id", referencedColumnName = "id")
+//    private Long user_id;
 
-    private int interestingMajor1;
-
-    private int interestingMajor2;
-
-    private int interestingMajor3;
+    @Column(nullable = false, columnDefinition = "varchar(50)")
+    private String interestingMajor1;
+    @Column(columnDefinition = "varchar(50)")
+    private String interestingMajor2;
+    @Column(columnDefinition = "varchar(50)")
+    private String interestingMajor3;
 
     @Column(nullable = false)
     private int credit20=0;

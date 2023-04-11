@@ -19,9 +19,9 @@ public class TutorDetail {
     @Id
     private Long tutor_id; // user.getId()
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
-    private User user; // user
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+//    private Long user; // user
     
     @Column(columnDefinition = "VARCHAR(15)", nullable = false)
     private String major1;
@@ -47,8 +47,8 @@ public class TutorDetail {
     @Column(nullable = false)
     private int cash = 0;
 
-    @Lob
-    private byte[] portfolio;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String portfileImg;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String consultingMethod;

@@ -67,4 +67,13 @@ public class UserController {
         
         return validCheck;
     }
+
+    //landing 홈페이지 /tutor/home
+
+    @PostMapping("/tutor/home")
+    public ValidCheck landingHomementor() { // jwt 토큰 인증
+
+        return null;
+    }
+
 }
