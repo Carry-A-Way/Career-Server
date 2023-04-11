@@ -1,14 +1,16 @@
-//package com.example.career.global.security;
-//
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.web.SecurityFilterChain;
-//
-//@Configuration
+package com.example.career.global.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
 //@EnableWebSecurity
-//public class SpringSecurityConfig  {
+public class SpringSecurityConfig  {
 //    @Bean
 //    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //
@@ -28,4 +30,8 @@
 //                    .defaultSuccessUrl("/"); //로그인에 성공했으면 해당 url로 이동을 해라.
 //        return http.build();
 //    }
-//}
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+}
