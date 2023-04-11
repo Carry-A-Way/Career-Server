@@ -1,5 +1,6 @@
 package com.example.career.domain.user.Entity;
 
+import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +17,11 @@ import java.time.LocalDateTime;
 @Table(name = "TutorDetail")
 public class TutorDetail {
     @Id
-    private Long tutor_id;
+    private Long tutor_id; // user.getId()
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tutor_id", referencedColumnName = "id")
-    private User user;
+    private User user; // user
     
     @Column(columnDefinition = "VARCHAR(15)", nullable = false)
     private String major1;

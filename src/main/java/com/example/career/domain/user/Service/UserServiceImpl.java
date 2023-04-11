@@ -6,6 +6,7 @@ import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
