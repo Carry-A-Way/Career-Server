@@ -21,6 +21,7 @@ public class HomeController {
     public List<User> test(){
         return careerRepository.findAll();
     }
+
     @PostMapping("/test/insert")
     public String testInsert(){
 
