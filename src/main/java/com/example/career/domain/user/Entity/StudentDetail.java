@@ -1,14 +1,12 @@
 package com.example.career.domain.user.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -18,9 +16,9 @@ public class StudentDetail {
     @Id
     private Long student_id;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "student_id", referencedColumnName = "id")
-//    private Long user_id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private User user;
 
     @Column(nullable = false, columnDefinition = "varchar(50)")
     private String interestingMajor1;

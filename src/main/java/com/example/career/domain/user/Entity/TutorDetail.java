@@ -2,14 +2,12 @@ package com.example.career.domain.user.Entity;
 
 import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,9 +17,9 @@ public class TutorDetail {
     @Id
     private Long tutor_id; // user.getId()
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
-//    private Long user; // user
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+    private User user; // user
     
     @Column(columnDefinition = "VARCHAR(15)", nullable = false)
     private String major1;
@@ -48,7 +46,7 @@ public class TutorDetail {
     private int cash = 0;
 
     @Column(columnDefinition = "MEDIUMTEXT")
-    private String portfileImg;
+    private String portfileimg;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String consultingMethod;

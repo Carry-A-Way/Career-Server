@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface ConsultRepository extends JpaRepository<Consult, Long> {
-    List<Consult> findAllByTutorId(Long tutorId);
+    List<Consult> findAllByTutorDetail(Long tutorDetail);
 }

@@ -3,16 +3,15 @@ package com.example.career.domain.consult.Entity;
 import com.example.career.domain.major.Entity.Major;
 import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -24,9 +23,9 @@ public class Consult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    @JoinColumn(name = "review_id", referencedColumnName = "id")
-    private Long reviewId;
+    @OneToOne
+    @JoinColumn(name = "review_id", referencedColumnName = "id")
+    private Review review;
 
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String contentsUrl;
@@ -37,17 +36,20 @@ public class Consult {
     @Column(nullable = false)
     private int status = 0;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
-    private Long tutorId;
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    private TutorDetail tutorDetail;
 
-//    @ManyToOne
-//    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
-    private Long stuId;
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    private StudentDetail studentDetail;
 
-//    @ManyToOne
-//    @JoinColumn(name = "major_id", referencedColumnName = "id")
-    private String major;
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "major_id", referencedColumnName = "id")
+    private Major major;
 
     private LocalDateTime studentEnter;
 
