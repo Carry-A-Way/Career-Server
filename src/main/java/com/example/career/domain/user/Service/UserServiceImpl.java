@@ -6,19 +6,53 @@ import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Exception.PasswordWrongException;
 import com.example.career.domain.user.Exception.UsernameWrongException;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.security.MOpOperator;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+
+//    @Override
+//    @Transactional
+//    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+//        return userRepository.findOneWithAuthoritiesByUsername(loginId)
+//                .map(user -> createUser(loginId, user))
+//                .orElseThrow(() -> new UsernameNotFoundException(loginId + " -> 존재 하지 않음."));
+//    }
+//
+//    /**
+//     * Security User 정보를 생성한다.
+//     */
+//    private org.springframework.security.core.userdetails.User createUser(String loginId, MOpOperator operatorDTO) {
+//        System.out.println(operatorDTO.getIsUse());
+//        System.out.println("hererere");
+//        if(!"Y".equals(operatorDTO.getIsUse())){
+//            throw new BadCredentialsException(loginId + " -> 활성화 되어있지 않습니다.");
+//        }
+//        List<GrantedAuthority> grantedAuthorities = operatorDTO.getAuthorities().stream()
+//                .map(authority -> new SimpleGrantedAuthority(authority.getAthrNm()))
+//                .collect(Collectors.toList());
+//        return new org.springframework.security.core.userdetails.User(
+//                operatorDTO.getLoginId(),
+//                operatorDTO.getOprrPswd(),
+//                grantedAuthorities);
+//    }
+
     @Override
     public User signIn(UserReqDto userReqDto) {
         String username = userReqDto.getUsername();

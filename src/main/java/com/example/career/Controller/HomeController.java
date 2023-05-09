@@ -4,6 +4,8 @@ import com.example.career.domain.user.Entity.TestEntity;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +14,6 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-
 public class HomeController {
 
     final UserRepository careerRepository;
