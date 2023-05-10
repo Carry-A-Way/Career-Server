@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService{
 //        return userRepository.save(user);
 //    }
     @Transactional
+    @Override
     public SignUpReqDto signup(SignUpReqDto userDto) {
         if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
@@ -66,11 +67,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional(readOnly = true)
+    @Override
     public SignUpReqDto getUserWithAuthorities(String username) {
         return SignUpReqDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
     }
 
     @Transactional(readOnly = true)
+    @Override
     public SignUpReqDto getMyUserWithAuthorities() {
         return SignUpReqDto.from(
                 SecurityUtil.getCurrentUsername()
