@@ -4,6 +4,7 @@ import com.example.career.domain.user.Entity.TestEntity;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,11 @@ import java.util.List;
 public class HomeController {
 
     final UserRepository careerRepository;
+
+    @GetMapping("hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("hello");
+    }
 
     @GetMapping("/test")
     public List<User> test(){

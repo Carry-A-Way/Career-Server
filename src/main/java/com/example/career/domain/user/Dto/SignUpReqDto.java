@@ -1,10 +1,14 @@
 package com.example.career.domain.user.Dto;
 
+import com.example.career.domain.user.Entity.AuthorityDto;
 import com.example.career.domain.user.Entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -19,6 +23,8 @@ public class SignUpReqDto {
     private Boolean gender;
     private String nickname;
 
+    private Set<AuthorityDto> authorityDtoSet;
+
     public User toUserEntity(){
         return User.builder().name(name)
                 .username(username)
@@ -28,6 +34,21 @@ public class SignUpReqDto {
                 .gender(gender)
                 .role("USER")
                 .authType(1)
+                .build();
+    }
+
+    public static SignUpReqDto from(User user) {
+        if(user == null) return null;
+
+        return SignUpReqDto.builder()
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .telephone(user.getTelephone())
+                .authorityDtoSet(user.getAuthorities().stream()
+                        .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
+                        .collect(Collectors.toSet()))
                 .build();
     }
 }

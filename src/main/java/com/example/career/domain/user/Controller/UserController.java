@@ -6,8 +6,12 @@ import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.valid.ValidCheck;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,18 +32,36 @@ public class UserController {
 
     // 회원가입 버튼
     // TODO : jwt token
-    @PostMapping("signup")
-    public ValidCheck signUp(@RequestBody SignUpReqDto signUpReqDto) {
-        System.out.println(signUpReqDto.toString());
-        ValidCheck validCheck;
-        try {
-            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
-        } catch (Exception e) {
-            validCheck = new ValidCheck(null);
-        }
-        
-        return validCheck;
+    @PostMapping("/signup")
+    public ResponseEntity<SignUpReqDto> signup(
+            @Valid @RequestBody SignUpReqDto userDto
+    ) {
+        return ResponseEntity.ok(userService.signup(userDto));
     }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<SignUpReqDto> getMyUserInfo(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
+    }
+
+    @GetMapping("/user/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<SignUpReqDto> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+    }
+//    @PostMapping("signup")
+//    public ValidCheck signUp(@RequestBody SignUpReqDto signUpReqDto) {
+//        System.out.println(signUpReqDto.toString());
+//        ValidCheck validCheck;
+//        try {
+//            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
+//        } catch (Exception e) {
+//            validCheck = new ValidCheck(null);
+//        }
+//
+//        return validCheck;
+//    }
     //{"username": "ss", "temp": "sssss"}
     // username 중복확인
     @PostMapping("valid/username")
