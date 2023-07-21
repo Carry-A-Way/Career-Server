@@ -55,6 +55,9 @@ public class User
     @Column(nullable = false)
     private Boolean gender = true;
 
+    @Column(nullable = false)
+    private int age = 0;
+
     @Lob
     private String profileImg;
 

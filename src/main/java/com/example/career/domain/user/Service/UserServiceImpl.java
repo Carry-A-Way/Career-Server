@@ -55,9 +55,12 @@ public class UserServiceImpl implements UserService{
                 .build();
 
         User user = User.builder()
+                .name(userDto.getName())
                 .username(userDto.getUsername())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .nickname(userDto.getNickname())
+                .gender(userDto.getGender())
+                .age(userDto.getAge())
                 .authorities(Collections.singleton(authority))
                 .activated(true)
                 .build();
