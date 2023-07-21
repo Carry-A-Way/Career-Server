@@ -1,13 +1,12 @@
 package com.example.career.Controller;
 
-import com.example.career.domain.user.Entity.TestEntity;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.annotation.Authenticated;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.security.Key;
 import java.util.List;
 
@@ -57,6 +55,14 @@ public class HomeController {
                 .parseClaimsJws(token)
                 .getBody();
         String subject = claims.getSubject();
+        return subject;
+    }
+
+
+    @Authenticated
+    @GetMapping("/test/jwt")
+    public String jwtTest(HttpServletRequest request) {
+        String subject = (String) request.getAttribute("subject");
         return subject;
     }
 
