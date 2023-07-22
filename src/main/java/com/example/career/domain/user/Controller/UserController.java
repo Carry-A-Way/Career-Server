@@ -28,17 +28,20 @@ public class UserController {
 
     // 회원가입 버튼
     // TODO : jwt token
-    @PostMapping("signup")
-    public ValidCheck signUp(@RequestBody SignUpReqDto signUpReqDto) {
-        System.out.println(signUpReqDto.toString());
-        ValidCheck validCheck;
-        try {
-            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
-        } catch (Exception e) {
-            validCheck = new ValidCheck(null);
-        }
-        
-        return validCheck;
+    @PostMapping("signup/mentor")
+    public String signUp(@RequestBody SignUpReqDto user) {
+        System.out.println(user);
+//        userService.signUp(signUpReqDto);
+        //S3 이미지 저장
+        //
+//        ValidCheck validCheck;
+//        try {
+//            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
+//        } catch (Exception e) {
+//            validCheck = new ValidCheck(null);
+//        }
+//        return validCheck;
+        return "test";
     }
     //{"username": "ss", "temp": "sssss"}
     // username 중복확인
