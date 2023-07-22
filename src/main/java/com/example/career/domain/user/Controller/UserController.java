@@ -33,7 +33,7 @@ public class UserController {
         System.out.println(user);
 //        userService.signUp(signUpReqDto);
         //S3 이미지 저장
-        //
+        //School, Career, Tag List -> table 저장 -> id
 //        ValidCheck validCheck;
 //        try {
 //            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
