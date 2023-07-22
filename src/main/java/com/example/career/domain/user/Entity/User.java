@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Data
@@ -32,9 +33,13 @@ public class User
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private int age;
     @Column(columnDefinition = "VARCHAR(30)", unique = true, nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
+    private Boolean activated = false;
 
     @Column(columnDefinition = "CHAR(13)")
     private String telephone;
@@ -74,6 +79,14 @@ public class User
         this.createAt = LocalDateTime.now();
         this.updateAt = this.createAt;
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name= "id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
     public MentorHomeRespDto toHomeDto() {
         return MentorHomeRespDto.builder().nickname(nickname)
                 .id(id)

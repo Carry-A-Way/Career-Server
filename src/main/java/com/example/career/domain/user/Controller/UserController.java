@@ -6,8 +6,12 @@ import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.valid.ValidCheck;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,14 +38,26 @@ public class UserController {
 //        userService.signUp(signUpReqDto);
         //S3 이미지 저장
         //School, Career, Tag List -> table 저장 -> id
-//        ValidCheck validCheck;
-//        try {
-//            validCheck = new ValidCheck(userService.signUp(signUpReqDto));
-//        } catch (Exception e) {
-//            validCheck = new ValidCheck(null);
-//        }
-//        return validCheck;
         return "test";
+//
+//        return validCheck;
+    @PostMapping("/signup")
+    public ResponseEntity<SignUpReqDto> signup(
+            @Valid @RequestBody SignUpReqDto userDto
+    ) {
+        return ResponseEntity.ok(userService.signup(userDto));
+    }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public ResponseEntity<SignUpReqDto> getMyUserInfo(HttpServletRequest request) {
+        return ResponseEntity.ok(userService.getMyUserWithAuthorities());
+    }
+
+    @GetMapping("/user/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<SignUpReqDto> getUserInfo(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserWithAuthorities(username));
     }
     //{"username": "ss", "temp": "sssss"}
     // username 중복확인
