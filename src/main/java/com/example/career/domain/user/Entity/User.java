@@ -59,7 +59,7 @@ public class User
     @Column(nullable = false)
     private Boolean gender = true;
 
-    @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String profileImg;
 
     @Column(columnDefinition = "MEDIUMTEXT")
