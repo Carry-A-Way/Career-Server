@@ -12,6 +12,9 @@ public class EntityUtils {
     public static <DTO, ENTITY> void saveEntities(List<DTO> dtos, Long id,
                                                   JpaRepository<ENTITY, ?> repository,
                                                   DtoToEntityFunction<DTO, ENTITY> function) {
+        if (dtos == null) {
+            return;
+        }
         for (DTO dto : dtos) {
             ENTITY entity = function.apply(dto, id);
             repository.save(entity);

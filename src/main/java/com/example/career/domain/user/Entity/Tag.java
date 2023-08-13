@@ -1,9 +1,6 @@
 package com.example.career.domain.user.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "Tag")
 public class Tag {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(nullable = false)
     private Long tutor_id;
 
     @Column(nullable = false)

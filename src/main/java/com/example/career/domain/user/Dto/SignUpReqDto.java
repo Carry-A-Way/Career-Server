@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class SignUpReqDto {
     private String name; //
     private String username; //
@@ -32,7 +33,7 @@ public class SignUpReqDto {
     private String birth;
     private Set<AuthorityDto> authorityDtoSet;
 
-    private MultipartFile profileImg; // MultipartFile
+    private String profileImg; // MultipartFile
     private String consultMajor1;
     private String consultMajor2;
     private String consultMajor3;
@@ -55,6 +56,7 @@ public class SignUpReqDto {
         return User.builder()
                 .password(password)
                 .name(name)
+                .profileImg(profileImg)
                 .username(username)
                 .nickname(nickname)
                 .telephone(telephone)

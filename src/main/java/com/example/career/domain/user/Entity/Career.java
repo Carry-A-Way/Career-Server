@@ -15,7 +15,13 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name = "Career")
 public class Career {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(nullable = false)
     private Long tutor_id;
 
     @Column(nullable = false)

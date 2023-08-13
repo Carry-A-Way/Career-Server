@@ -6,14 +6,17 @@ import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.valid.ValidCheck;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,8 +41,20 @@ public class UserController {
 
     // 회원가입 버튼
     // TODO : jwt token
+    @Transactional
     @PostMapping("signup/mentor")
-    public ResponseEntity<SignUpReqDto> signUp(@RequestBody SignUpReqDto user) throws IOException {
+    public ResponseEntity<SignUpReqDto> signUp(MultipartHttpServletRequest request) throws IOException {
+
+        // 파일 데이터 추출
+        MultipartFile multipartFile = request.getFile("image");
+
+        // JSON 데이터 추출
+        String jsonStr = request.getParameter("json");
+        SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
+
+        String url = userService.uploadProfile(multipartFile);
+        user.setProfileImg(url);
+
         return ResponseEntity.ok(userService.signup(user));
     }
     @PostMapping("/signup")
