@@ -40,7 +40,6 @@ public class UserController {
     // TODO : jwt token
     @PostMapping("signup/mentor")
     public ResponseEntity<SignUpReqDto> signUp(@RequestBody SignUpReqDto user) throws IOException {
-        userService.uploadProfile(user.getProfileImg());
         return ResponseEntity.ok(userService.signup(user));
     }
     @PostMapping("/signup")

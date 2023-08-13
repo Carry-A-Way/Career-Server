@@ -29,7 +29,7 @@ public class School {
     @Column(columnDefinition = "VARCHAR(30)")
     private String schoolName;
 
-    @Column(columnDefinition = "VARCHAR(00)")
+    @Column(columnDefinition = "VARCHAR(10)")
     private String startDate;
 
     @Column(columnDefinition = "VARCHAR(10)")
