@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO: jwt 세션
 public class ValidCheck {
     public ValidCheck(boolean success) {
         this.success = success;
@@ -30,5 +29,4 @@ public class ValidCheck {
     private boolean success;
     private int status;
     private Object object;
-    private String jwt;
 }

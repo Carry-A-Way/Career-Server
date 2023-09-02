@@ -3,6 +3,7 @@ import com.example.career.domain.user.Dto.LoginDto;
 import com.example.career.domain.user.Dto.TokenDto;
 import com.example.career.global.jwt.JwtFilter;
 import com.example.career.global.jwt.TokenProvider;
+import com.example.career.global.valid.ValidCheck;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ValidCheck> authorize(@Valid @RequestBody LoginDto loginDto) {
 
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -41,6 +42,8 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        TokenDto tokenDto = new TokenDto(jwt);
+
+        return new ResponseEntity<>(new ValidCheck(tokenDto), httpHeaders, HttpStatus.OK);
     }
 }
