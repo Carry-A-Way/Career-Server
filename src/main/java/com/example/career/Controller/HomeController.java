@@ -6,7 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,10 +53,22 @@ public class HomeController {
     }
 
     @Authenticated
-    @GetMapping("/test/jwt")
+    @PostMapping("/test/jwt")
     public String jwtTest(HttpServletRequest request) {
         String subject = (String) request.getAttribute("subject");
         return subject;
+    }
+
+    @GetMapping("hello1")
+    public String herere(HttpServletResponse response) {
+        response.setHeader("Set-Cookie", "123122313213=adsdsdsds; Max-Age=1800; Path=/; Secure");
+        Cookie cookie = new Cookie("useremail","blueskii");
+        cookie.setPath("/");
+        // 30초간 저장
+        cookie.setMaxAge(30*60);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+        return "sss";
     }
 
 }

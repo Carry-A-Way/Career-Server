@@ -25,11 +25,12 @@ import java.security.Key;
 public class AuthenticationAspect {
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret.access}")
     private String secret;
 
     @Before("@annotation(com.example.career.global.annotation.Authenticated)")
     public void authenticate(JoinPoint joinPoint) throws Throwable {
+        System.out.println("여기");
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = sra.getRequest();
 
@@ -39,6 +40,7 @@ public class AuthenticationAspect {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             token = bearerToken.substring(7);
         }
+        System.out.println("토큰 " + token);
 
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         Key key = Keys.hmacShaKeyFor(keyBytes);
