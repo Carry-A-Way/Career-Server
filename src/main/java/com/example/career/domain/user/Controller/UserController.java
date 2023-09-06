@@ -43,20 +43,15 @@ public class UserController {
     // TODO : jwt token
     @Transactional
     @PostMapping("signup/mentor")
-    public ResponseEntity<SignUpReqDto> signUp(MultipartHttpServletRequest request) throws IOException {
-
-        // 파일 데이터 추출
-        MultipartFile multipartFile = request.getFile("image");
+    public ResponseEntity<SignUpReqDto> signUp(HttpServletRequest request) throws IOException {
 
         // JSON 데이터 추출
         String jsonStr = request.getParameter("json");
         SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
 
-        String url = userService.uploadProfile(multipartFile);
-        user.setProfileImg(url);
-
         return ResponseEntity.ok(userService.signup(user));
     }
+
     @PostMapping("/signup")
     public ResponseEntity<SignUpReqDto> signup(@Valid @RequestBody SignUpReqDto userDto) {
         return ResponseEntity.ok(userService.signup(userDto));
