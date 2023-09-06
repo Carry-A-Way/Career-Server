@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @Authenticated
-    @GetMapping
+    @GetMapping("/mentor/profile")
     public ResponseEntity<Object> getProfile(HttpServletRequest request) throws Exception {
         String username = (String) request.getAttribute("subject");
 
