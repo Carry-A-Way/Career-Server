@@ -4,6 +4,7 @@ import com.example.career.domain.user.Dto.SignUpReqDto;
 import com.example.career.domain.user.Dto.UserReqDto;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Service.UserService;
+import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +51,30 @@ public class UserController {
         SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
 
         return ResponseEntity.ok(userService.signup(user));
+    }
+
+    @Transactional
+    @Authenticated
+    @PostMapping("/mentor/modify_profile")
+    public ResponseEntity<Object> modifyProfile(MultipartHttpServletRequest request) throws IOException {
+
+        String username = (String) request.getAttribute("subject");
+
+        // 파일 데이터 추출
+        MultipartFile multipartFile = request.getFile("image");
+
+        // JSON 데이터 추출
+        String jsonStr = request.getParameter("json");
+        SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
+
+        if (multipartFile != null) {
+            String url = userService.uploadProfile(multipartFile);
+            user.setProfileImg(url);
+        }
+
+        userService.modifyProfile(user, username);
+        
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping("/signup")
