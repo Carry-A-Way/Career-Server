@@ -21,13 +21,9 @@ public class TutorSignUpReqDto {
     private String password;
     private Boolean gender;
     private String nickname;
-    private String major1;
-    private String major2;
-    private String major3;
     private String consultingMajor1;
     private String consultingMajor2;
     private String consultingMajor3;
-    private String career;
     private String consultingMethod;
 
     public User toUserEntity(){
@@ -45,13 +41,9 @@ public class TutorSignUpReqDto {
     }
     public TutorDetail toTutorDetailEntity(){
         return TutorDetail.builder().tutor_id(id)
-                .major1(major1)
-                .major2(major2)
-                .major3(major3)
                 .consultingMajor1(consultingMajor1)
                 .consultingMajor2(consultingMajor2)
                 .consultingMajor3(consultingMajor3)
-                .career(career)
                 .cash(0)
                 .consultingMethod(consultingMethod)
                 .build();
