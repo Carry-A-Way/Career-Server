@@ -40,7 +40,7 @@ public class TutorSignUpReqDto {
                 .build();
     }
     public TutorDetail toTutorDetailEntity(){
-        return TutorDetail.builder().tutor_id(id)
+        return TutorDetail.builder().tutorId(id)
                 .consultingMajor1(consultingMajor1)
                 .consultingMajor2(consultingMajor2)
                 .consultingMajor3(consultingMajor3)

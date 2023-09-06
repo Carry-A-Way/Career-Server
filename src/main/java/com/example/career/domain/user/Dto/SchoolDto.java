@@ -1,11 +1,16 @@
 package com.example.career.domain.user.Dto;
 
 import com.example.career.domain.user.Entity.School;
+import com.example.career.domain.user.Entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.stream.Collectors;
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SchoolDto {
@@ -18,12 +23,23 @@ public class SchoolDto {
 
     public School toSchoolEntity(Long id) {
         return School.builder()
-                .tutor_id(id)
+                .tutorId(id)
                 .idx(idx)
                 .schoolName(schoolName)
                 .startDate(startDate)
                 .endDate(endDate)
                 .state(state)
+                .build();
+    }
+
+    public static SchoolDto from(School school) {
+        if(school == null) return null;
+
+        return SchoolDto.builder()
+                .idx(school.getIdx())
+                .schoolType(school.getSchoolType())
+                .schoolName(school.getSchoolName())
+                .state(school.getState())
                 .build();
     }
 }

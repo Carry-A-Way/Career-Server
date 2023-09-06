@@ -1,11 +1,14 @@
 package com.example.career.domain.user.Dto;
 
 import com.example.career.domain.user.Entity.Career;
+import com.example.career.domain.user.Entity.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CareerDto {
@@ -19,7 +22,7 @@ public class CareerDto {
 
     public Career toCareerEntity(Long id) {
         return Career.builder()
-                .tutor_id(id)
+                .tutorId(id)
                 .idx(idx)
                 .careerType(careerType)
                 .careerName(careerName)
@@ -27,6 +30,20 @@ public class CareerDto {
                 .endDate(endDate)
                 .state(state)
                 .content(content)
+                .build();
+    }
+
+    public static CareerDto from(Career career) {
+        if(career == null) return null;
+
+        return CareerDto.builder()
+                .idx(career.getIdx())
+                .careerType(career.getCareerType())
+                .careerName(career.getCareerName())
+                .startDate(career.getStartDate())
+                .endDate(career.getEndDate())
+                .state(career.getState())
+                .content(career.getContent())
                 .build();
     }
 }
