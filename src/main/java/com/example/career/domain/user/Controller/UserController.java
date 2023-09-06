@@ -1,8 +1,13 @@
 package com.example.career.domain.user.Controller;
 
-import com.example.career.domain.user.Dto.SignUpReqDto;
-import com.example.career.domain.user.Dto.UserReqDto;
+import com.example.career.domain.user.Dto.*;
+import com.example.career.domain.user.Entity.Career;
+import com.example.career.domain.user.Entity.School;
+import com.example.career.domain.user.Entity.Tag;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Service.CareerService;
+import com.example.career.domain.user.Service.SchoolService;
+import com.example.career.domain.user.Service.TagService;
 import com.example.career.domain.user.Service.UserService;
 import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
@@ -23,13 +28,17 @@ import java.io.IOException;
 import java.util.List;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final SchoolService schoolService;
+    private final TagService tagService;
+    private final CareerService careerService;
     
     // 로그인
     @PostMapping("signin")
@@ -60,6 +69,25 @@ public class UserController {
 
         try {
             User user = userService.getUserByUsername(username);
+            Long id = user.getId();
+            SignUpReqDto signUpReqDto = SignUpReqDto.from(user);
+            List<School> schoolList = schoolService.getSchoolByTutorId(id);
+            List<Tag> tagList = tagService.getTagByTutorId(id);
+            List<Career> careerList = careerService.getCareerByTutorId(id);
+
+            List<SchoolDto> schoolDtoList = schoolList.stream().map(SchoolDto::from)
+                    .collect(Collectors.toList());
+            List<TagDto> tagDtoList = tagList.stream().map(TagDto::from)
+                    .collect(Collectors.toList());
+            List<CareerDto> careerDtoList = careerList.stream().map(CareerDto::from)
+                    .collect(Collectors.toList());
+
+
+            signUpReqDto.setSchoolList(schoolDtoList);
+            signUpReqDto.setTagList(tagDtoList);
+            signUpReqDto.setCareerList(careerDtoList);
+
+            return ResponseEntity.ok(signUpReqDto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error message");
         }
