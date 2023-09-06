@@ -1,9 +1,13 @@
 package com.example.career.domain.user.Repository;
 
+import com.example.career.domain.user.Entity.School;
 import com.example.career.domain.user.Entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TagRepository extends JpaRepository<Tag,Long> {
+    public Optional<Tag> findByTutor_idAndIdx(Long id, Long idx);
 }
