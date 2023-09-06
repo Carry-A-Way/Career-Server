@@ -14,6 +14,6 @@ public class SchoolServiceImpl implements SchoolService{
 
     @Override
     public List<School> getSchoolByTutorId(Long id) {
-        return schoolRepository.findByTutor_id(id);
+        return schoolRepository.findByTutorId(id);
     }
 }

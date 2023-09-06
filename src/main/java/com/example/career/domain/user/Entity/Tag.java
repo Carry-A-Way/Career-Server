@@ -21,7 +21,7 @@ public class Tag {
     private Long id;
 
     @Column(nullable = false)
-    private Long tutor_id;
+    private Long tutorId;
 
     @Column(nullable = false, unique = true)
     private Long idx;

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag,Long> {
-    public Optional<Tag> findByTutor_idAndIdx(Long id, Long idx);
+    public Optional<Tag> findByTutorIdAndIdx(Long id, Long idx);
 
-    public List<Tag> findByTutor_id(Long id);
+    public List<Tag> findByTutorId(Long id);
 }

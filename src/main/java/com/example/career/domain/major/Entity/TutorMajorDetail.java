@@ -27,7 +27,7 @@ public class TutorMajorDetail { // 전공 소개 댓글
     private Major major;
 
     @ManyToOne
-    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    @JoinColumn(name = "tutorId", referencedColumnName = "tutorId")
     private TutorDetail tutorDetail;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)

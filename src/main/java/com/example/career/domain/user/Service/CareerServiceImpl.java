@@ -14,6 +14,6 @@ public class CareerServiceImpl implements CareerService{
     private final CareerRepository careerRepository;
     @Override
     public List<Career> getCareerByTutorId(Long id) {
-        return careerRepository.findByTutor_id(id);
+        return careerRepository.findByTutorId(id);
     }
 }

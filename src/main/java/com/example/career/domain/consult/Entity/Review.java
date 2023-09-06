@@ -27,7 +27,7 @@ public class Review {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
+    @JoinColumn(name = "tutorId", referencedColumnName = "tutorId")
     private TutorDetail tutorDetail;
 
     private LocalDateTime createAt;

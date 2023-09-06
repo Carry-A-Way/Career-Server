@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 schoolRepository,
                 SchoolDto::toSchoolEntity,
-                (tutor_id, idx) -> schoolRepository.findByTutor_idAndIdx(tutor_id, idx),
+                (tutorId, idx) -> schoolRepository.findByTutorIdAndIdx(tutorId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((SchoolDto) dto).getIdx()
         );
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 tagRepository,
                 TagDto::toTagEntity,
-                (tutor_id, idx) -> tagRepository.findByTutor_idAndIdx(tutor_id, idx),
+                (tutorId, idx) -> tagRepository.findByTutorIdAndIdx(tutorId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((TagDto) dto).getIdx()
         );
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 careerRepository,
                 CareerDto::toCareerEntity,
-                (tutor_id, idx) -> careerRepository.findByTutor_idAndIdx(tutor_id, idx),
+                (tutorId, idx) -> careerRepository.findByTutorIdAndIdx(tutorId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((CareerDto) dto).getIdx()
         );

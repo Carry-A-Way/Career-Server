@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "TutorDetail")
 public class TutorDetail {
     @Id
-    private Long tutor_id; // user.getId()
+    private Long tutorId; // user.getId()
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
