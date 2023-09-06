@@ -24,7 +24,7 @@ public class Career {
     @Column(nullable = false)
     private Long tutor_id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long idx;
 
     @Column(columnDefinition = "VARCHAR(20)")
