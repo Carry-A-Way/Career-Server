@@ -31,6 +31,7 @@ public class SignUpReqDto {
     private String role ="USER"; // USER
     private Boolean gender; //
     private String introduce; //
+    private String hobby;
     private Set<AuthorityDto> authorityDtoSet;
 
     private String profileImg; // MultipartFile
@@ -39,8 +40,6 @@ public class SignUpReqDto {
     private String consultMajor3;
 
     private String plan; // 커리어 모ㅗㄱㄱ표
-
-    private String hobby;
 
     private List<SchoolDto> schoolList;
 
@@ -63,6 +62,7 @@ public class SignUpReqDto {
                 .gender(gender)
                 .birth(birth)
                 .role(role)
+                .hobby(hobby)
                 .status(0)
                 .introduce(introduce)
                 .authType(1)
@@ -80,6 +80,7 @@ public class SignUpReqDto {
                 .nickname(user.getNickname())
                 .password(user.getPassword())
                 .gender(user.getGender())
+                .hobby(user.getHobby())
                 .birth(user.getBirth())
                 .telephone(user.getTelephone())
                 .authorityDtoSet(user.getAuthorities().stream()

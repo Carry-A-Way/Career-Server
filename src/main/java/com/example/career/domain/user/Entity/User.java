@@ -65,6 +65,9 @@ public class User
     @Column(columnDefinition = "MEDIUMTEXT")
     private String introduce;
 
+    @Column(columnDefinition = "VARCHAR(20)")
+    private String hobby;
+
     @Column(columnDefinition = "MEDIUMTEXT")
     private String profileImg;
 
