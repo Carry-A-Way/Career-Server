@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Builder
+@DynamicUpdate
 @Table(name = "User")
 public class User
 //        implements UserDetails
@@ -61,10 +63,10 @@ public class User
     private Boolean gender = true;
 
     @Column(columnDefinition = "MEDIUMTEXT")
-    private String profileImg;
+    private String introduce;
 
     @Column(columnDefinition = "MEDIUMTEXT")
-    private String introduce;
+    private String profileImg;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
