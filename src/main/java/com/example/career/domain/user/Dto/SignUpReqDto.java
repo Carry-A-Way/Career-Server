@@ -1,6 +1,7 @@
 package com.example.career.domain.user.Dto;
 
 import com.example.career.domain.user.Entity.Authority;
+import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,15 @@ public class SignUpReqDto {
                 .authType(1)
                 .authorities(authorities)
                 .activated(true)
+                .build();
+    }
+
+    public TutorDetail toTutorDetailEntity(Long tutorId) {
+        return TutorDetail.builder()
+                .tutorId(tutorId)
+                .consultingMajor1(consultMajor1)
+                .consultingMajor2(consultMajor2)
+                .consultingMajor3(consultMajor3)
                 .build();
     }
 

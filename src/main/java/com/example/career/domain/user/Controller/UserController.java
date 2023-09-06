@@ -52,9 +52,9 @@ public class UserController {
 
         // JSON 데이터 추출
         String jsonStr = request.getParameter("json");
-        SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
+        SignUpReqDto signUpReqDto = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
 
-        return ResponseEntity.ok(userService.signup(user));
+        return ResponseEntity.ok(userService.signup(signUpReqDto));
     }
 
     @Authenticated

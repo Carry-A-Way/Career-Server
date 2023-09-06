@@ -74,6 +74,9 @@ public class UserServiceImpl implements UserService{
 
         Long id = user.getId();
 
+        TutorDetail tutorDetail = userDto.toTutorDetailEntity(id);
+        tutorDetailRepository.save(tutorDetail);
+
         EntityUtils.saveEntities(userDto.getSchoolList(), id, schoolRepository, SchoolDto::toSchoolEntity);
         EntityUtils.saveEntities(userDto.getCareerList(), id, careerRepository, CareerDto::toCareerEntity);
         EntityUtils.saveEntities(userDto.getTagList(), id, tagRepository, TagDto::toTagEntity);

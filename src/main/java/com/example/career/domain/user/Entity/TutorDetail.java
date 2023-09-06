@@ -38,7 +38,7 @@ public class TutorDetail {
     @Column(columnDefinition = "MEDIUMTEXT")
     private String portfileImg;
 
-    @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String consultingMethod;
 
     private LocalDateTime createAt;
