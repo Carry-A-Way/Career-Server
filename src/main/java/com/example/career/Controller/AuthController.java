@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -43,12 +44,15 @@ public class AuthController {
 
         response.setHeader("Set-Cookie", "refreshToken=" + jwtRefreshToken + "; SameSite=None; Secure");
 
-        Cookie cookie = new Cookie("useremail","blueskii");
-        cookie.setPath("/");
-        // 30초간 저장
-        cookie.setMaxAge(30*60);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
+        ResponseCookie cookie2 = ResponseCookie.from("useremail","blueskii")
+                .path("/")
+                .sameSite("None")
+                .httpOnly(false)
+                .secure(true)
+                .maxAge(360000)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie2.toString());
 
         TokenDto tokenDto = new TokenDto(jwtAccessToken); // 응답에는 accessToken만 포함
 

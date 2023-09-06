@@ -58,18 +58,18 @@ public class HomeController {
         String subject = (String) request.getAttribute("subject");
         return subject;
     }
-
-    @GetMapping("hello1")
-    public String herere(HttpServletResponse response) {
-        response.setHeader("Set-Cookie", "123122313213=adsdsdsds; Max-Age=1800; Path=/; Secure");
-        Cookie cookie = new Cookie("useremail","blueskii");
-        cookie.setPath("/");
-        // 30초간 저장
-        cookie.setMaxAge(30*60);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
-        return "sss";
-    }
+//
+//    @GetMapping("hello1")
+//    public String herere(HttpServletResponse response) {
+//        response.setHeader("Set-Cookie", "123122313213=adsdsdsds; Max-Age=1800; Path=/; Secure");
+//        Cookie cookie = new Cookie("useremail","blueskii");
+//        cookie.setPath("/");
+//        // 30초간 저장
+//        cookie.setMaxAge(30*60);
+//        cookie.setSecure(true);
+//        response.addCookie(cookie);
+//        return "sss";
+//    }
 
 }
 @Data

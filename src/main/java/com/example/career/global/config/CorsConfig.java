@@ -25,6 +25,7 @@ public class CorsConfig {
 
         // Allow credentials (cookies, authorization headers, etc.) to be exposed to the client
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
 
         // Apply the CORS configuration to all paths
         source.registerCorsConfiguration("/**", config);
