@@ -81,11 +81,17 @@ public class UserServiceImpl implements UserService{
         return SignUpReqDto.from(user);
     }
 
-    @Transactional
     @Override
-    public void modifyProfile(SignUpReqDto signUpReqDto, String username) {
+    public User getUserByUsername(String username) throws Exception {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("No user found with username: " + username));
+        return user;
+    }
+
+    @Transactional
+    @Override
+    public void modifyProfile(SignUpReqDto signUpReqDto, String username) throws Exception {
+        User user = getUserByUsername(username);
 
         Long id = user.getId();
 
@@ -103,17 +109,6 @@ public class UserServiceImpl implements UserService{
         List<SchoolDto> schoolList = signUpReqDto.getSchoolList();
         List<TagDto> tagList = signUpReqDto.getTagList();
         List<CareerDto> careerList = signUpReqDto.getCareerList();
-        if (schoolList != null) {
-            for (SchoolDto schoolDto: schoolList) {
-                Optional<School> school = schoolRepository.findByTutor_idAndIdx(id, schoolDto.getIdx());
-                if (school.isPresent()) {
-                    updateEntityFields(school.get(), schoolDto, null, true);
-                } else {
-                    schoolRepository.save(schoolDto.toSchoolEntity(id));
-                }
-            }
-        }
-
 
         // SchoolList, TagList, CareerList에 대해 업데이트
         EntityUtils.processEntities(
