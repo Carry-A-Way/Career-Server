@@ -53,10 +53,22 @@ public class UserController {
         return ResponseEntity.ok(userService.signup(user));
     }
 
+    @Authenticated
+    @GetMapping
+    public ResponseEntity<Object> getProfile(HttpServletRequest request) throws Exception {
+        String username = (String) request.getAttribute("subject");
+
+        try {
+            User user = userService.getUserByUsername(username);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error message");
+        }
+    }
+
     @Transactional
     @Authenticated
     @PostMapping("/mentor/modify_profile")
-    public ResponseEntity<Object> modifyProfile(MultipartHttpServletRequest request) throws IOException {
+    public ResponseEntity<Object> modifyProfile(MultipartHttpServletRequest request) throws Exception {
 
         String username = (String) request.getAttribute("subject");
 
