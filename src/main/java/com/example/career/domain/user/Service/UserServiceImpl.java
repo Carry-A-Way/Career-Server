@@ -95,8 +95,7 @@ public class UserServiceImpl implements UserService{
 
         Long id = user.getId();
 
-        TutorDetail tutorDetail = tutorDetailRepository.findByTutorId(id)
-                .orElseThrow(() -> new IllegalArgumentException("No tutorDetail found with tutor_id: " + id));
+        TutorDetail tutorDetail = tutorDetailRepository.findByTutorId(id);
 
         Set<String> userFields = new HashSet<>(Arrays.asList("name", "username", "birth", "nickname", "telephone", "password", "gender", "introduce", "hobby", "profileImg"));
         Set<String> tutorDetailFields = new HashSet<>(Arrays.asList("consultMajor1", "consultMajor2", "consultMajor3"));
@@ -147,6 +146,9 @@ public class UserServiceImpl implements UserService{
     }
 
     private <T, DTO> void updateEntityFields(T entity, DTO dto, Set<String> fieldsToCheck, boolean skip) {
+        if (entity == null) {
+            return;
+        }
         Field[] dtoFields = dto.getClass().getDeclaredFields();
         for (Field field : dtoFields) {
             if (!skip && !fieldsToCheck.contains(field.getName())) {

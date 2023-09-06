@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long> {
-    public Optional<TutorDetail> findByTutorId(Long id);
+    public TutorDetail findByTutorId(Long id);
 }

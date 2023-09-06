@@ -2,10 +2,7 @@ package com.example.career.domain.user.Entity;
 
 import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @DynamicUpdate
+@Getter
 @Table(name = "TutorDetail")
 public class TutorDetail {
     @Id
