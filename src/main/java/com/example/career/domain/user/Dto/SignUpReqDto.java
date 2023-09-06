@@ -24,13 +24,13 @@ import java.util.stream.Collectors;
 public class SignUpReqDto {
     private String name; //
     private String username; //
-    private String telephone; //
-    private String role ="USER"; // USER
-    private String introduce; //
-    private String password; //
-    private Boolean gender; //
-    private String nickname;//
     private String birth;
+    private String nickname;//
+    private String telephone; //
+    private String password; //
+    private String role ="USER"; // USER
+    private Boolean gender; //
+    private String introduce; //
     private Set<AuthorityDto> authorityDtoSet;
 
     private String profileImg; // MultipartFile
