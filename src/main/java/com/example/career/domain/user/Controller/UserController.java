@@ -1,14 +1,8 @@
 package com.example.career.domain.user.Controller;
 
 import com.example.career.domain.user.Dto.*;
-import com.example.career.domain.user.Entity.Career;
-import com.example.career.domain.user.Entity.School;
-import com.example.career.domain.user.Entity.Tag;
-import com.example.career.domain.user.Entity.User;
-import com.example.career.domain.user.Service.CareerService;
-import com.example.career.domain.user.Service.SchoolService;
-import com.example.career.domain.user.Service.TagService;
-import com.example.career.domain.user.Service.UserService;
+import com.example.career.domain.user.Entity.*;
+import com.example.career.domain.user.Service.*;
 import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
 
@@ -36,6 +30,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final TutorDetailService tutorDetailService;
     private final SchoolService schoolService;
     private final TagService tagService;
     private final CareerService careerService;
@@ -71,6 +66,12 @@ public class UserController {
             User user = userService.getUserByUsername(username);
             Long id = user.getId();
             SignUpReqDto signUpReqDto = SignUpReqDto.from(user);
+
+            TutorDetail tutorDetail = tutorDetailService.getTutorDetailByTutorId(id);
+            signUpReqDto.setConsultMajor1(tutorDetail.getConsultingMajor1());
+            signUpReqDto.setConsultMajor2(tutorDetail.getConsultingMajor2());
+            signUpReqDto.setConsultMajor3(tutorDetail.getConsultingMajor2());
+
             List<School> schoolList = schoolService.getSchoolByTutorId(id);
             List<Tag> tagList = tagService.getTagByTutorId(id);
             List<Career> careerList = careerService.getCareerByTutorId(id);
