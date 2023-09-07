@@ -22,6 +22,17 @@ public class LastUpcomingConsult {
     private QueryRespDto studentRequest;
     // 학생 정보
     private ConsultMenteeRespDto student;
+    private LocalDateTime studentEnter;
+
+    private LocalDateTime studentLeft;
+
+    private LocalDateTime tutorEnter;
+
+    private LocalDateTime tutorLeft;
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
