@@ -39,6 +39,8 @@ public class SchoolDto {
                 .idx(school.getIdx())
                 .schoolType(school.getSchoolType())
                 .schoolName(school.getSchoolName())
+                .startDate(school.getStartDate())
+                .endDate(school.getEndDate())
                 .state(school.getState())
                 .build();
     }
