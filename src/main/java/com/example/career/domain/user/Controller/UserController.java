@@ -48,12 +48,7 @@ public class UserController {
     // TODO : jwt token
     @Transactional
     @PostMapping("signup/mentor")
-    public ResponseEntity<SignUpReqDto> signUp(HttpServletRequest request) throws IOException {
-
-        // JSON 데이터 추출
-        String jsonStr = request.getParameter("json");
-        SignUpReqDto signUpReqDto = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
-
+    public ResponseEntity<SignUpReqDto> signUp(@RequestBody SignUpReqDto signUpReqDto) throws IOException {
         return ResponseEntity.ok(userService.signup(signUpReqDto));
     }
 

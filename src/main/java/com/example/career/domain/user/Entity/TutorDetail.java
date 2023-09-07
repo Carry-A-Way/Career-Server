@@ -23,7 +23,7 @@ public class TutorDetail {
 //    @JoinColumn(name = "tutor_id", referencedColumnName = "id")
 //    private Long user; // user
 
-    @Column(columnDefinition = "VARCHAR(15)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(15)")
     private String consultingMajor1;
 
     @Column(columnDefinition = "VARCHAR(15)")

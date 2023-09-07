@@ -58,28 +58,28 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public SignUpReqDto signup(SignUpReqDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUsername(userDto.getUsername()).orElse(null) != null) {
+    public SignUpReqDto signup(SignUpReqDto signUpReqDto) {
+        if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
-
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        System.out.println(signUpReqDto.getPassword());
+        signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
 
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
 
-        User user = userDto.toUserEntity(Collections.singleton(authority));
+        User user = signUpReqDto.toUserEntity(Collections.singleton(authority));
         user = userRepository.save(user);
 
         Long id = user.getId();
 
-        TutorDetail tutorDetail = userDto.toTutorDetailEntity(id);
+        TutorDetail tutorDetail = signUpReqDto.toTutorDetailEntity(id);
         tutorDetailRepository.save(tutorDetail);
 
-        EntityUtils.saveEntities(userDto.getSchoolList(), id, schoolRepository, SchoolDto::toSchoolEntity);
-        EntityUtils.saveEntities(userDto.getCareerList(), id, careerRepository, CareerDto::toCareerEntity);
-        EntityUtils.saveEntities(userDto.getTagList(), id, tagRepository, TagDto::toTagEntity);
+//        EntityUtils.saveEntities(signUpReqDto.getSchoolList(), id, schoolRepository, SchoolDto::toSchoolEntity);
+//        EntityUtils.saveEntities(signUpReqDto.getCareerList(), id, careerRepository, CareerDto::toCareerEntity);
+//        EntityUtils.saveEntities(signUpReqDto.getTagList(), id, tagRepository, TagDto::toTagEntity);
 
         return SignUpReqDto.from(user);
     }
