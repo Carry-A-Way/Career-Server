@@ -21,10 +21,10 @@ public class TutorSignUpReqDto {
     private String password;
     private Boolean gender;
     private String nickname;
-    private String consultingMajor1;
-    private String consultingMajor2;
-    private String consultingMajor3;
-    private String consultingMethod;
+    private String consultMajor1;
+    private String consultMajor2;
+    private String consultMajor3;
+    private String consultMethod;
 
     public User toUserEntity(){
         return User.builder().name(name)
@@ -41,11 +41,11 @@ public class TutorSignUpReqDto {
     }
     public TutorDetail toTutorDetailEntity(){
         return TutorDetail.builder().tutorId(id)
-                .consultingMajor1(consultingMajor1)
-                .consultingMajor2(consultingMajor2)
-                .consultingMajor3(consultingMajor3)
+                .consultMajor1(consultMajor1)
+                .consultMajor2(consultMajor2)
+                .consultMajor3(consultMajor3)
                 .cash(0)
-                .consultingMethod(consultingMethod)
+                .consultMethod(consultMethod)
                 .build();
     }
 }

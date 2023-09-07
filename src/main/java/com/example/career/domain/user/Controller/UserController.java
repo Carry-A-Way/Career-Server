@@ -63,9 +63,9 @@ public class UserController {
             SignUpReqDto signUpReqDto = SignUpReqDto.from(user);
 
             TutorDetail tutorDetail = tutorDetailService.getTutorDetailByTutorId(id);
-            signUpReqDto.setConsultMajor1(tutorDetail.getConsultingMajor1());
-            signUpReqDto.setConsultMajor2(tutorDetail.getConsultingMajor2());
-            signUpReqDto.setConsultMajor3(tutorDetail.getConsultingMajor2());
+            signUpReqDto.setConsultMajor1(tutorDetail.getConsultMajor1());
+            signUpReqDto.setConsultMajor2(tutorDetail.getConsultMajor2());
+            signUpReqDto.setConsultMajor3(tutorDetail.getConsultMajor3());
 
             List<School> schoolList = schoolService.getSchoolByTutorId(id);
             List<Tag> tagList = tagService.getTagByTutorId(id);

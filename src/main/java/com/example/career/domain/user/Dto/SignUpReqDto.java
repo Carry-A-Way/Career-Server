@@ -75,9 +75,9 @@ public class SignUpReqDto {
     public TutorDetail toTutorDetailEntity(Long tutorId) {
         return TutorDetail.builder()
                 .tutorId(tutorId)
-                .consultingMajor1(consultMajor1)
-                .consultingMajor2(consultMajor2)
-                .consultingMajor3(consultMajor3)
+                .consultMajor1(consultMajor1)
+                .consultMajor2(consultMajor2)
+                .consultMajor3(consultMajor3)
                 .build();
     }
 

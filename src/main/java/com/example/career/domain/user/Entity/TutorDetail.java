@@ -24,13 +24,13 @@ public class TutorDetail {
 //    private Long user; // user
 
     @Column(columnDefinition = "VARCHAR(15)")
-    private String consultingMajor1;
+    private String consultMajor1;
 
     @Column(columnDefinition = "VARCHAR(15)")
-    private String consultingMajor2;
+    private String consultMajor2;
 
     @Column(columnDefinition = "VARCHAR(15)")
-    private String consultingMajor3;
+    private String consultMajor3;
 
     @Column(nullable = false)
     private int cash = 0;
@@ -39,7 +39,7 @@ public class TutorDetail {
     private String portfileImg;
 
     @Column(columnDefinition = "MEDIUMTEXT")
-    private String consultingMethod;
+    private String consultMethod;
 
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
