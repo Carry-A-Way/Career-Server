@@ -78,4 +78,36 @@ public class S3Uploader {
         return Optional.empty();
 
     }
+
+    //S3 파일 삭제 메서드
+    public String deleteFile(String uploadFilePath, String imgUrl) {
+
+        String result = "success";
+        // 문자열에서 "static/profile/" 다음의 부분을 추출
+
+        try {
+            String keyName = uploadFilePath+extractString(imgUrl, uploadFilePath); // ex) uploadPath (static/profile) + uuid.확장자
+            System.out.println(keyName);
+            boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
+            if (isObjectExist) {
+                amazonS3Client.deleteObject(bucket, keyName);
+            } else {
+                result = "file not found";
+            }
+        } catch (Exception e) {
+            log.debug("Delete File failed", e);
+        }
+
+        return result;
+    }
+    private static String extractString(String input, String marker) {
+        int startIndex = input.indexOf(marker);
+        if (startIndex != -1) {
+            // marker 다음의 부분을 추출
+            return input.substring(startIndex + marker.length());
+        } else {
+            // marker가 없으면 빈 문자열 반환
+            return "";
+        }
+    }
 }
