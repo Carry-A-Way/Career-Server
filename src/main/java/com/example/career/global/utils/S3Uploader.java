@@ -83,11 +83,9 @@ public class S3Uploader {
     public String deleteFile(String uploadFilePath, String imgUrl) {
 
         String result = "success";
-        // 문자열에서 "static/profile/" 다음의 부분을 추출
 
         try {
             String keyName = uploadFilePath+extractString(imgUrl, uploadFilePath); // ex) uploadPath (static/profile) + uuid.확장자
-            System.out.println(keyName);
             boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
             if (isObjectExist) {
                 amazonS3Client.deleteObject(bucket, keyName);
