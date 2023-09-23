@@ -24,5 +24,5 @@ public class SearchController {
     @GetMapping("community")
     public ResponseEntity<List<CommunitySearchRespDto>> searchCommunityList(@RequestParam String keyWord) {
         return new ResponseEntity<>(searchService.getArticlesByKeyWord(keyWord), HttpStatus.OK);
-  }
+    }
 }
