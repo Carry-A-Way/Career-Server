@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("calendar")
@@ -41,18 +43,13 @@ public class CalendarController {
 
     @Authenticated
     @PostMapping("mentor/accept")
-    public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
+    public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
         Long userId = (Long) request.getAttribute("userId");
-        int validCheck = userId.compareTo(calendarDenyReqDto.getId()); // 같으면 0 틀리면 1
-        Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto);
+        String username = (String) request.getAttribute("subject");
+        Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto, username);
 
-        // JWT의 ID와 Parameter ID 값이 같은지 확인
-        if(validCheck == 0 && consult != null) {
-            return new ResponseEntity<>(consult, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
+        return new ResponseEntity<>(consult, HttpStatus.OK);
+
     }
 
 }

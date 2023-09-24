@@ -5,6 +5,10 @@ import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Repository.QueryRepository;
+import com.example.career.domain.meeting.dto.ZoomMeetingObjectDTO;
+import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
+import com.example.career.domain.meeting.service.ZoomMeetingService;
+import com.example.career.domain.meeting.service.ZoomMeetingServiceImpl;
 import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -14,6 +18,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +30,7 @@ public class CalendarServiceImpl implements CalendarService{
     private final ConsultRepository consultRepository;
     private final QueryRepository queryRepository;
     private final UserRepository userRepository;
+    private final ZoomMeetingService zoomMeetingService;
     @Override
     public CalendarMentorRespDto getMentorCalendar(Long id) {
         CalendarMentorRespDto calendarMentorRespDto = new CalendarMentorRespDto();
@@ -82,7 +89,7 @@ public class CalendarServiceImpl implements CalendarService{
 
     @Override
     @Transactional
-    public Consult AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto) {
+    public Consult AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, String username) throws IOException {
         Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
 
         // 멘토가 자신의 consult를 수락 & 상담 신청 중(status = 0) 인 거 체크
@@ -90,6 +97,20 @@ public class CalendarServiceImpl implements CalendarService{
 
             // 준영속 변경감지
             consult.setStatus(1);
+
+            ZoomMeetingObjectDTO zoomMeetingObjectDTO = new ZoomMeetingObjectDTO();
+            Duration duration = Duration.between(consult.getEndTime(), consult.getStartTime());
+            long minutes = duration.toMinutes();
+
+            zoomMeetingObjectDTO.setStart_time(consult.getStartTime()+"");
+            zoomMeetingObjectDTO.setDuration((int)minutes);
+            zoomMeetingObjectDTO.setTopic(username+"님의"+consult.getMajor()+" 상담입니다.");
+            zoomMeetingObjectDTO.setAgenda(username+"님의"+consult.getMajor()+" 상담입니다.");
+
+            ZoomMeetingObjectEntity zoomMeetingObjectEntity = zoomMeetingService.createMeeting(zoomMeetingObjectDTO);
+
+            consult.setZoomLink(zoomMeetingObjectEntity.getJoin_url());
+            consult.setMeetingId(zoomMeetingObjectEntity.getId());
             return consult;
         }
         return null;
