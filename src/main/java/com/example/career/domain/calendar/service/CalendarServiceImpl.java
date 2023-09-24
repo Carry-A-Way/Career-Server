@@ -75,7 +75,6 @@ public class CalendarServiceImpl implements CalendarService{
             consult.setStatus(3);
             consult.setReason(calendarDenyReqDto.getReason());
 
-            consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
             return consult;
         }
         return null;
