@@ -1,4 +1,4 @@
-package com.example.career.domain.meeting.dto;
+package com.example.career.domain.meeting.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

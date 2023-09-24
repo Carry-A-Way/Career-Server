@@ -1,14 +1,12 @@
 package com.example.career.domain.meeting.dto;
 
-import jakarta.persistence.Entity;
+import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
