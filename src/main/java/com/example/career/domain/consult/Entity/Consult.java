@@ -35,6 +35,8 @@ public class Consult {
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String contentsUrl;
 
+    private Long meetingId;
+
     @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
     private String zoomLink;
 
