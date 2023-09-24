@@ -79,4 +79,19 @@ public class CalendarServiceImpl implements CalendarService{
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public Consult AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto) {
+        Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
+
+        // 멘토가 자신의 consult를 수락 & 상담 신청 중(status = 0) 인 거 체크
+        if(consult.getTutorId() == calendarDenyReqDto.getId() && consult.getStatus() == 0) {
+
+            // 준영속 변경감지
+            consult.setStatus(1);
+            return consult;
+        }
+        return null;
+    }
 }

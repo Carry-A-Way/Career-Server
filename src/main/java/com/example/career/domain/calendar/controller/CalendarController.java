@@ -38,4 +38,21 @@ public class CalendarController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
+
+    @Authenticated
+    @PostMapping("mentor/accept")
+    public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        int validCheck = userId.compareTo(calendarDenyReqDto.getId()); // 같으면 0 틀리면 1
+        Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto);
+
+        // JWT의 ID와 Parameter ID 값이 같은지 확인
+        if(validCheck == 0 && consult != null) {
+            return new ResponseEntity<>(consult, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
 }
