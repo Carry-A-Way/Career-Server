@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Controller;
 
+import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Repository.ArticleRepository;
@@ -44,6 +45,13 @@ public class ArticleController {
         List<Article> articles = articleService.getCategoryArticles(categoryId, page, size);
         return ResponseEntity.ok(articles);
     }
+
+    @GetMapping("/count-by-category")
+    public ResponseEntity<List<ArticleCountByCategoryDto>> getArticleCountsByCategory() {
+        List<ArticleCountByCategoryDto> counts = articleService.getCountByCategoryId();
+        return ResponseEntity.ok(counts);
+    }
+
 
     @Authenticated
     @PostMapping("/add")

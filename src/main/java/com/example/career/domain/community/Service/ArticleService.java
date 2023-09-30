@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Service;
 
+import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Repository.ArticleRepository;
@@ -105,4 +106,7 @@ public class ArticleService {
         articleRepository.deleteByIdAndUserId(id, userId);
     }
 
+    public List<ArticleCountByCategoryDto> getCountByCategoryId() {
+        return articleRepository.countArticlesByCategoryId();
+    }
 }

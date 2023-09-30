@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Repository;
 
+import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Entity.Article;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -42,5 +44,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByTitleContainingOrContentContaining(String title, String content);
 
     Page<Article> findByCategoryId(int categoryId, Pageable pageable);
+
+    @Query("SELECT new com.example.career.domain.community.Dto.ArticleCountByCategoryDto(a.categoryId, COUNT(a)) FROM Article a GROUP BY a.categoryId")
+    List<ArticleCountByCategoryDto> countArticlesByCategoryId();
 
 }
