@@ -18,7 +18,8 @@ public class ZoomToken {
     Long id;
 
     @Column(columnDefinition = "MEDIUMTEXT")
-    String accessToken;
+    String accessToken; // 1시간
+
     @Column(columnDefinition = "MEDIUMTEXT")
     String refreshToken;
     LocalDateTime updatedAt;
