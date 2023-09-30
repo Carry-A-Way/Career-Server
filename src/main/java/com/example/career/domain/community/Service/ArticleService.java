@@ -51,7 +51,7 @@ public class ArticleService {
     }
 
     private void deleteUploadedImage(String url) {
-        s3Uploader.deleteFile("static/article", url);
+        s3Uploader.deleteFile(url);
     }
 
     public void updateArticle(ArticleDto articleDto, List<String> newImgUrls, Long userId) throws Exception {
@@ -101,7 +101,7 @@ public class ArticleService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         for (String url: images) {
-            s3Uploader.deleteFile("/static/article", url);
+            s3Uploader.deleteFile(url);
         }
         articleRepository.deleteByIdAndUserId(id, userId);
     }
