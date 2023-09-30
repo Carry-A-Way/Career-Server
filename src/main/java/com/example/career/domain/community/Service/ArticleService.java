@@ -39,12 +39,12 @@ public class ArticleService {
     }
 
     public List<String> uploadImages(List<MultipartFile> MultipartFile) throws IOException {
-        List<String> urlList = s3Uploader.upload(MultipartFile,"/static/article");
+        List<String> urlList = s3Uploader.upload(MultipartFile,"static/article");
         return urlList;
     }
 
     private void deleteUploadedImage(String url) {
-        s3Uploader.deleteFile("/static/article", url);
+        s3Uploader.deleteFile("static/article", url);
     }
 
     public void updateArticle(ArticleDto articleDto, List<String> newImgUrls, Long userId) throws Exception {
