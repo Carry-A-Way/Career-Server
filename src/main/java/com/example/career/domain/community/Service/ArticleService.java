@@ -33,6 +33,12 @@ public class ArticleService {
         return result.getContent();
     }
 
+    public List<Article> getCategoryArticles(int categoryId, int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Article> result = articleRepository.findByCategoryId(categoryId, pageable);
+        return result.getContent();
+    }
+
     public Article addArticle(ArticleDto articleDto, Long userId) {
         Article article = articleRepository.save(articleDto.toArticleEntity(userId));
         return article;

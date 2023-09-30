@@ -39,10 +39,15 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    @GetMapping("all_category")
+    public ResponseEntity<List<Article>> allCategoryArticles(@RequestParam int categoryId, @RequestParam int page, @RequestParam int size) {
+        List<Article> articles = articleService.getCategoryArticles(categoryId, page, size);
+        return ResponseEntity.ok(articles);
+    }
+
     @Authenticated
     @PostMapping("/add")
     public ResponseEntity<Article> addArticle(MultipartHttpServletRequest request) throws Exception {
-        String username = (String) request.getAttribute("subject");
         Long userId = (Long) request.getAttribute("userId");
 
         // 파일 데이터 추출
