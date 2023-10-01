@@ -38,6 +38,7 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
+    @Authenticated
     @PostMapping("/modify")
     public ResponseEntity<Object> modifyComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
