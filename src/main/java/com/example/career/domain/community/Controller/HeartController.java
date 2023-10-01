@@ -31,7 +31,6 @@ import java.util.List;
 public class HeartController {
 
     private final HeartService heartService;
-    private final ArticleService articleService;
 
     @Authenticated
     @GetMapping("all_article")
