@@ -46,6 +46,24 @@ public class Article {
     @ColumnDefault("0") //default 0
     private int commentCnt;
 
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img1;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img2;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img3;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img4;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img5;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String img6;
+
 
     @CreationTimestamp
     private LocalDateTime createdAt;
