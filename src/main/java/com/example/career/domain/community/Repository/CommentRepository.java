@@ -26,8 +26,19 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Transactional
     public void deleteByUserIdAndId(Long UserId, Long id);
 
-    @Query(name = "find_combined_comments_by_user_id", nativeQuery = true)
-    Page<CommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, Pageable pageable);
+    @Query(name = "find_combined_comments_by_user_id",
+            countQuery =
+                    "SELECT COUNT(*) FROM (" +
+                            "SELECT a.id " +
+                            "FROM article a " +
+                            "JOIN comment c ON a.id = c.article_id AND c.user_id = :userId " +
+                            "UNION " +
+                            "SELECT a.id " +
+                            "FROM article a " +
+                            "JOIN recomment r ON a.id = r.article_id AND r.user_id = :userId" +
+                            ") AS tmp",
+            nativeQuery = true)
+    List<CommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, @Param("offset") int offset, @Param("limit") int limit);
     @Modifying
     @Transactional
     @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id AND c.userId = :userId")

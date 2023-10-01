@@ -23,7 +23,8 @@ import java.time.LocalDateTime;
                         "FROM article a " +
                         "JOIN recomment r ON a.id = r.article_id AND r.user_id = :userId" +
                         ") AS combined_results " +
-                        "ORDER BY combined_results.created_at DESC",
+                        "ORDER BY combined_results.created_at DESC " +
+                        "LIMIT :limit OFFSET :offset", // <- LIMIT and OFFSET are added here
         resultSetMapping = "comment_dto_mapping"
 )
 @SqlResultSetMapping(

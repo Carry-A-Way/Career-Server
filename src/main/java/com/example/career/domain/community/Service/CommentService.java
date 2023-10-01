@@ -21,9 +21,8 @@ import java.util.List;
 public class CommentService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
-    public Page<CommentDto> allComments(Long userId, int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size);
-        return commentRepository.findCombinedCommentsByUserId(userId, pageable);
+    public List<CommentDto> allComments(Long userId, int page, int size) {
+        return commentRepository.findCombinedCommentsByUserId(userId, page*size, size);
     }
 
     @Transactional
