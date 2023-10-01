@@ -33,7 +33,7 @@ public class HeartController {
     private final HeartService heartService;
 
     @Authenticated
-    @GetMapping("all_article")
+    @GetMapping("my_hearts")
     public ResponseEntity<List<Article>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         List<Article> articles = heartService.getAllThumbsUpArticles(userId, page, size);
