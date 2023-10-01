@@ -64,4 +64,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             "WHERE c.content LIKE %:keyword%")
     List<Article> searchArticlesByCommentContent(String keyword);
 
+    List<Comment> findByArticleId(Long articleId);
 }

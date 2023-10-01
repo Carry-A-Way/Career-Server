@@ -37,4 +37,5 @@ public interface RecommentRepository extends JpaRepository<Recomment, Long> {
             "WHERE r.content LIKE %:keyword%")
     List<Article> searchArticlesByRecommentContent(@Param("keyword") String keyword);
 
+    List<Recomment> findByArticleId(Long articleId);
 }

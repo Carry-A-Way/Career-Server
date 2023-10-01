@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -31,6 +32,12 @@ public class ArticleController {
     public ResponseEntity<List<Article>> allArticles(@RequestParam int page, @RequestParam int size) {
         List<Article> articles = articleService.getAllArticles(page, size);
         return ResponseEntity.ok(articles);
+    }
+
+        @GetMapping("detail")
+    public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id) {
+        Map<String, Object> details = articleService.getArticleInDetail(id);
+        return ResponseEntity.ok(details);
     }
 
     @Authenticated
