@@ -9,6 +9,7 @@ import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,11 @@ public class CommentController {
     private final CommentService commentService;
 
     @Authenticated
-    @GetMapping("all_article")
-    public ResponseEntity<List<Article>> allCommentedArticles(HttpServletRequest request, @RequestParam int page, @RequestParam int size) {
+    @GetMapping("my_comments")
+    public ResponseEntity<List<CommentDto>> allCommentedArticles(HttpServletRequest request, @RequestParam int page, @RequestParam int size) {
         Long userId = (Long) request.getAttribute("userId");
-        List<Article> articles = commentService.allCommentedArticles(userId, page, size);
-        return ResponseEntity.ok(articles);
+        Page<CommentDto> comments = commentService.allComments(userId, page, size);
+        return ResponseEntity.ok(comments.getContent());
     }
 
     @Authenticated

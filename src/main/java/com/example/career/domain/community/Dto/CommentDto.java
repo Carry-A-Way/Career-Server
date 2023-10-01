@@ -7,6 +7,7 @@ import lombok.*;
 @Data
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDto {
@@ -16,6 +17,8 @@ public class CommentDto {
     private String content;
     private int heartCnt;
     private int recommentCnt;
+
+    private String articleTitle;
 
     public Comment toCommentEntity(Long userId) {
         return Comment.builder()

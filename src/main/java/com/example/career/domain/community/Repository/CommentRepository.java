@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Repository;
 
+import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import org.springframework.data.domain.Page;
@@ -25,9 +26,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Transactional
     public void deleteByUserIdAndId(Long UserId, Long id);
 
-    @Query("SELECT DISTINCT a FROM Article a INNER JOIN Comment c ON a.id = c.articleId AND c.userId = :userId UNION SELECT DISTINCT a FROM Article a INNER JOIN Recomment r ON a.id = r.articleId AND r.userId = :userId ORDER BY a.createdAt DESC")
-    List<Article> findArticlesByUserId(@Param("userId") Long userId);
-
+    @Query(name = "find_combined_comments_by_user_id", nativeQuery = true)
+    Page<CommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, Pageable pageable);
     @Modifying
     @Transactional
     @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id AND c.userId = :userId")
