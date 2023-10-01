@@ -29,6 +29,7 @@ public class RecommentController {
         return ResponseEntity.ok(Recomment);
     }
 
+    @Authenticated
     @PostMapping("/modify")
     public ResponseEntity<Object> modifyRecomment(@RequestBody RecommentDto recommentDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
