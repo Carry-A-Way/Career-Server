@@ -32,12 +32,12 @@ public class Consult {
 //    @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Long reviewId;
 
-    @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String contentsUrl;
 
     private Long meetingId;
 
-    @Column(columnDefinition = "MEDIUMTEXT",nullable = false)
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String zoomLink;
 
     @Column(nullable = false)
