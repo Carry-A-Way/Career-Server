@@ -13,6 +13,7 @@ import lombok.*;
 public class CommentDto {
     private Long id;
     private Long userId;
+    private String userNickname;
     private Long articleId;
     private String content;
     private int heartCnt;
@@ -20,9 +21,10 @@ public class CommentDto {
 
     private String articleTitle;
 
-    public Comment toCommentEntity(Long userId) {
+    public Comment toCommentEntity(Long userId, String userNickname) {
         return Comment.builder()
                 .userId(userId)
+                .userNickname(userNickname)
                 .articleId(articleId)
                 .content(content)
                 .heartCnt(heartCnt)

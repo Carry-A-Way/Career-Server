@@ -17,9 +17,10 @@ public class RecommentDto {
     private String content;
     private int heartCnt;
 
-    public Recomment toRecommentEntity(Long userId) {
+    public Recomment toRecommentEntity(Long userId, String userNickname) {
         return Recomment.builder()
                 .userId(userId)
+                .userNickname(userNickname)
                 .articleId(articleId)
                 .commentId(commentId)
                 .content(content)
