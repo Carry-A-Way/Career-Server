@@ -50,8 +50,8 @@ public class ArticleService {
         return result.getContent();
     }
 
-    public Article addArticle(ArticleDto articleDto, Long userId) {
-        Article article = articleRepository.save(articleDto.toArticleEntity(userId));
+    public Article addArticle(ArticleDto articleDto, Long userId, String userNickname) {
+        Article article = articleRepository.save(articleDto.toArticleEntity(userId, userNickname));
         return article;
     }
 
