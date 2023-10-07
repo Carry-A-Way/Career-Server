@@ -41,8 +41,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     void deleteByIdAndUserId(Long Id, Long userId);
 
-//    List<Article> findAllByTitleContainingOrContentContaining(String title, String content);
-
     Optional<Article> findById(Long id);
 
     Page<Article> findByCategoryId(int categoryId, Pageable pageable);

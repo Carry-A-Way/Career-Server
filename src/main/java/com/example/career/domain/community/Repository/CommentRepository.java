@@ -59,10 +59,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id AND c.userId = :userId")
     public void decrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
-//    @Query("SELECT DISTINCT a FROM Article a " +
-//            "INNER JOIN Comment c ON a.id = c.articleId " +
-//            "WHERE c.content LIKE %:keyword%")
-//    List<Article> searchArticlesByCommentContent(String keyword);
 
     List<Comment> findByArticleId(Long articleId);
 }
