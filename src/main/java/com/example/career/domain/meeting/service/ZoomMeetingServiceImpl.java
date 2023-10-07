@@ -89,6 +89,7 @@ public class ZoomMeetingServiceImpl implements ZoomMeetingService{
 
     // 재발급 확인
     public void isExpired() throws IOException {
+
         // 현재 시간 가져오기
         LocalDateTime now = LocalDateTime.now();
 
