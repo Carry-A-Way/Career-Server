@@ -29,6 +29,9 @@ public class Article {
     private Long userId;
 
     @Column(nullable = false)
+    private String userNickname;
+
+    @Column(nullable = false)
     private Long categoryId;
 
     @Column(columnDefinition = "VARCHAR(30)", nullable = false)

@@ -24,6 +24,9 @@ public class Recomment {
     private Long userId;
 
     @Column(nullable = false)
+    private String userNickname;
+
+    @Column(nullable = false)
     private Long articleId;
 
     @Column(nullable = false)
