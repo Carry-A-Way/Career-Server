@@ -37,11 +37,11 @@ public class ArticleController {
 
     @GetMapping("all")
     public ResponseEntity<List<Article>> allArticles(@RequestParam int page, @RequestParam int size) {
-        List<Article> articles = articleService.getAllArticles(page, size);
+            List<Article> articles = articleService.getAllArticles(page, size);
         return ResponseEntity.ok(articles);
     }
 
-        @GetMapping("detail")
+    @GetMapping("detail")
     public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id) {
         Map<String, Object> details = articleService.getArticleInDetail(id);
         return ResponseEntity.ok(details);
@@ -63,6 +63,7 @@ public class ArticleController {
     @PostMapping("/add")
     public ResponseEntity<Article> addArticle(MultipartHttpServletRequest request) throws Exception {
         Long userId = (Long) request.getAttribute("userId");
+        String userNickname = (String) request.getAttribute("nickname");
 
         // 파일 데이터 추출
         List<MultipartFile> multipartFiles = request.getFiles("images");
@@ -78,7 +79,7 @@ public class ArticleController {
 
         articleDto.setImgUrls(imgUrls);
 
-        Article article = articleService.addArticle(articleDto, userId);
+        Article article = articleService.addArticle(articleDto, userId, userNickname);
 
         return ResponseEntity.ok(article);
     }

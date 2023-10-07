@@ -34,7 +34,8 @@ public class CommentController {
     @PostMapping("/add")
     public ResponseEntity<Comment> addComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        Comment comment = commentService.addComment(commentDto, userId);
+        String userNickname = (String) request.getAttribute("nickname");
+        Comment comment = commentService.addComment(commentDto, userId, userNickname);
         return ResponseEntity.ok(comment);
     }
 

@@ -25,7 +25,8 @@ public class RecommentController {
     @PostMapping("/add")
     public ResponseEntity<Recomment> addRecomment(@RequestBody RecommentDto recommentDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        Recomment Recomment = recommentService.addRecomment(recommentDto, userId);
+        String userNickname = (String) request.getAttribute("userNickname");
+        Recomment Recomment = recommentService.addRecomment(recommentDto, userId, userNickname);
         return ResponseEntity.ok(Recomment);
     }
 
