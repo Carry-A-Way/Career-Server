@@ -1,8 +1,10 @@
 package com.example.career.domain.calendar.service;
 
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
+import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
+import com.example.career.domain.consult.Entity.Query;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Repository.QueryRepository;
 import com.example.career.domain.meeting.dto.ZoomMeetingObjectDTO;
@@ -114,5 +116,20 @@ public class CalendarServiceImpl implements CalendarService{
             return consult;
         }
         return null;
+    }
+
+    @Override
+    public Consult RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto) {
+        Consult consult = calendarRegistReqDto.toEntityConsult();
+        Query query = calendarRegistReqDto.toEntityQuery();
+
+        // consult 저장
+        consult = consultRepository.save(consult);
+
+        // query 저장
+        query.setConsultId(consult.getId());
+        queryRepository.save(query);
+
+        return consult;
     }
 }

@@ -1,12 +1,12 @@
 package com.example.career.domain.calendar.controller;
 
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
+import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
 import com.example.career.domain.calendar.service.CalendarService;
 import com.example.career.domain.consult.Dto.CalendarDenyReqDto;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,8 @@ public class CalendarController {
 
         return new ResponseEntity<>(calendarService.getMentorCalendar(mentorId), HttpStatus.OK);
     }
+
+    // 상담 거절 - 멘토가
     @Authenticated
     @PostMapping("mentor/deny")
     public ResponseEntity<Consult> DenyConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
@@ -40,16 +42,22 @@ public class CalendarController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
     }
-
+    // 상담 수락 - 멘토가
     @Authenticated
     @PostMapping("mentor/accept")
     public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
-        Long userId = (Long) request.getAttribute("userId");
         String username = (String) request.getAttribute("subject");
         Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto, username);
 
         return new ResponseEntity<>(consult, HttpStatus.OK);
 
+    }
+
+    // 상담 신청 - 멘티가
+    @PostMapping("mentee/register")
+    public ResponseEntity<Consult> RegisterConsultByMentee(@RequestBody CalendarRegistReqDto calendarRegistReqDto) {
+
+        return new ResponseEntity<>(calendarService.RegisterConsultByMentee(calendarRegistReqDto), HttpStatus.OK);
     }
 
 }
