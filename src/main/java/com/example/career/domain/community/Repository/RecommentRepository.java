@@ -32,10 +32,10 @@ public interface RecommentRepository extends JpaRepository<Recomment, Long> {
     @Transactional
     @Query("UPDATE Recomment r SET r.heartCnt = r.heartCnt - 1 WHERE r.id = :id AND r.userId = :userId")
     public void decrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
-    @Query("SELECT DISTINCT a FROM Article a " +
-            "INNER JOIN Recomment r ON a.id = r.articleId " +
-            "WHERE r.content LIKE %:keyword%")
-    List<Article> searchArticlesByRecommentContent(@Param("keyword") String keyword);
+//    @Query("SELECT DISTINCT a FROM Article a " +
+//            "INNER JOIN Recomment r ON a.id = r.articleId " +
+//            "WHERE r.content LIKE %:keyword%")
+//    List<Article> searchArticlesByRecommentContent(@Param("keyword") String keyword);
 
     List<Recomment> findByArticleId(Long articleId);
 }
