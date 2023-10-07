@@ -22,7 +22,7 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping("community")
-    public ResponseEntity<List<CommunitySearchRespDto>> searchCommunityList(@RequestParam String keyWord) {
-        return new ResponseEntity<>(searchService.getArticlesByKeyWord(keyWord), HttpStatus.OK);
+    public ResponseEntity<List<CommunitySearchRespDto>> searchCommunityList(@RequestParam String keyWord, @RequestParam int page, @RequestParam int size) {
+        return new ResponseEntity<>(searchService.getArticlesByKeyWord(keyWord, page, size), HttpStatus.OK);
     }
 }

@@ -6,5 +6,5 @@ import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import java.util.List;
 
 public interface SearchService {
-    public List<CommunitySearchRespDto> getArticlesByKeyWord(String keyWord);
+    public List<CommunitySearchRespDto> getArticlesByKeyWord(String keyWord, int page, int size);
 }
