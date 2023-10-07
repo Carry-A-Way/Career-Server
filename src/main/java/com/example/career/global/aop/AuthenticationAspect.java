@@ -59,6 +59,7 @@ public class AuthenticationAspect {
 
         User user = userService.getUserByUsername(subject);
         request.setAttribute("userId", user.getId());
+        request.setAttribute("nickname", user.getNickname());
         // request에 attribute로 subject를 추가
         request.setAttribute("subject", subject);
     }
