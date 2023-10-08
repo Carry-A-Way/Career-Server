@@ -2,7 +2,6 @@ package com.example.career.domain.community.Dto.response;
 
 import com.example.career.domain.community.Dto.Brief.ArticleBrief;
 import com.example.career.domain.community.Dto.Brief.UserBrief;
-import com.example.career.domain.community.Dto.SqlResultCommentDto;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;

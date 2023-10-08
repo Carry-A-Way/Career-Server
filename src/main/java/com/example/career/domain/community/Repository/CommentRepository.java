@@ -1,6 +1,6 @@
 package com.example.career.domain.community.Repository;
 
-import com.example.career.domain.community.Dto.SqlResultCommentDto;
+import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
 import com.example.career.domain.community.Entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

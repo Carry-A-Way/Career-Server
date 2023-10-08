@@ -1,6 +1,6 @@
 package com.example.career.domain.community.Service;
 
-import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
+import com.example.career.domain.community.Dto.response.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Dto.response.CommentDto;
 import com.example.career.domain.community.Entity.Article;

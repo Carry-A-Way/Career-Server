@@ -1,6 +1,6 @@
 package com.example.career.domain.community.Entity;
 
-import com.example.career.domain.community.Dto.SqlResultCommentDto;
+import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
 import com.example.career.domain.user.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.example.career.domain.community.Dto;
+package com.example.career.domain.community.Dto.response;
 
 import lombok.*;
 
