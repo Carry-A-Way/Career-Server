@@ -16,21 +16,25 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class RecommentService {
 
-    private final RecommentRepository repository;
+    private final RecommentRepository recommentRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
     public Recomment addRecomment(RecommentDto recommentDto, Long userId, String userNickname, Boolean isTutor) {
+        // 댓글 엔터티를 조회
+        Comment commentEntity = commentRepository.findById(recommentDto.getCommentId())
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + recommentDto.getCommentId()));
+
         commentRepository.incrementRecommentCntByIdAndUserId(recommentDto.getCommentId(), userId);
-        return repository.save(recommentDto.toRecommentEntity(userId, userNickname, isTutor));
+        return recommentRepository.save(recommentDto.toRecommentEntity(userId, userNickname, isTutor, commentEntity));
     }
 
     public void updateRecomment(RecommentDto recommentDto, Long userId) {
-        repository.updateContentByIdAnduserId(recommentDto.getId(), recommentDto.getContent(), userId, LocalDateTime.now());
+        recommentRepository.updateContentByIdAnduserId(recommentDto.getId(), recommentDto.getContent(), userId, LocalDateTime.now());
     }
     @Transactional
     public void deleteRecommentByUserIdAndId(Long userId, Long id) {
         commentRepository.decrementRecommentCntByIdAndUserId(id, userId);
-        repository.deleteByUserIdAndId(userId, id);
+        recommentRepository.deleteByUserIdAndId(userId, id);
     }
 }

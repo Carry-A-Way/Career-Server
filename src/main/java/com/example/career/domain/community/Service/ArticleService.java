@@ -125,12 +125,9 @@ public class ArticleService {
         details.put("article", article);
 
         // 해당 게시글의 댓글 가져오기
-        List<Comment> comments = commentRepository.findByArticleId(id);
-        details.put("comments", comments);
+        List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id); // 메서드 이름 변경 및 구현
 
-        // 해당 게시글의 대댓글 가져오기
-        List<Recomment> recomments = recommentRepository.findByArticleId(id);
-        details.put("recomments", recomments);
+        details.put("comments", comments);
 
         return details;
     }

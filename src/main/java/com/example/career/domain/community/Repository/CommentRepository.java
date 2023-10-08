@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
@@ -59,6 +60,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id AND c.userId = :userId")
     public void decrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
-
     List<Comment> findByArticleId(Long articleId);
+
+    @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.recomments WHERE c.articleId = :articleId")
+    List<Comment> findByArticleIdWithRecomments(@Param("articleId") Long articleId);
+
+    Optional<Comment> findById(Long id);
 }

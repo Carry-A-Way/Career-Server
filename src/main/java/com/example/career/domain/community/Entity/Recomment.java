@@ -1,4 +1,5 @@
 package com.example.career.domain.community.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +33,6 @@ public class Recomment {
     @Column(nullable = false)
     private Long articleId;
 
-    @Column(nullable = false)
-    private Long commentId;
-
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -44,6 +42,11 @@ public class Recomment {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commentId")
+    private Comment comment;
 
     @PrePersist
     public void prePersist() {
