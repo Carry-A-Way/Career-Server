@@ -65,12 +65,12 @@ public class CommentDto {
 
         CommentDto commentDto = new CommentDto();
         commentDto.id = comment.getId();
-        commentDto.article = new ArticleBrief(comment.getArticle());
         commentDto.content = comment.getContent();
         commentDto.heartCnt = comment.getHeartCnt();
         commentDto.recommentCnt = comment.getRecommentCnt();
         commentDto.createdAt = comment.getCreatedAt();
         commentDto.user = new UserBrief(comment.getUser());
+        commentDto.article = new ArticleBrief(comment.getArticle());
 
         return commentDto;
     }

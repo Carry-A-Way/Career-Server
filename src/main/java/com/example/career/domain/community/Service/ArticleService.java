@@ -2,6 +2,7 @@ package com.example.career.domain.community.Service;
 
 import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Dto.ArticleDto;
+import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
@@ -148,7 +149,9 @@ public class ArticleService {
 
         // 해당 게시글의 댓글 가져오기
         List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id); // 메서드 이름 변경 및 구현
-
+        List<CommentDto> commentDtos = comments.stream()
+                .map(CommentDto::from)
+                .collect(Collectors.toList());
         details.put("comments", comments);
 
         return details;
