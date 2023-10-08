@@ -1,20 +1,15 @@
 package com.example.career.domain.community.Service;
 
-import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Dto.SqlResultCommentDto;
-import com.example.career.domain.community.Dto.request.AddCommentDto;
+import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
-import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,20 +34,20 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment addComment(AddCommentDto addCommentDto, Long userId, String userNickname, Boolean isTutor) {
+    public Comment addComment(CommentDtoReq commentDtoReq, Long userId, String userNickname, Boolean isTutor) {
         // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
         // 게시글 엔티티 조회
-        Article article = articleRepository.findById(addCommentDto.getArticleId())
-                .orElseThrow(() -> new IllegalArgumentException("Article not found with ID: " + addCommentDto.getArticleId()));
+        Article article = articleRepository.findById(commentDtoReq.getArticleId())
+                .orElseThrow(() -> new IllegalArgumentException("Article not found with ID: " + commentDtoReq.getArticleId()));
 
         articleRepository.incrementArticleCommentCnt(article.getId(), userId);
-        return commentRepository.save(CommentDto.toCommentEntity(user, article, addCommentDto));
+        return commentRepository.save(CommentDto.toCommentEntity(user, article, commentDtoReq));
     }
 
-    public void updateComment(CommentDto commentDto, Long userId) {
-        commentRepository.updateContentByuserIdAndId(commentDto.getId(), commentDto.getContent(), userId, LocalDateTime.now());
+    public void updateComment(CommentDtoReq commentDtoReq, Long userId) {
+        commentRepository.updateContentByuserIdAndId(commentDtoReq.getId(), commentDtoReq.getContent(), userId, LocalDateTime.now());
     }
 
     @Transactional

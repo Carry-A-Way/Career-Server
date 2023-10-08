@@ -2,6 +2,7 @@ package com.example.career.domain.community.Controller;
 
 import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Dto.RecommentDto;
+import com.example.career.domain.community.Dto.request.RecommentDtoReq;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Service.CommentService;
@@ -23,27 +24,27 @@ public class RecommentController {
 
     @Authenticated
     @PostMapping("/add")
-    public ResponseEntity<Recomment> addRecomment(@RequestBody RecommentDto recommentDto, HttpServletRequest request) {
+    public ResponseEntity<Recomment> addRecomment(@RequestBody RecommentDtoReq dto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         String userNickname = (String) request.getAttribute("nickname");
         Boolean isTutor = (Boolean) request.getAttribute("isTutor");
-        Recomment Recomment = recommentService.addRecomment(recommentDto, userId, userNickname, isTutor);
+        Recomment Recomment = recommentService.addRecomment(dto, userId, userNickname, isTutor);
         return ResponseEntity.ok(Recomment);
     }
 
     @Authenticated
     @PostMapping("/modify")
-    public ResponseEntity<Object> modifyRecomment(@RequestBody RecommentDto recommentDto, HttpServletRequest request) {
+    public ResponseEntity<Object> modifyRecomment(@RequestBody RecommentDtoReq dto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        recommentService.updateRecomment(recommentDto, userId);
+        recommentService.updateRecomment(dto, userId);
         return ResponseEntity.ok().build();
     }
 
     @Authenticated
     @DeleteMapping("delete")
-    public ResponseEntity<Object> deleteRecomment(@RequestBody RecommentDto recommentDto, HttpServletRequest request) {
+    public ResponseEntity<Object> deleteRecomment(@RequestBody RecommentDtoReq dto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        recommentService.deleteRecommentByUserIdAndId(userId, recommentDto.getId());;
+        recommentService.deleteRecommentByUserIdAndId(userId, dto.getId());;
         return ResponseEntity.ok().build();
     }
 }

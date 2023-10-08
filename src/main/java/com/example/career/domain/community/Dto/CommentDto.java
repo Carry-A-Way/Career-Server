@@ -1,6 +1,6 @@
 package com.example.career.domain.community.Dto;
 
-import com.example.career.domain.community.Dto.request.AddCommentDto;
+import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.user.Entity.User;
@@ -52,13 +52,11 @@ public class CommentDto {
         }
     }
 
-    public static Comment toCommentEntity(User user, Article article, AddCommentDto dto) {
+    public static Comment toCommentEntity(User user, Article article, CommentDtoReq dto) {
         return Comment.builder()
                 .user(user)
                 .article(article)
                 .content(dto.getContent())
-//                .heartCnt(heartCnt)
-//                .recommentCnt(recommentCnt)
                 .build();
     }
 

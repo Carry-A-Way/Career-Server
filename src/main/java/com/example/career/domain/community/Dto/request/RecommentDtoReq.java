@@ -5,10 +5,11 @@ import lombok.*;
 @Data
 @Builder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddCommentDto {
+public class RecommentDtoReq {
+    private Long id;
     private Long articleId;
+    private Long commentId;
     private String content;
 }

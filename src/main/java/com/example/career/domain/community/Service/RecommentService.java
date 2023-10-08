@@ -2,10 +2,15 @@ package com.example.career.domain.community.Service;
 
 import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Dto.RecommentDto;
+import com.example.career.domain.community.Dto.request.RecommentDtoReq;
+import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
+import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
+import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +23,29 @@ public class RecommentService {
 
     private final RecommentRepository recommentRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
 
     @Transactional
-    public Recomment addRecomment(RecommentDto recommentDto, Long userId, String userNickname, Boolean isTutor) {
-        // 댓글 엔터티를 조회
-        Comment commentEntity = commentRepository.findById(recommentDto.getCommentId())
-                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + recommentDto.getCommentId()));
+    public Recomment addRecomment(RecommentDtoReq recommentDtoReq, Long userId, String userNickname, Boolean isTutor) {
+        // 유저 엔터티를 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
 
-        commentRepository.incrementRecommentCntByIdAndUserId(recommentDto.getCommentId(), userId);
-        return recommentRepository.save(recommentDto.toRecommentEntity(userId, userNickname, isTutor, commentEntity));
+        // 게시글 엔터티를 조회
+        Article article = articleRepository.findById(recommentDtoReq.getArticleId())
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + recommentDtoReq.getArticleId()));
+
+        // 댓글 엔터티를 조회
+        Comment commentEntity = commentRepository.findById(recommentDtoReq.getCommentId())
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + recommentDtoReq.getCommentId()));
+
+        commentRepository.incrementRecommentCntByIdAndUserId(recommentDtoReq.getCommentId(), userId);
+        return recommentRepository.save(RecommentDto.toRecommentEntity(user, article, commentEntity, recommentDtoReq));
     }
 
-    public void updateRecomment(RecommentDto recommentDto, Long userId) {
-        recommentRepository.updateContentByIdAnduserId(recommentDto.getId(), recommentDto.getContent(), userId, LocalDateTime.now());
+    public void updateRecomment(RecommentDtoReq recommentDtoReq, Long userId) {
+        recommentRepository.updateContentByIdAnduserId(recommentDtoReq.getId(), recommentDtoReq.getContent(), userId, LocalDateTime.now());
     }
     @Transactional
     public void deleteRecommentByUserIdAndId(Long userId, Long id) {

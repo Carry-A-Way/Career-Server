@@ -1,8 +1,11 @@
 package com.example.career.domain.community.Dto;
 
+import com.example.career.domain.community.Dto.request.RecommentDtoReq;
+import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.CommentRepository;
+import com.example.career.domain.user.Entity.User;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,21 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RecommentDto {
     private Long id;
     private Long userId;
-    private Long articleId;
-    private Long commentId;
-    private String content;
     private int heartCnt;
 
-    public Recomment toRecommentEntity(Long userId, String userNickname, Boolean isTutor, Comment comment) {
+    public static Recomment toRecommentEntity(User user, Article article, Comment comment, RecommentDtoReq dto) {
 
         return Recomment.builder()
-                .userId(userId)
-                .userNickname(userNickname)
-                .isTutor(isTutor)
-                .articleId(articleId)
+                .user(user)
+                .article(article)
                 .comment(comment)
-                .content(content)
-                .heartCnt(heartCnt)
+                .content(dto.getContent())
                 .build();
     }
 }

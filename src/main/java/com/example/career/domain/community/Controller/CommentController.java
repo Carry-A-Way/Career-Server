@@ -1,16 +1,13 @@
 package com.example.career.domain.community.Controller;
 
-import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Dto.CommentDto;
-import com.example.career.domain.community.Dto.request.AddCommentDto;
-import com.example.career.domain.community.Entity.Article;
+import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Service.CommentService;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,27 +30,27 @@ public class CommentController {
 
     @Authenticated
     @PostMapping("/add")
-    public ResponseEntity<Comment> addComment(@RequestBody AddCommentDto addCommentDto, HttpServletRequest request) {
+    public ResponseEntity<Comment> addComment(@RequestBody CommentDtoReq commentDtoReq, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         String userNickname = (String) request.getAttribute("nickname");
         Boolean isTutor = (Boolean) request.getAttribute("isTutor");
-        Comment comment = commentService.addComment(addCommentDto, userId, userNickname, isTutor);
+        Comment comment = commentService.addComment(commentDtoReq, userId, userNickname, isTutor);
         return ResponseEntity.ok(comment);
     }
 
     @Authenticated
     @PostMapping("/modify")
-    public ResponseEntity<Object> modifyComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
+    public ResponseEntity<Object> modifyComment(@RequestBody CommentDtoReq commentDtoReq, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        commentService.updateComment(commentDto, userId);
+        commentService.updateComment(commentDtoReq, userId);
         return ResponseEntity.ok().build();
     }
 
     @Authenticated
     @DeleteMapping("delete")
-    public ResponseEntity<Object> deleteComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
+    public ResponseEntity<Object> deleteComment(@RequestBody CommentDtoReq commentDtoReq, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        commentService.deleteCommentByUserIdAndId(userId, commentDto.getId());
+        commentService.deleteCommentByUserIdAndId(userId, commentDtoReq.getId());
         return ResponseEntity.ok().build();
     }
 }
