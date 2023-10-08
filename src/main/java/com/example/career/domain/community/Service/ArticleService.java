@@ -41,17 +41,32 @@ public class ArticleService {
 
     private final S3Uploader s3Uploader;
 
-    public List<Article> getAllArticles(int page, int size) {
+    public List<ArticleDto> getAllArticles(int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findAll(pageable);
-        return result.getContent();
+        List<Article> articles = result.getContent();
+
+        // Transform Article to ArticleDto
+        List<ArticleDto> articleDtos = articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
+
+        return articleDtos;
     }
 
-    public List<Article> getCategoryArticles(int categoryId, int page, int size) {
+    public List<ArticleDto> getCategoryArticles(int categoryId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findByCategoryId(categoryId, pageable);
-        return result.getContent();
+        List<Article> articles = result.getContent();
+
+        // Transform Article to ArticleDto
+        List<ArticleDto> articleDtos = articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
+
+        return articleDtos;
     }
+
 
     public Article addArticle(ArticleDto articleDto, Long userId, String userNickname, Boolean isTutor) {
         // 댓글 엔터티를 조회
