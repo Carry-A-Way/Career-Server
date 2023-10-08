@@ -1,5 +1,7 @@
 package com.example.career.domain.community.Dto;
 
+import com.example.career.domain.community.Dto.Brief.ArticleBrief;
+import com.example.career.domain.community.Dto.Brief.UserBrief;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
@@ -22,35 +24,6 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private UserBrief user;
     private ArticleBrief article;
-
-    @Data
-    @AllArgsConstructor
-
-    public static class UserBrief {
-        private Long id;
-        private String nickname;
-        private Boolean isTutor;
-        private String profileImg;
-
-        public UserBrief(User user) {
-            this.id = user.getId();
-            this.nickname = user.getNickname();
-            this.isTutor = user.getIsTutor();
-            this.profileImg = user.getProfileImg();
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class ArticleBrief {
-        private Long id;
-        private String title;
-
-        public ArticleBrief(Article article) {
-            this.id = article.getId();
-            this.title = article.getTitle();
-        }
-    }
 
     public static Comment toCommentEntity(User user, Article article, CommentDtoReq dto) {
         return Comment.builder()

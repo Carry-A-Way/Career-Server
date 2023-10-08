@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Dto;
 
+import com.example.career.domain.community.Dto.Brief.UserBrief;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.user.Dto.AuthorityDto;
 import com.example.career.domain.user.Dto.SignUpReqDto;
@@ -35,20 +36,6 @@ public class ArticleDto {
     private String img6;
     private UserBrief user;
 
-    @Data
-    public static class UserBrief {
-        private Long id;
-        private String nickname;
-        private Boolean isTutor;
-        private String profileImg;
-
-        public UserBrief(User user) {
-            this.id = user.getId();
-            this.nickname = user.getNickname();
-            this.isTutor = user.getIsTutor();
-            this.profileImg = user.getProfileImg();
-        }
-    }
     public void setImgUrls(List<String> urlList) {
         if (urlList == null) return;
 

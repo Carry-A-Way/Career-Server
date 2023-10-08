@@ -152,7 +152,7 @@ public class ArticleService {
         List<CommentDto> commentDtos = comments.stream()
                 .map(CommentDto::from)
                 .collect(Collectors.toList());
-        details.put("comments", comments);
+        details.put("comments", commentDtos);
 
         return details;
     }
