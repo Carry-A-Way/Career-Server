@@ -1,20 +1,14 @@
-package com.example.career.domain.community.Dto;
+package com.example.career.domain.community.Dto.response;
 
 import com.example.career.domain.community.Dto.Brief.UserBrief;
 import com.example.career.domain.community.Entity.Article;
-import com.example.career.domain.user.Dto.AuthorityDto;
-import com.example.career.domain.user.Dto.SignUpReqDto;
-import com.example.career.domain.user.Entity.Career;
 import com.example.career.domain.user.Entity.User;
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -34,6 +28,8 @@ public class ArticleDto {
     private String img4;
     private String img5;
     private String img6;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private UserBrief user;
 
     public void setImgUrls(List<String> urlList) {
@@ -88,6 +84,8 @@ public class ArticleDto {
                 .img4(article.getImg4())
                 .img5(article.getImg5())
                 .img6(article.getImg6())
+                .createdAt(article.getCreatedAt())
+                .updatedAt(article.getUpdatedAt())
                 .user(new UserBrief(article.getUser()))
                 .build();
 

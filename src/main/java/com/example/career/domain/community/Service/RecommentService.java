@@ -1,7 +1,6 @@
 package com.example.career.domain.community.Service;
 
-import com.example.career.domain.community.Dto.CommentDto;
-import com.example.career.domain.community.Dto.RecommentDto;
+import com.example.career.domain.community.Dto.response.RecommentDto;
 import com.example.career.domain.community.Dto.request.RecommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;

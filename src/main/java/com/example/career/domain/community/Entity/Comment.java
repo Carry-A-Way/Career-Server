@@ -1,6 +1,5 @@
 package com.example.career.domain.community.Entity;
 
-import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Dto.SqlResultCommentDto;
 import com.example.career.domain.user.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

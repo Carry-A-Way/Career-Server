@@ -1,18 +1,13 @@
 package com.example.career.domain.community.Controller;
 
-import com.example.career.domain.community.Dto.CommentDto;
-import com.example.career.domain.community.Dto.RecommentDto;
 import com.example.career.domain.community.Dto.request.RecommentDtoReq;
-import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
-import com.example.career.domain.community.Service.CommentService;
 import com.example.career.domain.community.Service.RecommentService;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

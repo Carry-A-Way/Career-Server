@@ -1,11 +1,7 @@
 package com.example.career.domain.community.Repository;
 
-import com.example.career.domain.community.Dto.CommentDto;
 import com.example.career.domain.community.Dto.SqlResultCommentDto;
-import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

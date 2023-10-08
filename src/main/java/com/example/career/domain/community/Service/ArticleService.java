@@ -1,11 +1,10 @@
 package com.example.career.domain.community.Service;
 
 import com.example.career.domain.community.Dto.ArticleCountByCategoryDto;
-import com.example.career.domain.community.Dto.ArticleDto;
-import com.example.career.domain.community.Dto.CommentDto;
+import com.example.career.domain.community.Dto.response.ArticleDto;
+import com.example.career.domain.community.Dto.response.CommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
-import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 
 import com.example.career.domain.community.Repository.CommentRepository;
@@ -145,7 +144,7 @@ public class ArticleService {
 
         // 게시글 가져오기
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        details.put("article", article);
+        details.put("article", ArticleDto.from(article));
 
         // 해당 게시글의 댓글 가져오기
         List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id); // 메서드 이름 변경 및 구현

@@ -1,6 +1,6 @@
 package com.example.career.domain.community.Controller;
 
-import com.example.career.domain.community.Dto.CommentDto;
+import com.example.career.domain.community.Dto.response.CommentDto;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Service.CommentService;

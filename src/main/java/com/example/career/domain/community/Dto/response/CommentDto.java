@@ -1,7 +1,8 @@
-package com.example.career.domain.community.Dto;
+package com.example.career.domain.community.Dto.response;
 
 import com.example.career.domain.community.Dto.Brief.ArticleBrief;
 import com.example.career.domain.community.Dto.Brief.UserBrief;
+import com.example.career.domain.community.Dto.SqlResultCommentDto;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
@@ -9,6 +10,8 @@ import com.example.career.domain.user.Entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -22,8 +25,10 @@ public class CommentDto {
     private int heartCnt;
     private int recommentCnt;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private UserBrief user;
     private ArticleBrief article;
+    private List<RecommentDto> recomments;
 
     public static Comment toCommentEntity(User user, Article article, CommentDtoReq dto) {
         return Comment.builder()
@@ -42,8 +47,16 @@ public class CommentDto {
         commentDto.heartCnt = comment.getHeartCnt();
         commentDto.recommentCnt = comment.getRecommentCnt();
         commentDto.createdAt = comment.getCreatedAt();
+        commentDto.updatedAt = comment.getUpdatedAt();
         commentDto.user = new UserBrief(comment.getUser());
         commentDto.article = new ArticleBrief(comment.getArticle());
+
+
+        // Mapping recomments
+        List<RecommentDto> recommentDtos = comment.getRecomments().stream()
+                .map(RecommentDto::from)
+                .collect(Collectors.toList());
+        commentDto.setRecomments(recommentDtos);
 
         return commentDto;
     }

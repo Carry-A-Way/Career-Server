@@ -1,25 +1,14 @@
 package com.example.career.domain.community.Controller;
 
-import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Dto.HeartDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
-import com.example.career.domain.community.Repository.ArticleRepository;
-import com.example.career.domain.community.Repository.HeartRepository;
-import com.example.career.domain.community.Service.ArticleService;
-import com.example.career.domain.community.Service.CommentService;
 import com.example.career.domain.community.Service.HeartService;
-import com.example.career.domain.community.Service.RecommentService;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
