@@ -2,6 +2,7 @@ package com.example.career.domain.community.Controller;
 
 import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Dto.CommentDto;
+import com.example.career.domain.community.Dto.request.AddCommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Service.CommentService;
@@ -32,11 +33,11 @@ public class CommentController {
 
     @Authenticated
     @PostMapping("/add")
-    public ResponseEntity<Comment> addComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {
+    public ResponseEntity<Comment> addComment(@RequestBody AddCommentDto addCommentDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         String userNickname = (String) request.getAttribute("nickname");
         Boolean isTutor = (Boolean) request.getAttribute("isTutor");
-        Comment comment = commentService.addComment(commentDto, userId, userNickname, isTutor);
+        Comment comment = commentService.addComment(addCommentDto, userId, userNickname, isTutor);
         return ResponseEntity.ok(comment);
     }
 

@@ -1,6 +1,7 @@
 package com.example.career.domain.community.Repository;
 
 import com.example.career.domain.community.Dto.CommentDto;
+import com.example.career.domain.community.Dto.SqlResultCommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Modifying
-    @Query("UPDATE Comment c SET c.content = :content, c.updatedAt = :updatedAt WHERE c.id = :id AND c.userId = :userId")
+    @Query("UPDATE Comment c SET c.content = :content, c.updatedAt = :updatedAt WHERE c.id = :id AND c.user.id = :userId")
     @Transactional
     public void updateContentByuserIdAndId(@Param("id") Long id, @Param("content") String content, @Param("userId") Long userId, @Param("updatedAt") LocalDateTime updatedAt);
 
@@ -39,30 +40,28 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                             "JOIN recomment r ON a.id = r.article_id AND r.user_id = :userId" +
                             ") AS tmp",
             nativeQuery = true)
-    List<CommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, @Param("offset") int offset, @Param("limit") int limit);
+    List<SqlResultCommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, @Param("offset") int offset, @Param("limit") int limit);
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id AND c.userId = :userId")
+    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id AND c.user.id = :userId")
     public void incrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt - 1 WHERE c.id = :id AND c.userId = :userId")
+    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt - 1 WHERE c.id = :id AND c.user.id = :userId")
     public void decrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt + 1 WHERE c.id = :id AND c.userId = :userId")
+    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt + 1 WHERE c.id = :id AND c.user.id = :userId")
     public void incrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id AND c.userId = :userId")
+    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id AND c.user.id = :userId")
     public void decrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
-    List<Comment> findByArticleId(Long articleId);
-
-    @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.recomments WHERE c.articleId = :articleId")
+    @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.recomments WHERE c.article.id = :articleId")
     List<Comment> findByArticleIdWithRecomments(@Param("articleId") Long articleId);
 
     Optional<Comment> findById(Long id);

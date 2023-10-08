@@ -69,7 +69,7 @@ public class ArticleService {
 
 
     public Article addArticle(ArticleDto articleDto, Long userId, String userNickname, Boolean isTutor) {
-        // 댓글 엔터티를 조회
+        // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
 
