@@ -3,6 +3,7 @@ package com.example.career.domain.community.Entity;
 
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import com.example.career.domain.user.Entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class Article {
     @Column(name = "id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩 사용
     @JoinColumn(name = "userId", referencedColumnName = "id") // 외래 키 칼럼 설정
     private User user;

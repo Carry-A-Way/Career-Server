@@ -40,11 +40,13 @@ public class ArticleDto {
         private Long id;
         private String nickname;
         private Boolean isTutor;
+        private String profileImg;
 
         public UserBrief(User user) {
             this.id = user.getId();
             this.nickname = user.getNickname();
             this.isTutor = user.getIsTutor();
+            this.profileImg = user.getProfileImg();
         }
     }
     public void setImgUrls(List<String> urlList) {
