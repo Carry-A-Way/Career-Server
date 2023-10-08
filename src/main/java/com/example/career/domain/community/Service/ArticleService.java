@@ -3,11 +3,14 @@ package com.example.career.domain.community.Service;
 import com.example.career.domain.community.Dto.response.ArticleCountByCategoryDto;
 import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Dto.response.CommentDto;
+import com.example.career.domain.community.Dto.response.RecommentDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
+import com.example.career.domain.community.Entity.Heart;
 import com.example.career.domain.community.Repository.ArticleRepository;
 
 import com.example.career.domain.community.Repository.CommentRepository;
+import com.example.career.domain.community.Repository.HeartRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 
 import com.example.career.domain.user.Entity.User;
@@ -38,6 +41,8 @@ public class ArticleService {
     private final CommentRepository commentRepository;
     private final RecommentRepository recommentRepository;
     private final UserRepository userRepository;
+
+    private final HeartRepository heartRepository;
 
     private final S3Uploader s3Uploader;
 
@@ -139,18 +144,34 @@ public class ArticleService {
     }
 
 
-    public Map<String, Object> getArticleInDetail(Long id) {
+    public Map<String, Object> getArticleInDetail(Long id, Long userId) {
         Map<String, Object> details = new HashMap<>();
 
         // 게시글 가져오기
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        details.put("article", ArticleDto.from(article));
+        ArticleDto articleDto = ArticleDto.from(article);
+
+        // 해당 사용자가 좋아요를 누른 게시글/댓글/대댓글의 ID들 가져오기
+        List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
+        List<Heart> likedComments = heartRepository.findByUserIdAndType(userId, 1);
+        List<Heart> likedRecomments = heartRepository.findByUserIdAndType(userId, 2);
+
+        // 게시글 isLiked 설정
+        articleDto.setIsHeartClicked(likedArticles.stream().anyMatch(heart -> heart.getTypeId().equals(article.getId())));
+        details.put("article", articleDto);
 
         // 해당 게시글의 댓글 가져오기
-        List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id); // 메서드 이름 변경 및 구현
-        List<CommentDto> commentDtos = comments.stream()
-                .map(CommentDto::from)
-                .collect(Collectors.toList());
+        List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id);
+        List<CommentDto> commentDtos = comments.stream().map(comment -> {
+            CommentDto commentDto = CommentDto.from(comment);
+            // 댓글 isLiked 설정
+            commentDto.setIsHeartClicked(likedComments.stream().anyMatch(heart -> heart.getTypeId().equals(comment.getId())));
+            for (RecommentDto recommentDto : commentDto.getRecomments()) {
+                // 대댓글 isLiked 설정
+                recommentDto.setIsHeartClicked(likedRecomments.stream().anyMatch(heart -> heart.getTypeId().equals(recommentDto.getId())));
+            }
+            return commentDto;
+        }).collect(Collectors.toList());
         details.put("comments", commentDtos);
 
         return details;

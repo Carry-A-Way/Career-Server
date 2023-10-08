@@ -18,15 +18,16 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecommentDto {
     private Long id;
     private String content;
     private int heartCnt;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isHeartClicked;
     private UserBrief user;
 
     public static Recomment toRecommentEntity(User user, Article article, Comment comment, RecommentDtoReq dto) {

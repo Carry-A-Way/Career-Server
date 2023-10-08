@@ -2,6 +2,7 @@ package com.example.career.domain.community.Dto;
 
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
+import com.example.career.domain.user.Entity.User;
 import lombok.*;
 
 @Data
@@ -12,9 +13,9 @@ import lombok.*;
 public class HeartDto {
     private Long typeId;
     private int type;
-    public Heart toHeartEntity(Long userId) {
+    public Heart toHeartEntity(User user) {
         return Heart.builder()
-                .userId(userId)
+                .user(user)
                 .typeId(typeId)
                 .type(type)
                 .build();

@@ -32,9 +32,11 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    @Authenticated
     @GetMapping("detail")
-    public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id) {
-        Map<String, Object> details = articleService.getArticleInDetail(id);
+    public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        Map<String, Object> details = articleService.getArticleInDetail(id, userId);
         return ResponseEntity.ok(details);
     }
 

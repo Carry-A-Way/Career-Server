@@ -25,6 +25,7 @@ public class CommentDto {
     private int recommentCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isHeartClicked;
     private UserBrief user;
     private ArticleBrief article;
     private List<RecommentDto> recomments;

@@ -7,6 +7,8 @@ import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.HeartRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
+import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ public class HeartService {
     private final CommentRepository commentRepository;
     private final RecommentRepository recommentRepository;
     private final HeartRepository heartRepository;
+    private final UserRepository userRepository;
 
     public List<Article> getAllThumbsUpArticles(Long userId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
@@ -33,6 +36,10 @@ public class HeartService {
 
     @Transactional
     public Heart addHeart(HeartDto heartDto, Long userId) {
+        // 유저 엔터티를 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+        // 게시글 엔티티 조회
         int type = heartDto.getType();
         if (type == 0) {
             articleRepository.incrementArticleThumbsUp(heartDto.getTypeId(), userId);
@@ -41,7 +48,7 @@ public class HeartService {
         } else { // 대댓글에 좋아요
             recommentRepository.incrementThumbsUpCnt(heartDto.getTypeId(), userId);
         }
-        return heartRepository.save(heartDto.toHeartEntity(userId));
+        return heartRepository.save(heartDto.toHeartEntity(user));
     }
 
     @Transactional

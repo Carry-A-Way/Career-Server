@@ -14,8 +14,10 @@ import java.util.Optional;
 
 @Repository
 public interface HeartRepository extends JpaRepository<Heart, Long> {
-    @Query("SELECT a FROM Article a INNER JOIN Heart h ON a.id = h.typeId WHERE h.userId = :userId AND h.type = :type")
+    @Query("SELECT a FROM Article a INNER JOIN Heart h ON a.id = h.typeId WHERE h.user.id = :userId AND h.type = :type")
     Page<Article> findArticlesByUserIdAndType(@Param("userId") Long userId, @Param("type") int type, Pageable pageable);
 
     void deleteByUserIdAndTypeIdAndType(Long userId, Long typeId, int type);
+
+    List<Heart> findByUserIdAndType(Long userId, int type);
 }

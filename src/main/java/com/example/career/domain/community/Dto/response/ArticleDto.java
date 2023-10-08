@@ -30,6 +30,7 @@ public class ArticleDto {
     private String img6;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isHeartClicked;
     private UserBrief user;
 
     public void setImgUrls(List<String> urlList) {
