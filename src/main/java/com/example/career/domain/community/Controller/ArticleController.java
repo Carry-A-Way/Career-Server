@@ -61,7 +61,7 @@ public class ArticleController {
 
     @Authenticated
     @PostMapping("/add")
-    public ResponseEntity<Article> addArticle(MultipartHttpServletRequest request) throws Exception {
+    public ResponseEntity<ArticleDto> addArticle(MultipartHttpServletRequest request) throws Exception {
         Long userId = (Long) request.getAttribute("userId");
         Boolean isTutor = (Boolean) request.getAttribute("isTutor");
         String userNickname = (String) request.getAttribute("nickname");
@@ -82,7 +82,7 @@ public class ArticleController {
 
         Article article = articleService.addArticle(articleDto, userId, userNickname, isTutor);
 
-        return ResponseEntity.ok(article);
+        return ResponseEntity.ok(ArticleDto.from(article));
     }
 
 

@@ -1,7 +1,10 @@
 package com.example.career.domain.community.Dto;
 
 import com.example.career.domain.community.Entity.Article;
+import com.example.career.domain.user.Dto.AuthorityDto;
+import com.example.career.domain.user.Dto.SignUpReqDto;
 import com.example.career.domain.user.Entity.Career;
+import com.example.career.domain.user.Entity.User;
 import jakarta.persistence.Column;
 import lombok.*;
 
@@ -30,7 +33,20 @@ public class ArticleDto {
     private String img4;
     private String img5;
     private String img6;
+    private UserBrief user;
 
+    @Data
+    public static class UserBrief {
+        private Long id;
+        private String nickname;
+        private Boolean isTutor;
+
+        public UserBrief(User user) {
+            this.id = user.getId();
+            this.nickname = user.getNickname();
+            this.isTutor = user.getIsTutor();
+        }
+    }
     public void setImgUrls(List<String> urlList) {
         if (urlList == null) return;
 
@@ -44,11 +60,9 @@ public class ArticleDto {
         }
     }
 
-    public Article toArticleEntity(Long userId, String userNickname, Boolean isTutor) {
+    public Article toArticleEntity(Long userId, String userNickname, Boolean isTutor, User user) {
         return Article.builder()
-                .userId(userId)
-                .userNickname(userNickname)
-                .isTutor(isTutor)
+                .user(user)
                 .categoryId(categoryId)
                 .title(title)
                 .content(content)
@@ -60,5 +74,36 @@ public class ArticleDto {
                 .img6(img6)
                 .build();
 
+    }
+
+    public static ArticleDto from(Article article) {
+        if (article == null) return null;
+
+        List<String> imageUrls = Arrays.asList(
+                article.getImg1(),
+                article.getImg2(),
+                article.getImg3(),
+                article.getImg4(),
+                article.getImg5(),
+                article.getImg6()
+        );
+
+        ArticleDto dto = ArticleDto.builder()
+                .id(article.getId())
+                .categoryId(article.getCategoryId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .img1(article.getImg1())
+                .img2(article.getImg2())
+                .img3(article.getImg3())
+                .img4(article.getImg4())
+                .img5(article.getImg5())
+                .img6(article.getImg6())
+                .user(new UserBrief(article.getUser()))
+                .build();
+
+        dto.setImgUrls(imageUrls);
+
+        return dto;
     }
 }

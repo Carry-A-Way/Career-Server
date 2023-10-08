@@ -10,6 +10,8 @@ import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 
+import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.UserRepository;
 import com.example.career.global.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +37,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final RecommentRepository recommentRepository;
+    private final UserRepository userRepository;
 
     private final S3Uploader s3Uploader;
 
@@ -51,7 +54,11 @@ public class ArticleService {
     }
 
     public Article addArticle(ArticleDto articleDto, Long userId, String userNickname, Boolean isTutor) {
-        Article article = articleRepository.save(articleDto.toArticleEntity(userId, userNickname, isTutor));
+        // 댓글 엔터티를 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+
+        Article article = articleRepository.save(articleDto.toArticleEntity(userId, userNickname, isTutor, user));
         return article;
     }
 
