@@ -4,6 +4,8 @@ import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @Getter
@@ -19,8 +21,8 @@ public class CommentDto {
     private String content;
     private int heartCnt;
     private int recommentCnt;
-
     private String articleTitle;
+    private LocalDateTime createdAt;
 
     public Comment toCommentEntity(Long userId, String userNickname, Boolean isTutor) {
         return Comment.builder()

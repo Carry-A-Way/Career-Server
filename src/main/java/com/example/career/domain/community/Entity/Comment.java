@@ -40,7 +40,8 @@ import java.time.LocalDateTime;
                         @ColumnResult(name = "content", type = String.class),
                         @ColumnResult(name = "heart_cnt", type = Integer.class),
                         @ColumnResult(name = "recomment_cnt", type = Integer.class),
-                        @ColumnResult(name = "articleTitle", type = String.class)
+                        @ColumnResult(name = "articleTitle", type = String.class),
+                        @ColumnResult(name = "created_at", type = LocalDateTime.class)
                 }
         )
 )
