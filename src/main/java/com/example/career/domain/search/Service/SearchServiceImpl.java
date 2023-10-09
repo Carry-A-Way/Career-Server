@@ -23,12 +23,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService{
     private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
-    private final RecommentRepository recommentRepository;
     @Override
     public List<CommunitySearchRespDto> getArticlesByKeyWord(String keyWord, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-
         List<Article> articles = articleRepository.findAllBySearchKeyWord(keyWord, pageable);
         List<CommunitySearchRespDto> communitySearchRespDtos = articles.stream().map(Article::toDto).collect(Collectors.toList());
 
