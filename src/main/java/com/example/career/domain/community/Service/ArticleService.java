@@ -73,12 +73,12 @@ public class ArticleService {
     }
 
 
-    public Article addArticle(ArticleDto articleDto, Long userId, String userNickname, Boolean isTutor) {
+    public Article addArticle(ArticleDto articleDto, Long userId) {
         // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
 
-        Article article = articleRepository.save(articleDto.toArticleEntity(userId, userNickname, isTutor, user));
+        Article article = articleRepository.save(articleDto.toArticleEntity(user));
         return article;
     }
 

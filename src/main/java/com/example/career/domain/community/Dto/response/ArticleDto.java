@@ -28,6 +28,8 @@ public class ArticleDto {
     private String img4;
     private String img5;
     private String img6;
+    private int heartCnt;
+    private int commentCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean isHeartClicked;
@@ -46,7 +48,7 @@ public class ArticleDto {
         }
     }
 
-    public Article toArticleEntity(Long userId, String userNickname, Boolean isTutor, User user) {
+    public Article toArticleEntity(User user) {
         return Article.builder()
                 .user(user)
                 .categoryId(categoryId)
@@ -58,6 +60,8 @@ public class ArticleDto {
                 .img4(img4)
                 .img5(img5)
                 .img6(img6)
+                .heartCnt(heartCnt)
+                .commentCnt(commentCnt)
                 .build();
 
     }
@@ -85,6 +89,8 @@ public class ArticleDto {
                 .img4(article.getImg4())
                 .img5(article.getImg5())
                 .img6(article.getImg6())
+                .heartCnt(article.getHeartCnt())
+                .commentCnt(article.getCommentCnt())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .user(new UserBrief(article.getUser()))

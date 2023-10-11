@@ -56,8 +56,6 @@ public class ArticleController {
     @PostMapping("/add")
     public ResponseEntity<ArticleDto> addArticle(MultipartHttpServletRequest request) throws Exception {
         Long userId = (Long) request.getAttribute("userId");
-        Boolean isTutor = (Boolean) request.getAttribute("isTutor");
-        String userNickname = (String) request.getAttribute("nickname");
 
         // 파일 데이터 추출
         List<MultipartFile> multipartFiles = request.getFiles("images");
@@ -73,7 +71,7 @@ public class ArticleController {
 
         articleDto.setImgUrls(imgUrls);
 
-        Article article = articleService.addArticle(articleDto, userId, userNickname, isTutor);
+        Article article = articleService.addArticle(articleDto, userId);
 
         return ResponseEntity.ok(ArticleDto.from(article));
     }
