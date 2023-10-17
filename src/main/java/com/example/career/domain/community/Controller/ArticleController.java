@@ -4,6 +4,7 @@ import com.example.career.domain.community.Dto.response.ArticleCountByCategoryDt
 import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Service.ArticleService;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.global.annotation.Authenticated;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,8 @@ public class ArticleController {
     @Authenticated
     @GetMapping("detail")
     public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         Map<String, Object> details = articleService.getArticleInDetail(id, userId);
         return ResponseEntity.ok(details);
     }
@@ -55,7 +57,8 @@ public class ArticleController {
     @Authenticated
     @PostMapping("/add")
     public ResponseEntity<ArticleDto> addArticle(MultipartHttpServletRequest request) throws Exception {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
 
         // 파일 데이터 추출
         List<MultipartFile> multipartFiles = request.getFiles("images");
@@ -103,7 +106,8 @@ public class ArticleController {
     @Authenticated
     @DeleteMapping("delete")
     public ResponseEntity<Object> deleteArticle(@RequestBody ArticleDto articleDto, HttpServletRequest request) throws Exception {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         articleService.deleteArticleByUserIdAndId(articleDto.getId(), userId);
         return ResponseEntity.ok().build();
     }

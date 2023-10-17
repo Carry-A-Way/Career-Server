@@ -26,7 +26,7 @@ public class RecommentService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public Recomment addRecomment(RecommentDtoReq recommentDtoReq, Long userId, String userNickname, Boolean isTutor) {
+    public Recomment addRecomment(RecommentDtoReq recommentDtoReq, Long userId) {
         // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
