@@ -18,14 +18,15 @@ import java.util.List;
         name = "find_combined_comments_by_user_id",
         query =
                 "SELECT * FROM (" +
-                        "SELECT c.id, c.user_id, u.nickname AS user_nickname, u.is_tutor, u.profile_img, c.article_id, c.content, c.heart_cnt, c.recomment_cnt, a.title AS articleTitle, c.created_at, true AS isComment " +
+                        "SELECT c.id, c.user_id, u.nickname AS user_nickname, u.is_tutor, u.profile_img, c.article_id, c.content, c.heart_cnt, c.recomment_cnt, a.title AS articleTitle, c.created_at, -1 AS commentId " +
                         "FROM article a " +
                         "JOIN comment c ON a.id = c.article_id " +
                         "JOIN user u ON c.user_id = u.id AND u.id = :userId " +
                         "UNION " +
-                        "SELECT r.id, r.user_id, u.nickname AS user_nickname, u.is_tutor, u.profile_img, r.article_id, r.content, r.heart_cnt, 0 AS recomment_cnt, a.title AS articleTitle, r.created_at, false AS isComment " +
+                        "SELECT r.id, r.user_id, u.nickname AS user_nickname, u.is_tutor, u.profile_img, r.article_id, r.content, r.heart_cnt, 0 AS recomment_cnt, a.title AS articleTitle, r.created_at, c.id AS commentId " +
                         "FROM article a " +
                         "JOIN recomment r ON a.id = r.article_id " +
+                        "JOIN comment c ON r.comment_id = c.id " +
                         "JOIN user u ON r.user_id = u.id AND u.id = :userId" +
                         ") AS combined_results " +
                         "ORDER BY combined_results.created_at DESC " +
@@ -48,7 +49,7 @@ import java.util.List;
                         @ColumnResult(name = "profile_img", type = String.class),
                         @ColumnResult(name = "article_id", type = Long.class),
                         @ColumnResult(name = "articleTitle", type = String.class),
-                        @ColumnResult(name= "isComment", type = Boolean.class)
+                        @ColumnResult(name= "commentId", type = Long.class)
                 }
         )
 )
