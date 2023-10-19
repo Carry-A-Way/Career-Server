@@ -56,7 +56,8 @@ public class UserController {
     @Authenticated
     @GetMapping("/mentor/profile")
     public ResponseEntity<Object> getProfile(HttpServletRequest request) throws Exception {
-        String username = (String) request.getAttribute("subject");
+        User userAop = (User) request.getAttribute("user");
+        String username = userAop.getUsername();
 
         try {
             User user = userService.getUserByUsername(username);
@@ -94,8 +95,8 @@ public class UserController {
     @Authenticated
     @PostMapping("/mentor/modify_profile")
     public ResponseEntity<Object> modifyProfile(MultipartHttpServletRequest request) throws Exception {
-
-        String username = (String) request.getAttribute("subject");
+        User userAop = (User) request.getAttribute("user");
+        String username = userAop.getUsername();
 
         // 파일 데이터 추출
         MultipartFile multipartFile = request.getFile("image");

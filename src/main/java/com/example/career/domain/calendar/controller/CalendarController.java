@@ -4,6 +4,7 @@ import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
 import com.example.career.domain.calendar.service.CalendarService;
 import com.example.career.domain.consult.Dto.CalendarDenyReqDto;
 import com.example.career.domain.consult.Entity.Consult;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.websocket.server.PathParam;
@@ -28,7 +29,8 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/deny")
     public ResponseEntity<Consult> DenyConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         int validCheck = userId.compareTo(calendarDenyReqDto.getId()); // 같으면 0 틀리면 1
         Consult consult = calendarService.denyConsultByMentor(calendarDenyReqDto);
 
@@ -44,7 +46,8 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/accept")
     public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         String username = (String) request.getAttribute("subject");
         Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto, username);
 

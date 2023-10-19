@@ -34,7 +34,7 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment addComment(CommentDtoReq commentDtoReq, Long userId, String userNickname, Boolean isTutor) {
+    public Comment addComment(CommentDtoReq commentDtoReq, Long userId) {
         // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
@@ -42,7 +42,7 @@ public class CommentService {
         Article article = articleRepository.findById(commentDtoReq.getArticleId())
                 .orElseThrow(() -> new IllegalArgumentException("Article not found with ID: " + commentDtoReq.getArticleId()));
 
-        articleRepository.incrementArticleCommentCnt(article.getId(), userId);
+        articleRepository.incrementArticleCommentCnt(article.getId());
         return commentRepository.save(CommentDto.toCommentEntity(user, article, commentDtoReq));
     }
 
@@ -51,8 +51,8 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteCommentByUserIdAndId(Long userId, Long id) {
-        articleRepository.decrementArticleCommentCnt(id, userId);
-        commentRepository.deleteByUserIdAndId(userId, id);
+    public void deleteCommentByUserIdAndId(Long userId, CommentDtoReq commentDtoReq) {
+        articleRepository.decrementArticleCommentCnt(commentDtoReq.getArticleId());
+        commentRepository.deleteByUserIdAndId(userId, commentDtoReq.getId());
     }
 }

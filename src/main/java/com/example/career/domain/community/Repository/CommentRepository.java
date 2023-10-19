@@ -39,23 +39,23 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<SqlResultCommentDto> findCombinedCommentsByUserId(@Param("userId") Long userId, @Param("offset") int offset, @Param("limit") int limit);
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id AND c.user.id = :userId")
-    public void incrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt + 1 WHERE c.id = :id")
+    public void incrementThumbsUpCnt(@Param("id") Long id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt - 1 WHERE c.id = :id AND c.user.id = :userId")
-    public void decrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Comment c SET c.heartCnt = c.heartCnt - 1 WHERE c.id = :id")
+    public void decrementThumbsUpCnt(@Param("id") Long id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt + 1 WHERE c.id = :id AND c.user.id = :userId")
-    public void incrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt + 1 WHERE c.id = :id")
+    public void incrementRecommentCntByIdAndUserId(@Param("id") Long id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id AND c.user.id = :userId")
-    public void decrementRecommentCntByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Comment c SET c.recommentCnt = c.recommentCnt - 1 WHERE c.id = :id")
+    public void decrementRecommentCntByIdAndUserId(@Param("id") Long id);
 
     @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.recomments WHERE c.article.id = :articleId")
     List<Comment> findByArticleIdWithRecomments(@Param("articleId") Long articleId);

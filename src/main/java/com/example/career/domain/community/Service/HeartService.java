@@ -42,11 +42,11 @@ public class HeartService {
         // 게시글 엔티티 조회
         int type = heartDto.getType();
         if (type == 0) {
-            articleRepository.incrementArticleThumbsUp(heartDto.getTypeId(), userId);
+            articleRepository.incrementArticleThumbsUp(heartDto.getTypeId());
         } else if (heartDto.getType() == 1) { // 댓글에 좋아요
-            commentRepository.incrementThumbsUpCnt(heartDto.getTypeId(), userId);
+            commentRepository.incrementThumbsUpCnt(heartDto.getTypeId());
         } else { // 대댓글에 좋아요
-            recommentRepository.incrementThumbsUpCnt(heartDto.getTypeId(), userId);
+            recommentRepository.incrementThumbsUpCnt(heartDto.getTypeId());
         }
         return heartRepository.save(heartDto.toHeartEntity(user));
     }
@@ -55,11 +55,11 @@ public class HeartService {
     public void deleteHeart(HeartDto heartDto, Long userId) {
         int type = heartDto.getType();
         if (type == 0) {
-            articleRepository.decrementArticleThumbsUp(heartDto.getTypeId(), userId);
+            articleRepository.decrementArticleThumbsUp(heartDto.getTypeId());
         } else if (heartDto.getType() == 1) { // 댓글에 좋아요
-            commentRepository.decrementThumbsUpCnt(heartDto.getTypeId(), userId);
+            commentRepository.decrementThumbsUpCnt(heartDto.getTypeId());
         } else { // 대댓글에 좋아요
-            recommentRepository.decrementThumbsUpCnt(heartDto.getTypeId(), userId);
+            recommentRepository.decrementThumbsUpCnt(heartDto.getTypeId());
         }
         heartRepository.deleteByUserIdAndTypeIdAndType(userId, heartDto.getTypeId(), heartDto.getType());
     }

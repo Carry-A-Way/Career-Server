@@ -25,13 +25,13 @@ public interface RecommentRepository extends JpaRepository<Recomment, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Recomment r SET r.heartCnt = r.heartCnt + 1 WHERE r.id = :id AND r.user.id = :userId")
-    public void incrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Recomment r SET r.heartCnt = r.heartCnt + 1 WHERE r.id = :id")
+    public void incrementThumbsUpCnt(@Param("id") Long id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Recomment r SET r.heartCnt = r.heartCnt - 1 WHERE r.id = :id AND r.user.id = :userId")
-    public void decrementThumbsUpCnt(@Param("id") Long id, @Param("userId") Long userId);
+    @Query("UPDATE Recomment r SET r.heartCnt = r.heartCnt - 1 WHERE r.id = :id")
+    public void decrementThumbsUpCnt(@Param("id") Long id);
 
     List<Recomment> findByArticleId(Long articleId);
 }

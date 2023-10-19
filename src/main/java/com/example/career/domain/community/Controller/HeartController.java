@@ -4,6 +4,7 @@ import com.example.career.domain.community.Dto.HeartDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
 import com.example.career.domain.community.Service.HeartService;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ public class HeartController {
     @Authenticated
     @GetMapping("my_hearts")
     public ResponseEntity<List<Article>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         List<Article> articles = heartService.getAllThumbsUpArticles(userId, page, size);
         return ResponseEntity.ok(articles);
     }
@@ -32,7 +34,8 @@ public class HeartController {
     @Authenticated
     @PostMapping("/add")
     public ResponseEntity<Heart> addHeart(@RequestBody HeartDto heartDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         Heart heart = heartService.addHeart(heartDto, userId);
         return ResponseEntity.ok(heart);
     }
@@ -40,7 +43,8 @@ public class HeartController {
     @Authenticated
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteArticle(@RequestBody HeartDto heartDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         heartService.deleteHeart(heartDto, userId);
         return ResponseEntity.ok().build();
     }

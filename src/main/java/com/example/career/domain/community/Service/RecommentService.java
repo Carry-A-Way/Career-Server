@@ -26,7 +26,7 @@ public class RecommentService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public Recomment addRecomment(RecommentDtoReq recommentDtoReq, Long userId, String userNickname, Boolean isTutor) {
+    public Recomment addRecomment(RecommentDtoReq recommentDtoReq, Long userId) {
         // 유저 엔터티를 조회
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
@@ -39,7 +39,8 @@ public class RecommentService {
         Comment commentEntity = commentRepository.findById(recommentDtoReq.getCommentId())
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found with ID: " + recommentDtoReq.getCommentId()));
 
-        commentRepository.incrementRecommentCntByIdAndUserId(recommentDtoReq.getCommentId(), userId);
+        articleRepository.incrementArticleCommentCnt(article.getId());
+        commentRepository.incrementRecommentCntByIdAndUserId(recommentDtoReq.getCommentId());
         return recommentRepository.save(RecommentDto.toRecommentEntity(user, article, commentEntity, recommentDtoReq));
     }
 
@@ -47,8 +48,9 @@ public class RecommentService {
         recommentRepository.updateContentByIdAnduserId(recommentDtoReq.getId(), recommentDtoReq.getContent(), userId, LocalDateTime.now());
     }
     @Transactional
-    public void deleteRecommentByUserIdAndId(Long userId, Long id) {
-        commentRepository.decrementRecommentCntByIdAndUserId(id, userId);
-        recommentRepository.deleteByUserIdAndId(userId, id);
+    public void deleteRecommentByUserIdAndId(Long userId, RecommentDtoReq recommentDtoReq) {
+        articleRepository.decrementArticleCommentCnt(recommentDtoReq.getArticleId());
+        commentRepository.decrementRecommentCntByIdAndUserId(recommentDtoReq.getCommentId());
+        recommentRepository.deleteByUserIdAndId(userId, recommentDtoReq.getId());
     }
 }

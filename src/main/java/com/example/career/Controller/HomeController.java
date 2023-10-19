@@ -50,12 +50,12 @@ public class HomeController {
         return subject;
     }
 
-    @Authenticated
-    @GetMapping("/test/jwt")
-    public String jwtTest(HttpServletRequest request) {
-        String subject = (String) request.getAttribute("subject");
-        return subject;
-    }
+//    @Authenticated
+//    @GetMapping("/test/jwt")
+//    public String jwtTest(HttpServletRequest request) {
+//        String subject = (String) request.getAttribute("subject");
+//        return subject;
+//    }
 
 }
 @Data
