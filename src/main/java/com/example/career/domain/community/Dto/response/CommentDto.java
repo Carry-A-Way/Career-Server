@@ -29,6 +29,7 @@ public class CommentDto {
     private UserBrief user;
     private ArticleBrief article;
     private List<RecommentDto> recomments;
+    private Boolean isComment=true;
 
     public static Comment toCommentEntity(User user, Article article, CommentDtoReq dto) {
         return Comment.builder()
@@ -72,6 +73,7 @@ public class CommentDto {
         commentDto.user = new UserBrief(dto.getUserId(), dto.getUserNickname(),
                 dto.getUserIsTutor(), dto.getUserProfileImg());
         commentDto.article = new ArticleBrief(dto.getArticleId(), dto.getArticleTitle());
+        commentDto.isComment = dto.getIsComment();
         return commentDto;
     }
 

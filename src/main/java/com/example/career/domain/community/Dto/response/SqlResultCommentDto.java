@@ -27,4 +27,7 @@ public class SqlResultCommentDto {
     private Long articleId;
     private String articleTitle;
 
+    //true is Comment, false is Recomment
+    private Boolean isComment;
+
 }
