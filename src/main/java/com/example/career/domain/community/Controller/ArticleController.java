@@ -34,6 +34,15 @@ public class ArticleController {
     }
 
     @Authenticated
+    @GetMapping("my_articles")
+    public ResponseEntity<List<ArticleDto>> myArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+        List<ArticleDto> articles = articleService.getMyArticles(page, size, userId);
+        return ResponseEntity.ok(articles);
+    }
+
+    @Authenticated
     @GetMapping("detail")
     public ResponseEntity<Map<String, Object>> allArticles(@RequestParam Long id, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");

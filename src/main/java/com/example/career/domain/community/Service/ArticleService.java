@@ -59,6 +59,19 @@ public class ArticleService {
         return articleDtos;
     }
 
+    public List<ArticleDto> getMyArticles(int page, int size, Long userId) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Article> result = articleRepository.findAllByUserId(userId, pageable);
+        List<Article> articles = result.getContent();
+
+        // Transform Article to ArticleDto
+        List<ArticleDto> articleDtos = articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
+
+        return articleDtos;
+    }
+
     public List<ArticleDto> getCategoryArticles(int categoryId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findByCategoryId(categoryId, pageable);

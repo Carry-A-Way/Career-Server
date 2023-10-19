@@ -43,6 +43,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findByCategoryId(int categoryId, Pageable pageable);
 
+    @Query("SELECT a FROM Article a WHERE a.user.id = :userId")
+    Page<Article> findAllByUserId(Long userId, Pageable pageable);
+
     @Query("SELECT new com.example.career.domain.community.Dto.response.ArticleCountByCategoryDto(a.categoryId, COUNT(a)) FROM Article a GROUP BY a.categoryId")
     List<ArticleCountByCategoryDto> countArticlesByCategoryId();
 
