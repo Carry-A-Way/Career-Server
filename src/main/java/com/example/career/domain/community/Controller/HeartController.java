@@ -1,6 +1,7 @@
 package com.example.career.domain.community.Controller;
 
 import com.example.career.domain.community.Dto.HeartDto;
+import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
 import com.example.career.domain.community.Service.HeartService;
@@ -24,11 +25,11 @@ public class HeartController {
 
     @Authenticated
     @GetMapping("my_hearts")
-    public ResponseEntity<List<Article>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+    public ResponseEntity<List<ArticleDto>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
-        List<Article> articles = heartService.getAllThumbsUpArticles(userId, page, size);
-        return ResponseEntity.ok(articles);
+        List<ArticleDto> articleDtos = heartService.getAllThumbsUpArticles(userId, page, size);
+        return ResponseEntity.ok(articleDtos);
     }
 
     @Authenticated

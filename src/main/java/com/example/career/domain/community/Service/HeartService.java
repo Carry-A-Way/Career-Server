@@ -1,6 +1,7 @@
 package com.example.career.domain.community.Service;
 
 import com.example.career.domain.community.Dto.HeartDto;
+import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
 import com.example.career.domain.community.Repository.ArticleRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +30,16 @@ public class HeartService {
     private final HeartRepository heartRepository;
     private final UserRepository userRepository;
 
-    public List<Article> getAllThumbsUpArticles(Long userId, int page, int size) {
+    public List<ArticleDto> getAllThumbsUpArticles(Long userId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = heartRepository.findArticlesByUserIdAndType(userId, 0, pageable);
-        return result.getContent();
+        List<Article> articles = result.getContent();
+
+        // Transform Article to ArticleDto
+        List<ArticleDto> articleDtos = articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
+        return articleDtos;
     }
 
     @Transactional
