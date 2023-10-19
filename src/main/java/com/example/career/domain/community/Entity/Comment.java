@@ -49,7 +49,11 @@ import java.util.List;
                         @ColumnResult(name = "profile_img", type = String.class),
                         @ColumnResult(name = "article_id", type = Long.class),
                         @ColumnResult(name = "articleTitle", type = String.class),
+<<<<<<< HEAD
                         @ColumnResult(name= "commentId", type = Long.class)
+=======
+                        @ColumnResult(name= "isComment", type = Boolean.class)
+>>>>>>> main
                 }
         )
 )
