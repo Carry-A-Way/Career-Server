@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
                         "FROM article a " +
                         "JOIN comment c ON a.id = c.article_id " +
                         "JOIN user u ON c.user_id = u.id AND u.id = :userId " +
+                        "WHERE c.is_deleted = false " +
                         "UNION " +
                         "SELECT r.id, r.user_id, u.nickname AS user_nickname, u.is_tutor, u.profile_img, r.article_id, r.content, r.heart_cnt, 0 AS recomment_cnt, a.title AS articleTitle, r.created_at, c.id AS commentId " +
                         "FROM article a " +
@@ -57,6 +59,7 @@ import java.util.List;
 @Entity
 @Data
 @AllArgsConstructor
+@DynamicInsert
 @NoArgsConstructor
 @Builder
 @Table(name = "Comment")
@@ -86,6 +89,10 @@ public class Comment {
     @Column(nullable = false)
     @ColumnDefault("0")
     private int recommentCnt;
+
+    @Column(name = "isDeleted", nullable = false)
+    @ColumnDefault("false")
+    private Boolean isDeleted;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

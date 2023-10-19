@@ -5,8 +5,10 @@ import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
+import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
+import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final RecommentRepository recommentRepository;
 
     public List<CommentDto> allComments(Long userId, int page, int size) {
         List<SqlResultCommentDto> sqlResults = commentRepository.findCombinedCommentsByUserId(userId, page * size, size);
@@ -52,7 +55,20 @@ public class CommentService {
 
     @Transactional
     public void deleteCommentByUserIdAndId(Long userId, CommentDtoReq commentDtoReq) {
+        //대댓글 유무 확인
+        Comment comment = commentRepository.findById(commentDtoReq.getId())
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
+
+        boolean hasRecomments = !comment.getRecomments().isEmpty();
         articleRepository.decrementArticleCommentCnt(commentDtoReq.getArticleId());
-        commentRepository.deleteByUserIdAndId(userId, commentDtoReq.getId());
+
+        //대댓글이 없는 경우
+        if (!hasRecomments) {
+            commentRepository.deleteByUserIdAndId(userId, commentDtoReq.getId());
+        }
+        else { //대댓글이 있는 경우
+            comment.setIsDeleted(true);
+            commentRepository.save(comment);
+        }
     }
 }
