@@ -14,6 +14,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,6 +33,15 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩 사용
     @JoinColumn(name = "userId", referencedColumnName = "id") // 외래 키 칼럼 설정
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recomment> recomments = new ArrayList<>();
+
     @Column(nullable = false)
     private Long categoryId;
 

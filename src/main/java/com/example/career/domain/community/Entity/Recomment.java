@@ -32,6 +32,11 @@ public class Recomment {
     @JoinColumn(name = "articleId", referencedColumnName = "id") // 외래 키 칼럼 설정
     private Article article;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commentId")
+    private Comment comment;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -42,10 +47,6 @@ public class Recomment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commentId")
-    private Comment comment;
 
     @PrePersist
     public void prePersist() {
