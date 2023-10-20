@@ -1,6 +1,7 @@
 package com.example.career.domain.community.Dto.response;
 
 import com.example.career.domain.community.Dto.Brief.ArticleBrief;
+import com.example.career.domain.community.Dto.Brief.CommentBrief;
 import com.example.career.domain.community.Dto.Brief.UserBrief;
 import com.example.career.domain.community.Dto.request.RecommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
@@ -29,6 +30,7 @@ public class RecommentDto {
     private LocalDateTime updatedAt;
     private Boolean isHeartClicked;
     private UserBrief user;
+    private CommentBrief comment;
 
     public static Recomment toRecommentEntity(User user, Article article, Comment comment, RecommentDtoReq dto) {
 
@@ -50,6 +52,7 @@ public class RecommentDto {
         recommentDto.createdAt = recomment.getCreatedAt();
         recommentDto.updatedAt = recomment.getUpdatedAt();
         recommentDto.user = new UserBrief(recomment.getUser());
+        recommentDto.comment = new CommentBrief(recomment.getComment());
 
         return recommentDto;
     }
