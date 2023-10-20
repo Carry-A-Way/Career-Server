@@ -1,6 +1,5 @@
 package com.example.career.domain.community.Service;
 
-import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Dto.response.CommentDto;
 import com.example.career.domain.community.Dto.response.RecommentDto;
 import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
@@ -8,11 +7,9 @@ import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Heart;
-import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.HeartRepository;
-import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
