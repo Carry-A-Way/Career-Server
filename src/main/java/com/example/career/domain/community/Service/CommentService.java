@@ -1,13 +1,17 @@
 package com.example.career.domain.community.Service;
 
+import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Dto.response.CommentDto;
+import com.example.career.domain.community.Dto.response.RecommentDto;
 import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
 import com.example.career.domain.community.Dto.request.CommentDtoReq;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
+import com.example.career.domain.community.Entity.Heart;
 import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
+import com.example.career.domain.community.Repository.HeartRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
@@ -25,15 +29,50 @@ public class CommentService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-    private final RecommentRepository recommentRepository;
+    private final HeartRepository heartRepository;
+
+    public List<CommentDto> CheckIsHeartClicked(List<CommentDto> commentDtos, Long userId) {
+        List<Heart> likedComments = heartRepository.findByUserIdAndType(userId, 1);
+        List<Heart> likedRecomments = heartRepository.findByUserIdAndType(userId, 2);
+
+        return commentDtos.stream()
+                .map(commentDto -> {
+                    if (commentDto.getCommentId() != -1) { // comment에 해당
+                        commentDto.setIsHeartClicked(likedComments.stream().anyMatch(heart -> heart.getTypeId().equals(commentDto.getId())));
+                    } else {
+                        commentDto.setIsHeartClicked(likedRecomments.stream().anyMatch(heart -> heart.getTypeId().equals(commentDto.getId())));
+                    }
+                    return commentDto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<CommentDto> convertToCommentDtoListWithRecommentDtosInside(List<Comment> comments, Long userId) {
+        List<Heart> likedComments = heartRepository.findByUserIdAndType(userId, 1);
+        List<Heart> likedRecomments = heartRepository.findByUserIdAndType(userId, 2);
+        List<CommentDto> commentDtos = comments.stream().map(comment -> {
+            CommentDto commentDto = CommentDto.from(comment);
+            // 댓글 isLiked 설정
+            commentDto.setIsHeartClicked(likedComments.stream().anyMatch(heart -> heart.getTypeId().equals(comment.getId())));
+            for (RecommentDto recommentDto : commentDto.getRecomments()) {
+                // 대댓글 isLiked 설정
+                recommentDto.setIsHeartClicked(likedRecomments.stream().anyMatch(heart -> heart.getTypeId().equals(recommentDto.getId())));
+            }
+            return commentDto;
+        }).collect(Collectors.toList());
+        return commentDtos;
+    }
+
+    private List<CommentDto> convertToCommentDtoFromSqlResultDto(List<SqlResultCommentDto> sqlResults) {
+        return sqlResults.stream()
+                .map(CommentDto::fromSqlResult)
+                .collect(Collectors.toList());
+    }
 
     public List<CommentDto> allComments(Long userId, int page, int size) {
         List<SqlResultCommentDto> sqlResults = commentRepository.findCombinedCommentsByUserId(userId, page * size, size);
-
-        List<CommentDto> commentDtos = sqlResults.stream()
-                .map(CommentDto::fromSqlResult)
-                .collect(Collectors.toList());
-        return commentDtos;
+        List<CommentDto> commentDtos = convertToCommentDtoFromSqlResultDto(sqlResults);
+        return CheckIsHeartClicked(commentDtos, userId);
     }
 
     @Transactional

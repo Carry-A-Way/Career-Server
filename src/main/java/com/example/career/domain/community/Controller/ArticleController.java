@@ -27,9 +27,12 @@ import java.util.Map;
 public class ArticleController {
     private final ArticleService articleService;
 
+    @Authenticated
     @GetMapping("all")
-    public ResponseEntity<List<ArticleDto>> allArticles(@RequestParam int page, @RequestParam int size) {
-        List<ArticleDto> articles = articleService.getAllArticles(page, size);
+    public ResponseEntity<List<ArticleDto>> allArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+        List<ArticleDto> articles = articleService.getAllArticles(userId, page, size);
         return ResponseEntity.ok(articles);
     }
 
@@ -51,9 +54,12 @@ public class ArticleController {
         return ResponseEntity.ok(details);
     }
 
+    @Authenticated
     @GetMapping("all_category")
-    public ResponseEntity<List<ArticleDto>> allCategoryArticles(@RequestParam int categoryId, @RequestParam int page, @RequestParam int size) {
-        List<ArticleDto> articles = articleService.getCategoryArticles(categoryId, page, size);
+    public ResponseEntity<List<ArticleDto>> allCategoryArticles(@RequestParam int categoryId, @RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+        List<ArticleDto> articles = articleService.getCategoryArticles(userId, categoryId, page, size);
         return ResponseEntity.ok(articles);
     }
 

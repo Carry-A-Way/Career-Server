@@ -43,20 +43,36 @@ public class ArticleService {
     private final UserRepository userRepository;
 
     private final HeartRepository heartRepository;
+    private final CommentService commentService;
 
     private final S3Uploader s3Uploader;
 
-    public List<ArticleDto> getAllArticles(int page, int size) {
+    public List<ArticleDto> convertToArticleDtoList(List<Article> articles, Long userId) {
+        List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
+        return articles.stream()
+                .map(article -> {
+                    ArticleDto articleDto = ArticleDto.from(article);
+                    articleDto.setIsHeartClicked(likedArticles.stream().anyMatch(heart -> heart.getTypeId().equals(article.getId())));
+                    return articleDto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private ArticleDto convertToArticleDto(Article article, Long userId) {
+        ArticleDto articleDto = ArticleDto.from(article);
+        List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
+
+        // 게시글 isLiked 설정
+        articleDto.setIsHeartClicked(likedArticles.stream().anyMatch(heart -> heart.getTypeId().equals(article.getId())));
+        return articleDto;
+    }
+
+    public List<ArticleDto> getAllArticles(Long userId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findAll(pageable);
         List<Article> articles = result.getContent();
 
-        // Transform Article to ArticleDto
-        List<ArticleDto> articleDtos = articles.stream()
-                .map(ArticleDto::from)
-                .collect(Collectors.toList());
-
-        return articleDtos;
+        return convertToArticleDtoList(articles, userId);
     }
 
     public List<ArticleDto> getMyArticles(int page, int size, Long userId) {
@@ -64,25 +80,16 @@ public class ArticleService {
         Page<Article> result = articleRepository.findAllByUserId(userId, pageable);
         List<Article> articles = result.getContent();
 
-        // Transform Article to ArticleDto
-        List<ArticleDto> articleDtos = articles.stream()
-                .map(ArticleDto::from)
-                .collect(Collectors.toList());
 
-        return articleDtos;
+        return convertToArticleDtoList(articles, userId);
     }
 
-    public List<ArticleDto> getCategoryArticles(int categoryId, int page, int size) {
+    public List<ArticleDto> getCategoryArticles(Long userId, int categoryId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findByCategoryId(categoryId, pageable);
         List<Article> articles = result.getContent();
 
-        // Transform Article to ArticleDto
-        List<ArticleDto> articleDtos = articles.stream()
-                .map(ArticleDto::from)
-                .collect(Collectors.toList());
-
-        return articleDtos;
+        return convertToArticleDtoList(articles, userId);
     }
 
 
@@ -162,30 +169,13 @@ public class ArticleService {
 
         // 게시글 가져오기
         Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        ArticleDto articleDto = ArticleDto.from(article);
-
-        // 해당 사용자가 좋아요를 누른 게시글/댓글/대댓글의 ID들 가져오기
-        List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
-        List<Heart> likedComments = heartRepository.findByUserIdAndType(userId, 1);
-        List<Heart> likedRecomments = heartRepository.findByUserIdAndType(userId, 2);
-
         // 게시글 isLiked 설정
-        articleDto.setIsHeartClicked(likedArticles.stream().anyMatch(heart -> heart.getTypeId().equals(article.getId())));
-        details.put("article", articleDto);
+        details.put("article", convertToArticleDto(article, userId));
 
         // 해당 게시글의 댓글 가져오기
         List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id);
-        List<CommentDto> commentDtos = comments.stream().map(comment -> {
-            CommentDto commentDto = CommentDto.from(comment);
-            // 댓글 isLiked 설정
-            commentDto.setIsHeartClicked(likedComments.stream().anyMatch(heart -> heart.getTypeId().equals(comment.getId())));
-            for (RecommentDto recommentDto : commentDto.getRecomments()) {
-                // 대댓글 isLiked 설정
-                recommentDto.setIsHeartClicked(likedRecomments.stream().anyMatch(heart -> heart.getTypeId().equals(recommentDto.getId())));
-            }
-            return commentDto;
-        }).collect(Collectors.toList());
-        details.put("comments", commentDtos);
+        // 댓글 isLiked 설정
+        details.put("comments", commentService.convertToCommentDtoListWithRecommentDtosInside(comments, userId));
 
         return details;
     }
