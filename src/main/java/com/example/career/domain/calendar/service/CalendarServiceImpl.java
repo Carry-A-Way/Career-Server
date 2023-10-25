@@ -14,6 +14,7 @@ import com.example.career.domain.meeting.dto.ZoomMeetingObjectDTO;
 import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
 import com.example.career.domain.meeting.service.ZoomMeetingService;
 import com.example.career.domain.meeting.service.ZoomMeetingServiceImpl;
+import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Repository.TutorDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -30,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -140,16 +142,40 @@ public class CalendarServiceImpl implements CalendarService{
 
         return consult;
     }
-
+    @Transactional
     @Override
     public TutorSlot insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId) {
+        // 시간 -> 바이트 변환
+        byte[] newBytes = TimeChanger.dateTimeToByte(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd());
+        LocalDate date = calendarMentorPossibleReqDto.getStart().toLocalDate();
+        TutorDetail tutorDetail;
 
-        byte[] bytes = TimeChanger.dateTimeToByte(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd());
-        TutorSlot tutorSlot = new TutorSlot();
-        tutorSlot.setTutorDetail(tutorDetailRepository.findById(userId).get());
-        tutorSlot.setConsultDate(calendarMentorPossibleReqDto.getStart().toLocalDate());
-        tutorSlot.setPossibleTime(bytes);
+        // 멘토 확인
+        try{
+            tutorDetail = tutorDetailRepository.findById(userId).get();
+        }catch (NoSuchElementException e){
+            System.out.println("멘토가 아닙니다.");
+            return null;
+        }
 
-        return tutorSlotRepository.save(tutorSlot);
+        // 유저의 날짜에 대한 Slot이 존재하는지 확인
+        TutorSlot tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(tutorDetail, date);
+
+        // 새 날짜에 대한 Slot 추가
+        if(tutorSlot == null) {
+            tutorSlot.setTutorDetail(tutorDetail);
+            tutorSlot.setConsultDate(date);
+            tutorSlot.setPossibleTime(newBytes);
+        }else {
+            // 기존 Slot에 Time 수정
+            byte[] oldBytes = tutorSlot.getPossibleTime();
+            byte[] resultBytes = TimeChanger.combineBytesWithXOR(newBytes,oldBytes);
+            if (resultBytes == null) {
+                System.out.println("중복된 시간 체크섬 오류");
+                return null; // 체크섬 오류
+            }
+            tutorSlot.setPossibleTime(resultBytes);
+        }
+        return tutorSlot;
     }
 }
