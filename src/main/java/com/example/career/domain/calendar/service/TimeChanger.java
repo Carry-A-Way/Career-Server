@@ -36,7 +36,7 @@ public class TimeChanger {
         return byteArray;
     }
     // newByte oldByte 합체
-    public byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte) {
+    public byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte, int type) {
         int maxLength = Math.max(newByte.length, oldByte.length);
         newByte = padByteArray(newByte, maxLength);
         oldByte = padByteArray(oldByte, maxLength);
@@ -47,13 +47,28 @@ public class TimeChanger {
             combinedByte[i] = (byte) (newByte[i] ^ oldByte[i]);
         }
 
-        // Count the number of 1s in the combined byte array
+        // insert의 경우 XOR 체크섬
         int totalOnes = countOnes(combinedByte);
-        if (totalOnes == countOnes(newByte) + countOnes(oldByte)) {
-            return combinedByte;
-        } else {
-            return null;
+        if(type == 0) {
+            if (totalOnes == countOnes(newByte) + countOnes(oldByte)) {
+                return combinedByte;
+            } else {
+                return null;
+            }
         }
+        // delete의 경우 XOR 체크섬
+        if(type == 1) {
+            // old 1101100
+            // new 1100000
+            // tot 0001100
+            if (countOnes(oldByte) == countOnes(newByte) + totalOnes) {
+                return combinedByte;
+            } else {
+                return null;
+            }
+        }
+        return null;
+
     }
     public byte[] padByteArray(byte[] byteArray, int length) {
         if (byteArray.length >= length) {
