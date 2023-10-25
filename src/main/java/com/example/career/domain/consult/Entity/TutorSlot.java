@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,20 +25,19 @@ public class TutorSlot {
     @ManyToOne
     @JoinColumn(name = "tutorId", referencedColumnName = "tutorId")
     private TutorDetail tutorDetail;
-    // 상담 시작 날짜 및 시간
-    @Column(nullable = false)
-    private LocalDateTime startTime;
 
-    // 상담 끝난 날짜 및 시간
+    // 멘토의 상담 가능 날짜
     @Column(nullable = false)
-    private LocalDateTime endTime;
+    private LocalDate consultDate;
+
+    // 멘토가 상담 가능 시간대를 비트로 계산 24시간을 30분 단위 -> 48비트
+    @ColumnDefault("0")
+    private byte[] possibleTime; // byte 배열로 48비트 데이터 저장
 
     private LocalDateTime createAt;
-    private LocalDateTime updateAt;
 
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {
         this.createAt = LocalDateTime.now();
-        this.updateAt = this.createAt;
     }
 }

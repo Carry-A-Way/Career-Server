@@ -1,10 +1,13 @@
 package com.example.career.domain.calendar.controller;
 
+import com.example.career.domain.calendar.dto.CalendarMentorPossibleReqDto;
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
 import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
 import com.example.career.domain.calendar.service.CalendarService;
 import com.example.career.domain.consult.Dto.CalendarDenyReqDto;
 import com.example.career.domain.consult.Entity.Consult;
+import com.example.career.domain.consult.Entity.TutorSlot;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +62,14 @@ public class CalendarController {
 
         return new ResponseEntity<>(calendarService.RegisterConsultByMentee(calendarRegistReqDto), HttpStatus.OK);
     }
+
+    // 멘토 캘린더 상담 가능날짜 추가
+    @Authenticated
+    @PostMapping("mentor/possible/time")
+    public ResponseEntity<TutorSlot> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
+    }
+
 
 }

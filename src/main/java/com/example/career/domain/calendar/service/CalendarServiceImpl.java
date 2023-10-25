@@ -1,16 +1,20 @@
 package com.example.career.domain.calendar.service;
 
+import com.example.career.domain.calendar.dto.CalendarMentorPossibleReqDto;
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
 import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Entity.Query;
+import com.example.career.domain.consult.Entity.TutorSlot;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Repository.QueryRepository;
+import com.example.career.domain.consult.Repository.TutorSlotRepository;
 import com.example.career.domain.meeting.dto.ZoomMeetingObjectDTO;
 import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
 import com.example.career.domain.meeting.service.ZoomMeetingService;
 import com.example.career.domain.meeting.service.ZoomMeetingServiceImpl;
+import com.example.career.domain.user.Repository.TutorDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -22,6 +26,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,8 @@ public class CalendarServiceImpl implements CalendarService{
     private final QueryRepository queryRepository;
     private final UserRepository userRepository;
     private final ZoomMeetingService zoomMeetingService;
+    private final TutorSlotRepository tutorSlotRepository;
+    private final TutorDetailRepository tutorDetailRepository;
     @Override
     public CalendarMentorRespDto getMentorCalendar(Long id) {
         CalendarMentorRespDto calendarMentorRespDto = new CalendarMentorRespDto();
@@ -131,5 +139,17 @@ public class CalendarServiceImpl implements CalendarService{
         queryRepository.save(query);
 
         return consult;
+    }
+
+    @Override
+    public TutorSlot insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId) {
+
+        byte[] bytes = TimeChanger.dateTimeToByte(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd());
+        TutorSlot tutorSlot = new TutorSlot();
+        tutorSlot.setTutorDetail(tutorDetailRepository.findById(userId).get());
+        tutorSlot.setConsultDate(calendarMentorPossibleReqDto.getStart().toLocalDate());
+        tutorSlot.setPossibleTime(bytes);
+
+        return tutorSlotRepository.save(tutorSlot);
     }
 }
