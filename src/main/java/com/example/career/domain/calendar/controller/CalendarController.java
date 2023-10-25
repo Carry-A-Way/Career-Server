@@ -35,7 +35,8 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/deny")
     public ResponseEntity<Consult> DenyConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         int validCheck = userId.compareTo(calendarDenyReqDto.getId()); // 같으면 0 틀리면 1
         Consult consult = calendarService.denyConsultByMentor(calendarDenyReqDto);
 
@@ -51,6 +52,10 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/accept")
     public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
+
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+
         String username = (String) request.getAttribute("subject");
         Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto, username);
 
@@ -69,13 +74,15 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/insert/possible/time")
     public ResponseEntity<TutorSlot> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
     }
     @Authenticated
     @PostMapping("mentor/get/possible/time")
     public ResponseEntity<CalendarGetPossibleTimeRespDto> getMentorPossibleTime(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         return new ResponseEntity<>(calendarService.getMentorPossibleTime(userId),HttpStatus.OK);
     }
 

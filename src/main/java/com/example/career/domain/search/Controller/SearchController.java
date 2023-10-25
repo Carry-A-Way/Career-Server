@@ -17,12 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("search")
 public class SearchController {
-    private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
     private final SearchService searchService;
 
     @GetMapping("community")
-    public ResponseEntity<List<CommunitySearchRespDto>> searchCommunityList(@RequestParam String keyWord) {
-        return new ResponseEntity<>(searchService.getArticlesByKeyWord(keyWord), HttpStatus.OK);
+    public ResponseEntity<List<CommunitySearchRespDto>> searchCommunityList(@RequestParam String keyWord, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(searchService.getArticlesByKeyWord(keyWord, page, size));
     }
 }

@@ -1,25 +1,16 @@
 package com.example.career.domain.community.Controller;
 
-import com.example.career.domain.community.Dto.ArticleDto;
 import com.example.career.domain.community.Dto.HeartDto;
+import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Heart;
-import com.example.career.domain.community.Repository.ArticleRepository;
-import com.example.career.domain.community.Repository.HeartRepository;
-import com.example.career.domain.community.Service.ArticleService;
-import com.example.career.domain.community.Service.CommentService;
 import com.example.career.domain.community.Service.HeartService;
-import com.example.career.domain.community.Service.RecommentService;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.global.annotation.Authenticated;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,20 +22,21 @@ import java.util.List;
 public class HeartController {
 
     private final HeartService heartService;
-    private final ArticleService articleService;
 
     @Authenticated
-    @GetMapping("all_article")
-    public ResponseEntity<List<Article>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
-        List<Article> articles = heartService.getAllThumbsUpArticles(userId, page, size);
-        return ResponseEntity.ok(articles);
+    @GetMapping("my_hearts")
+    public ResponseEntity<List<ArticleDto>> allThumbsUpArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+        List<ArticleDto> articleDtos = heartService.getAllThumbsUpArticles(userId, page, size);
+        return ResponseEntity.ok(articleDtos);
     }
 
     @Authenticated
     @PostMapping("/add")
     public ResponseEntity<Heart> addHeart(@RequestBody HeartDto heartDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         Heart heart = heartService.addHeart(heartDto, userId);
         return ResponseEntity.ok(heart);
     }
@@ -52,7 +44,8 @@ public class HeartController {
     @Authenticated
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteArticle(@RequestBody HeartDto heartDto, HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
         heartService.deleteHeart(heartDto, userId);
         return ResponseEntity.ok().build();
     }

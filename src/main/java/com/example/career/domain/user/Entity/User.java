@@ -44,6 +44,9 @@ public class User
     @Column(nullable = false)
     private Boolean activated = false;
 
+    @Column(nullable = false)
+    private Boolean isTutor;
+
     @Column(columnDefinition = "CHAR(13)")
     private String telephone;
 

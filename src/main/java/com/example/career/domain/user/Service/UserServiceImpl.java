@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService{
         if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
-        System.out.println(signUpReqDto.getPassword());
         signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
 
         Authority authority = Authority.builder()

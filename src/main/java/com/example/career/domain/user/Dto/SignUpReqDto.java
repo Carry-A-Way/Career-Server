@@ -35,6 +35,8 @@ public class SignUpReqDto {
     private String hobby;
     private Set<AuthorityDto> authorityDtoSet;
 
+    private Boolean isTutor;
+
     private String profileImg; // MultipartFile
     private String consultMajor1;
     private String consultMajor2;
@@ -58,6 +60,7 @@ public class SignUpReqDto {
                 .name(name)
                 .profileImg(profileImg)
                 .username(username)
+                .isTutor(isTutor)
                 .nickname(nickname)
                 .telephone(telephone)
                 .gender(gender)
@@ -88,6 +91,7 @@ public class SignUpReqDto {
                 .name(user.getName())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
+                .isTutor(user.getIsTutor())
                 .password(user.getPassword())
                 .gender(user.getGender())
                 .hobby(user.getHobby())
