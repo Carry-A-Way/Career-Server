@@ -35,5 +35,54 @@ public class TimeChanger {
 
         return byteArray;
     }
+    // newByte oldByte 합체
+    public static byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte) {
+        int maxLength = Math.max(newByte.length, oldByte.length);
+        newByte = padByteArray(newByte, maxLength);
+        oldByte = padByteArray(oldByte, maxLength);
+
+        byte[] combinedByte = new byte[maxLength];
+
+        for (int i = 0; i < maxLength; i++) {
+            combinedByte[i] = (byte) (newByte[i] ^ oldByte[i]);
+        }
+
+        // Count the number of 1s in the combined byte array
+        int totalOnes = countOnes(combinedByte);
+        if (totalOnes == countOnes(newByte) + countOnes(oldByte)) {
+            return combinedByte;
+        } else {
+            return null;
+        }
+    }
+    public static byte[] padByteArray(byte[] byteArray, int length) {
+        if (byteArray.length >= length) {
+            return byteArray;
+        }
+        byte[] paddedArray = new byte[length];
+        System.arraycopy(byteArray, 0, paddedArray, 0, byteArray.length);
+        return paddedArray;
+    }
+
+
+    public static int countOnes(byte[] byteArray) {
+        int count = 0;
+        for (byte b : byteArray) {
+            for (int i = 0; i < 8; i++) {
+                if ((b & (1 << i)) != 0) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static String bytesToBinaryString(byte[] bytes) {
+        StringBuilder binaryString = new StringBuilder();
+        for (byte b : bytes) {
+            binaryString.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
+        }
+        return binaryString.toString();
+    }
 
 }
