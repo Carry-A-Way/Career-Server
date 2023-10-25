@@ -85,7 +85,13 @@ public class CalendarController {
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.getMentorPossibleTime(userId),HttpStatus.OK);
     }
-
+    @Authenticated
+    @PostMapping("mentor/delete/possible/time")
+    public ResponseEntity<CalendarGetPossibleTimeRespDto> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        Long userId = user.getId();
+        return new ResponseEntity<>(calendarService.deleteMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
+    }
 
 
 }

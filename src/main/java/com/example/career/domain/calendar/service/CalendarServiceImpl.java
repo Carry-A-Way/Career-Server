@@ -173,7 +173,7 @@ public class CalendarServiceImpl implements CalendarService{
         }else {
             // 기존 Slot에 Time 수정
             byte[] oldBytes = tutorSlot.getPossibleTime();
-            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes);
+            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,0);
             if (resultBytes == null) {
                 System.out.println("중복된 시간 체크섬 오류");
                 return null; // 체크섬 오류
@@ -197,12 +197,38 @@ public class CalendarServiceImpl implements CalendarService{
         // 유저의 날짜에 대한 Slot이 존재하는지 확인
         List<TutorSlot> tutorSlots = tutorSlotRepository.findAllByTutorDetail(tutorDetail);
         CalendarGetPossibleTimeRespDto calendarGetPossibleTimeRespDto = new CalendarGetPossibleTimeRespDto();
-
         calendarGetPossibleTimeRespDto.setDateList(tutorSlots.stream().map(BitChanger::convertByteArrayToTimeList).toList());
-
-
-
-
         return calendarGetPossibleTimeRespDto;
+    }
+    // 상담 가능 시간 삭제
+    @Override
+    @Transactional
+    public CalendarGetPossibleTimeRespDto deleteMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,Long userId) {
+        TutorDetail tutorDetail;
+        // 멘토 확인
+        try{
+            tutorDetail = tutorDetailRepository.findById(userId).get();
+        }catch (NoSuchElementException e){
+            System.out.println("멘토가 아닙니다.");
+            return null;
+        }
+        // 유저의 날짜에 대한 Slot이 존재하는지 확인
+        TutorSlot tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(tutorDetail, calendarMentorPossibleReqDto.getStart().toLocalDate());
+        if(tutorSlot== null) {
+            System.out.println("삭제할 시간이 없습니다.");
+            return null;
+        }
+        TimeChanger timeChanger = new TimeChanger();
+        byte[] newBytes = timeChanger.dateTimeToByte(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd());
+        // 기존 Slot에 Time 수정
+        byte[] oldBytes = tutorSlot.getPossibleTime();
+        byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,1);
+        if (resultBytes == null) {
+            System.out.println("중복된 시간 체크섬 오류");
+            return null; // 체크섬 오류
+        }
+        tutorSlot.setPossibleTime(resultBytes);
+
+        return null;
     }
 }

@@ -18,4 +18,5 @@ public interface CalendarService {
     public Consult RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto);
     public TutorSlot insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId);
     public CalendarGetPossibleTimeRespDto getMentorPossibleTime(Long userId);
+    public CalendarGetPossibleTimeRespDto deleteMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,Long userId);
 }
