@@ -1,5 +1,6 @@
 package com.example.career.domain.calendar.controller;
 
+import com.example.career.domain.calendar.dto.CalendarGetPossibleTimeRespDto;
 import com.example.career.domain.calendar.dto.CalendarMentorPossibleReqDto;
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
 import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,11 +67,18 @@ public class CalendarController {
 
     // 멘토 캘린더 상담 가능날짜 추가
     @Authenticated
-    @PostMapping("mentor/possible/time")
+    @PostMapping("mentor/insert/possible/time")
     public ResponseEntity<TutorSlot> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
     }
+    @Authenticated
+    @PostMapping("mentor/get/possible/time")
+    public ResponseEntity<CalendarGetPossibleTimeRespDto> getMentorPossibleTime(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        return new ResponseEntity<>(calendarService.getMentorPossibleTime(userId),HttpStatus.OK);
+    }
+
 
 
 }

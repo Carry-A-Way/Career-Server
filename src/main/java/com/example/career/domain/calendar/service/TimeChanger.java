@@ -6,7 +6,7 @@ import java.util.BitSet;
 
 // TutorSlot 에 들어갈 시간을 Long으로 바꿔주거나 그 반대의 메서드
 public class TimeChanger {
-    public static byte[] dateTimeToByte(LocalDateTime start, LocalDateTime end) {
+    public byte[] dateTimeToByte(LocalDateTime start, LocalDateTime end) {
         BitSet bits = new BitSet(48);
         LocalDateTime current = start;
 
@@ -21,7 +21,7 @@ public class TimeChanger {
         }
         return bitSetToByte(bits);
     }
-    public static byte[] bitSetToByte(BitSet bitSet) {
+    public byte[] bitSetToByte(BitSet bitSet) {
         int numBytes = (bitSet.length() + 7) / 8; // BitSet의 비트 수에 따른 바이트 배열 크기 계산
         byte[] byteArray = new byte[numBytes];
 
@@ -36,7 +36,7 @@ public class TimeChanger {
         return byteArray;
     }
     // newByte oldByte 합체
-    public static byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte) {
+    public byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte) {
         int maxLength = Math.max(newByte.length, oldByte.length);
         newByte = padByteArray(newByte, maxLength);
         oldByte = padByteArray(oldByte, maxLength);
@@ -55,7 +55,7 @@ public class TimeChanger {
             return null;
         }
     }
-    public static byte[] padByteArray(byte[] byteArray, int length) {
+    public byte[] padByteArray(byte[] byteArray, int length) {
         if (byteArray.length >= length) {
             return byteArray;
         }
@@ -65,7 +65,7 @@ public class TimeChanger {
     }
 
 
-    public static int countOnes(byte[] byteArray) {
+    public int countOnes(byte[] byteArray) {
         int count = 0;
         for (byte b : byteArray) {
             for (int i = 0; i < 8; i++) {
@@ -77,12 +77,5 @@ public class TimeChanger {
         return count;
     }
 
-    public static String bytesToBinaryString(byte[] bytes) {
-        StringBuilder binaryString = new StringBuilder();
-        for (byte b : bytes) {
-            binaryString.append(String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0'));
-        }
-        return binaryString.toString();
-    }
 
 }
