@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalendarDenyReqDto {
-    private Long id;
     private Long consultId;
     private String reason;
 }

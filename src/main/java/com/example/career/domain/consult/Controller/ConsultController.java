@@ -5,7 +5,10 @@ import com.example.career.domain.consult.Dto.ConsultYesorNoReqDto;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Service.ConsultService;
+import com.example.career.domain.user.Entity.User;
+import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping("consultation")
 public class ConsultController {
-    private final ConsultRepository consultRepository;
     private final ConsultService consultService;
-//    private final ValidCheck validCheck;
-    @GetMapping ("test/get-consult")
-    public List<Consult> consultTest(){
-        return consultRepository.findAll();
-    }
-    @GetMapping ("list")
-    public ValidCheck consultUpcoming(@RequestParam int status){
-        return new ValidCheck(consultService.getList(10L, status));
+    @Authenticated
+    @GetMapping ("list-by-status")
+    public ValidCheck consultUpcoming(@RequestParam int status, HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        return new ValidCheck(consultService.getList(user, status));
     }
     @PatchMapping("request")
     public ValidCheck consultAcception(@RequestParam int status, @RequestBody ConsultYesorNoReqDto consultYesorNoReqDto){
@@ -32,8 +31,10 @@ public class ConsultController {
     }
 
     // 멘토 홈페이지 상담내역 메서드
-    @GetMapping ("mentor/{id}")
-    public ValidCheck mentorHome(@PathVariable("id") Long userId){
-        return new ValidCheck(consultService.getMentorHome(userId));
+    @Authenticated
+    @GetMapping ("mentor")
+    public ValidCheck mentorHome(HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        return new ValidCheck(consultService.getMentorHome(user));
     }
 }

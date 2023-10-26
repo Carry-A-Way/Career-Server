@@ -7,6 +7,7 @@ import com.example.career.domain.consult.Dto.UpcomingConsults;
 import com.example.career.domain.major.Entity.Major;
 import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
+import com.example.career.domain.user.Entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,13 +46,17 @@ public class Consult {
     @Column(columnDefinition = "TEXT")
     private String reason;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
-    private Long tutorId;
+    @ManyToOne
+    @JoinColumn(name = "tutorId", referencedColumnName = "id")
+    private User mentor;
 
-//    @ManyToOne
-//    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
-    private Long stuId;
+    @ManyToOne
+    @JoinColumn(name = "studentId", referencedColumnName = "id")
+    private User mentee;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "questionId", referencedColumnName = "id")
+    private Question question;
 
 //    @ManyToOne
 //    @JoinColumn(name = "major_id", referencedColumnName = "id")
@@ -86,8 +91,8 @@ public class Consult {
                 .zoomLink(zoomLink)
                 .reason(reason)
                 .status(status)
-                .tutorId(tutorId)
-                .stuId(stuId)
+                .mentor(mentor)
+                .mentee(mentee)
                 .major(major)
                 .studentEnter(studentEnter)
                 .studentLeft(studentLeft)

@@ -1,5 +1,8 @@
 package com.example.career.domain.consult.Dto;
 
+import com.example.career.domain.user.Entity.StudentDetail;
+import com.example.career.domain.user.Entity.TutorDetail;
+import com.example.career.domain.user.Entity.User;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +26,9 @@ public class ConsultEachRespDto {
 
     private int status;
     private String reason;
-    private Long tutorId;
+    private User mentor;
 
-    private Long stuId;
+    private User mentee;
 
     private String major;
 

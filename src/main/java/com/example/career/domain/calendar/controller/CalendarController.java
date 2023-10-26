@@ -24,48 +24,34 @@ import java.util.List;
 @RequestMapping("calendar")
 public class CalendarController {
     private final CalendarService calendarService;
-
+    @Authenticated
     @GetMapping("mentor/view")
-    public ResponseEntity<CalendarMentorRespDto> getCalendarByMentorId(@RequestParam Long mentorId) {
-
-        return new ResponseEntity<>(calendarService.getMentorCalendar(mentorId), HttpStatus.OK);
+    public ResponseEntity<CalendarMentorRespDto> getCalendarByMentorId(HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        return new ResponseEntity<>(calendarService.getMentorCalendar(user), HttpStatus.OK);
     }
 
     // 상담 거절 - 멘토가
     @Authenticated
     @PostMapping("mentor/deny")
-    public ResponseEntity<Consult> DenyConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
+    public ResponseEntity<Boolean> DenyConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
-        Long userId = user.getId();
-        int validCheck = userId.compareTo(calendarDenyReqDto.getId()); // 같으면 0 틀리면 1
-        Consult consult = calendarService.denyConsultByMentor(calendarDenyReqDto);
+        return new ResponseEntity<>(calendarService.denyConsultByMentor(user, calendarDenyReqDto), HttpStatus.OK);
 
-        // JWT의 ID와 Parameter ID 값이 같은지 확인
-        if(validCheck == 0 && consult != null) {
-            return new ResponseEntity<>(consult, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
     }
     // 상담 수락 - 멘토가
     @Authenticated
     @PostMapping("mentor/accept")
-    public ResponseEntity<Consult> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
+    public ResponseEntity<Boolean> AcceptConsultByMentor(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) throws IOException {
 
         User user = (User) request.getAttribute("user");
-        Long userId = user.getId();
-
-        String username = (String) request.getAttribute("subject");
-        Consult consult = calendarService.AcceptConsultByMentor(calendarDenyReqDto, username);
-
-        return new ResponseEntity<>(consult, HttpStatus.OK);
+        return new ResponseEntity<>(calendarService.AcceptConsultByMentor(calendarDenyReqDto, user), HttpStatus.OK);
 
     }
 
     // 상담 신청 - 멘티가
     @PostMapping("mentee/register")
-    public ResponseEntity<Consult> RegisterConsultByMentee(@RequestBody CalendarRegistReqDto calendarRegistReqDto) {
+    public ResponseEntity<Boolean> RegisterConsultByMentee(@RequestBody CalendarRegistReqDto calendarRegistReqDto) {
 
         return new ResponseEntity<>(calendarService.RegisterConsultByMentee(calendarRegistReqDto), HttpStatus.OK);
     }
@@ -78,6 +64,7 @@ public class CalendarController {
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
     }
+    // 상담 가능 시간대 조회
     @Authenticated
     @PostMapping("mentor/get/possible/time")
     public ResponseEntity<CalendarGetPossibleTimeRespDto> getMentorPossibleTime(HttpServletRequest request) {
@@ -85,6 +72,7 @@ public class CalendarController {
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.getMentorPossibleTime(userId),HttpStatus.OK);
     }
+    // 상담 가능 시간대 삭제
     @Authenticated
     @PostMapping("mentor/delete/possible/time")
     public ResponseEntity<Boolean> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {

@@ -3,7 +3,8 @@ package com.example.career.domain.consult.Service;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Repository.ConsultRepository;
-import com.example.career.domain.consult.Repository.QueryRepository;
+import com.example.career.domain.consult.Repository.QuestionRepository;
+import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.StudentDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,28 +20,28 @@ import java.util.Optional;
 public class ConsultServiceImpl implements ConsultService{
 // 0: 상담 수락 전, 1: 상담 전, 2: 상담 종료, 3:상담 거절
     private final ConsultRepository consultRepository;
-    private final UserRepository userRepository;
-    private final QueryRepository queryRepository;
     @Override
-    public List<ConsultRespDto> getList(Long tutorId, int status) {
-        List<Consult> consultList = consultRepository.findAllByTutorIdAndStatus(tutorId, status);
-
-        List<ConsultRespDto> consultRespDtoList = new ArrayList<>();
-
-        for (Consult consult : consultList) {
-            ConsultRespDto consultRespDto = mapToConsultRespDto(consult);
-            consultRespDtoList.add(consultRespDto);
+    public List<UpcomingConsults> getList(User mentor, int status) {
+        List<Consult> consultList = consultRepository.findAllByMentorAndStatus(mentor, status);
+        List<UpcomingConsults> upcomingConsults = new ArrayList<>();
+        for(Consult consult : consultList) {
+            UpcomingConsults up = consult.toUpcomingConsult();
+            // 학생 정보
+            up.setStudent(consult.getMentee().toConsultMenteeRespDto());
+            // 학생의 요구(질문) 사항
+            up.setStudentRequest(consult.getQuestion().toQueryRespDto());
+            upcomingConsults.add(up);
         }
 
-        return consultRespDtoList;
+        return upcomingConsults;
     }
 
     // 멘토 상담내역 메서드
     @Override
-    public MentorHomeRespDto getMentorHome(Long id) {
+    public MentorHomeRespDto getMentorHome(User mentor) {
         MentorHomeRespDto mentorHomeRespDto = new MentorHomeRespDto();
-        List<Consult> mentorConsultList = consultRepository.findAllByTutorId(id);
-        if(mentorConsultList == null) return null;
+        List<Consult> mentorConsultList = consultRepository.findAllByMentor(mentor);
+        if(mentorConsultList == null & !mentor.getIsTutor()) return null;
         List<LastUpcomingConsult> lastUpcomingConsults = new ArrayList<>();
         List<UpcomingConsults> upcomingConsults = new ArrayList<>();
         List<PreviousConsult> previousConsults = new ArrayList<>();
@@ -51,9 +52,9 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 LastUpcomingConsult lastUp = consult.toLastUpcomingConsult();
                 // 학생 정보
-                lastUp.setStudent(userRepository.findById(consult.getStuId()).get().toConsultMenteeRespDto());
+                lastUp.setStudent(consult.getMentee().toConsultMenteeRespDto());
                 // 학생의 요구(질문) 사항
-                lastUp.setStudentRequest(queryRepository.findByConsultId(consult.getId()).toQueryRespDto());
+                lastUp.setStudentRequest(consult.getQuestion().toQueryRespDto());
                 lastUpcomingConsults.add(lastUp);
             }
             // 진행 상담일 때
@@ -61,9 +62,9 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 UpcomingConsults up = consult.toUpcomingConsult();
                 // 학생 정보
-                up.setStudent(userRepository.findById(consult.getStuId()).get().toConsultMenteeRespDto());
+                up.setStudent(consult.getMentee().toConsultMenteeRespDto());
                 // 학생의 요구(질문) 사항
-                up.setStudentRequest(queryRepository.findByConsultId(consult.getId()).toQueryRespDto());
+                up.setStudentRequest(consult.getQuestion().toQueryRespDto());
                 upcomingConsults.add(up);
             }
             // 완료 상담일 때 + 취소된 상담
@@ -71,9 +72,9 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 PreviousConsult pre = consult.toPreviousConsult();
                 // 학생 정보
-                pre.setStudent(userRepository.findById(consult.getStuId()).get().toConsultMenteeRespDto());
+                pre.setStudent(consult.getMentee().toConsultMenteeRespDto());
                 // 학생의 요구(질문) 사항
-                pre.setStudentRequest(queryRepository.findByConsultId(consult.getId()).toQueryRespDto());
+                pre.setStudentRequest(consult.getQuestion().toQueryRespDto());
                 previousConsults.add(pre);
             }
         }
@@ -83,16 +84,6 @@ public class ConsultServiceImpl implements ConsultService{
         mentorHomeRespDto.setPreviousConsult(previousConsults);
 
         return mentorHomeRespDto;
-    }
-
-    private ConsultRespDto mapToConsultRespDto(Consult consult) {
-        ConsultRespDto consultRespDto = new ConsultRespDto();
-        consultRespDto.setConsultId(consult.getId());
-        consultRespDto.setMajor(consult.getMajor());
-        consultRespDto.setZoomLink(consult.getZoomLink());
-        consultRespDto.setQuery(queryRepository.findByConsultId(consult.getId()));
-        consultRespDto.setMenteeRespDto(userRepository.findById(consult.getStuId()).get().toMenteeRespDto());
-        return consultRespDto;
     }
 
     @Override

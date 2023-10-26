@@ -1,7 +1,7 @@
 package com.example.career.domain.calendar.dto;
 
 import com.example.career.domain.consult.Entity.Consult;
-import com.example.career.domain.consult.Entity.Query;
+import com.example.career.domain.consult.Entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,20 +18,17 @@ public class CalendarRegistReqDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private StuRequest stuRequest;
-
     public Consult toEntityConsult(){
         return Consult
                 .builder()
-                .tutorId(mentorId)
-                .stuId(menteeId)
                 .major(major)
                 .startTime(startTime)
                 .endTime(endTime)
                 .status(0)
                 .build();
     }
-    public Query toEntityQuery() {
-        return Query
+    public Question toEntityQuery() {
+        return Question
                 .builder()
                 .query1(getStuRequest().query1)
                 .query2(getStuRequest().query2)

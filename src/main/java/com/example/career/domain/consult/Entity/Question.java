@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "Query")
-public class Query
+@Table(name = "Question")
+public class Question
 //        implements UserDetails
 {
 
@@ -21,8 +21,6 @@ public class Query
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    private Long consultId;
 
     @Column(columnDefinition = "TEXT")
     String flow;
