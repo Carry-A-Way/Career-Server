@@ -73,7 +73,7 @@ public class CalendarController {
     // 멘토 캘린더 상담 가능날짜 추가
     @Authenticated
     @PostMapping("mentor/insert/possible/time")
-    public ResponseEntity<TutorSlot> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
+    public ResponseEntity<Boolean> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
@@ -87,7 +87,7 @@ public class CalendarController {
     }
     @Authenticated
     @PostMapping("mentor/delete/possible/time")
-    public ResponseEntity<CalendarGetPossibleTimeRespDto> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {
+    public ResponseEntity<Boolean> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.deleteMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);

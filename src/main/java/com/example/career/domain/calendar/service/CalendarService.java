@@ -16,7 +16,7 @@ public interface CalendarService {
     public Consult denyConsultByMentor(CalendarDenyReqDto calendarDenyReqDto);
     public Consult AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, String username) throws IOException;
     public Consult RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto);
-    public TutorSlot insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId);
+    public boolean insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId);
     public CalendarGetPossibleTimeRespDto getMentorPossibleTime(Long userId);
-    public CalendarGetPossibleTimeRespDto deleteMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,Long userId);
+    public boolean deleteMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,Long userId);
 }
