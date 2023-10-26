@@ -30,5 +30,4 @@ public class ValidCheck {
     private boolean success;
     private int status;
     private Object object;
-    private String jwt;
 }
