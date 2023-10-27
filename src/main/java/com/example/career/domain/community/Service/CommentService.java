@@ -12,6 +12,7 @@ import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.HeartRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.time.KoreaTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +87,7 @@ public class CommentService {
     }
 
     public void updateComment(CommentDtoReq commentDtoReq, Long userId) {
-        commentRepository.updateContentByuserIdAndId(commentDtoReq.getId(), commentDtoReq.getContent(), userId, LocalDateTime.now());
+        commentRepository.updateContentByuserIdAndId(commentDtoReq.getId(), commentDtoReq.getContent(), userId, KoreaTime.now());
     }
 
     @Transactional

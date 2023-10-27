@@ -10,6 +10,7 @@ import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.time.KoreaTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class RecommentService {
     }
 
     public void updateRecomment(RecommentDtoReq recommentDtoReq, Long userId) {
-        recommentRepository.updateContentByIdAnduserId(recommentDtoReq.getId(), recommentDtoReq.getContent(), userId, LocalDateTime.now());
+        recommentRepository.updateContentByIdAnduserId(recommentDtoReq.getId(), recommentDtoReq.getContent(), userId, KoreaTime.now());
     }
     @Transactional
     public void deleteRecommentByUserIdAndId(Long userId, RecommentDtoReq recommentDtoReq) {

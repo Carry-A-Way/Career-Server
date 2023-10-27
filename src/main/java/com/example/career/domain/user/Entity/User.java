@@ -3,6 +3,7 @@ package com.example.career.domain.user.Entity;
 import com.example.career.domain.consult.Dto.ConsultMenteeRespDto;
 import com.example.career.domain.user.Dto.MenteeRespDto;
 import com.example.career.domain.user.Dto.MentorHomeRespDto;
+import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,8 +75,8 @@ public class User
     @Column(columnDefinition = "MEDIUMTEXT")
     private String profileImg;
 
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Long tutorDetail;
@@ -85,8 +86,8 @@ public class User
 
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {
-        this.createAt = LocalDateTime.now();
-        this.updateAt = this.createAt;
+        this.createdAt = KoreaTime.now();
+        this.updatedAt = this.createdAt;
     }
 
     @ManyToMany

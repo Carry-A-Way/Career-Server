@@ -1,5 +1,6 @@
 package com.example.career.domain.meeting.entity;
 
+import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,6 @@ public class ZoomToken {
     LocalDateTime updatedAt;
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = KoreaTime.now();
     }
 }

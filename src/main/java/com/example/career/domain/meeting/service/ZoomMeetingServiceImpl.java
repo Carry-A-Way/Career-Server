@@ -8,6 +8,7 @@ import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
 import com.example.career.domain.meeting.entity.ZoomToken;
 import com.example.career.domain.meeting.repository.ZoomMeetingRepository;
 import com.example.career.domain.meeting.repository.ZoomTokenRepository;
+import com.example.career.global.time.KoreaTime;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -91,7 +92,7 @@ public class ZoomMeetingServiceImpl implements ZoomMeetingService{
     public void isExpired() throws IOException {
 
         // 현재 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = KoreaTime.now();
 
         // updatedAt과 현재 시간의 차이 계산 (단위: 분)
         long minutesSinceUpdate = ChronoUnit.MINUTES.between(zoomTokenRepository.findById(0L).get().getUpdatedAt(), now);
@@ -146,7 +147,7 @@ public class ZoomMeetingServiceImpl implements ZoomMeetingService{
         System.out.println(zoomToken);
         zoomToken.setAccessToken(accessToken);
         zoomToken.setRefreshToken(refreshToken);
-        zoomToken.setUpdatedAt(LocalDateTime.now());
+        zoomToken.setUpdatedAt(KoreaTime.now());
 
         System.out.println(zoomToken);
         return accessToken;

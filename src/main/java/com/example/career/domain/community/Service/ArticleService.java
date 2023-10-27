@@ -15,6 +15,7 @@ import com.example.career.domain.community.Repository.RecommentRepository;
 
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.time.KoreaTime;
 import com.example.career.global.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -112,7 +113,6 @@ public class ArticleService {
     }
 
     public void updateArticle(ArticleDto articleDto, List<String> newImgUrls, Long userId) throws Exception {
-//        articleRepository.updateArticleTitleAndContent(userId, articleDto.getId(), articleDto.getTitle(), articleDto.getContent(), LocalDateTime.now());
         // 기존 Article 조회
         Article article = articleRepository.findById(articleDto.getId())
                 .orElseThrow(() -> new Exception("Article not found"));
@@ -144,7 +144,7 @@ public class ArticleService {
         article.setImg5(currentImages.size() > 4 ? currentImages.get(4) : null);
         article.setImg6(currentImages.size() > 5 ? currentImages.get(5) : null);
 
-        article.setUpdatedAt(LocalDateTime.now());
+        article.setUpdatedAt(KoreaTime.now());
 
         articleRepository.save(article);
     }
