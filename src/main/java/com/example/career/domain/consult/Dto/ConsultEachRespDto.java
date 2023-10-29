@@ -44,6 +44,6 @@ public class ConsultEachRespDto {
 
     private LocalDateTime endTime;
 
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

@@ -8,6 +8,7 @@ import com.example.career.domain.major.Entity.Major;
 import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -75,13 +76,13 @@ public class Consult {
 
     private LocalDateTime endTime;
 
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist // 데이터 생성이 이루어질때 사전 작업
     public void prePersist() {
-        this.createAt = LocalDateTime.now();
-        this.updateAt = this.createAt;
+        this.createdAt = KoreaTime.now();
+        this.updatedAt = this.createdAt;
     }
     public ConsultEachRespDto toConsultEachRespDto(){
         return ConsultEachRespDto.builder()
@@ -100,8 +101,8 @@ public class Consult {
                 .tutorLeft(tutorLeft)
                 .startTime(startTime)
                 .endTime(endTime)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
     public LastUpcomingConsult toLastUpcomingConsult(){
@@ -118,8 +119,8 @@ public class Consult {
                 .tutorLeft(tutorLeft)
                 .startTime(startTime)
                 .endTime(endTime)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
     public UpcomingConsults toUpcomingConsult(){
@@ -136,8 +137,8 @@ public class Consult {
                 .tutorLeft(tutorLeft)
                 .startTime(startTime)
                 .endTime(endTime)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
     public PreviousConsult toPreviousConsult(){
@@ -154,8 +155,8 @@ public class Consult {
                 .tutorLeft(tutorLeft)
                 .startTime(startTime)
                 .endTime(endTime)
-                .createAt(createAt)
-                .updateAt(updateAt)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
                 .build();
     }
 

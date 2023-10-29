@@ -2,6 +2,7 @@ package com.example.career.domain.community.Entity;
 
 import com.example.career.domain.community.Dto.response.SqlResultCommentDto;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.global.time.KoreaTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -102,7 +103,7 @@ public class Comment {
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = KoreaTime.now();
         this.updatedAt = this.createdAt;
     }
 }

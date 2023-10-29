@@ -29,6 +29,6 @@ public class PreviousConsult {
     private LocalDateTime tutorLeft;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
