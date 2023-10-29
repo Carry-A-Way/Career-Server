@@ -64,6 +64,7 @@ public class CalendarController {
         if (!TimeValidCheck.isAfterCurrentTime(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd())) return new ResponseEntity<>(false,HttpStatus.OK);
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
+        System.out.println(calendarMentorPossibleReqDto);
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
     }
     // 상담 가능 시간대 조회
@@ -78,7 +79,7 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/delete/possible/time")
     public ResponseEntity<Boolean> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {
-        if (TimeValidCheck.isAfterCurrentTime(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd())) return new ResponseEntity<>(false,HttpStatus.valueOf("날짜가 올바르지 않습니다."));
+        if (!TimeValidCheck.isAfterCurrentTime(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd())) return new ResponseEntity<>(false,HttpStatus.valueOf("날짜가 올바르지 않습니다."));
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.deleteMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);

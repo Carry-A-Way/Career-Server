@@ -177,6 +177,7 @@ public class CalendarServiceImpl implements CalendarService{
             tutorSlot.setTutorDetail(tutorDetail);
             tutorSlot.setConsultDate(date);
             tutorSlot.setPossibleTime(newBytes);
+            System.out.println("TTTT"+tutorSlot);
             tutorSlotRepository.save(tutorSlot);
         }else {
             // 기존 Slot에 Time 수정
