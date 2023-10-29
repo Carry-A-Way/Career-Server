@@ -5,6 +5,7 @@ import com.example.career.domain.calendar.dto.CalendarMentorPossibleReqDto;
 import com.example.career.domain.calendar.dto.CalendarMentorRespDto;
 import com.example.career.domain.calendar.dto.CalendarRegistReqDto;
 import com.example.career.domain.calendar.service.CalendarService;
+import com.example.career.domain.calendar.service.TimeValidCheck;
 import com.example.career.domain.consult.Dto.CalendarDenyReqDto;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Entity.TutorSlot;
@@ -60,6 +61,7 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/insert/possible/time")
     public ResponseEntity<Boolean> insertMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, HttpServletRequest request) {
+        if (!TimeValidCheck.isAfterCurrentTime(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd())) return new ResponseEntity<>(false,HttpStatus.OK);
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.insertMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
@@ -76,6 +78,7 @@ public class CalendarController {
     @Authenticated
     @PostMapping("mentor/delete/possible/time")
     public ResponseEntity<Boolean> deleteMentorPossibleTime(@RequestBody CalendarMentorPossibleReqDto calendarMentorPossibleReqDto,HttpServletRequest request) {
+        if (TimeValidCheck.isAfterCurrentTime(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd())) return new ResponseEntity<>(false,HttpStatus.valueOf("날짜가 올바르지 않습니다."));
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.deleteMentorPossibleTime(calendarMentorPossibleReqDto, userId),HttpStatus.OK);
