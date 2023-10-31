@@ -177,12 +177,11 @@ public class CalendarServiceImpl implements CalendarService{
             tutorSlot.setTutorDetail(tutorDetail);
             tutorSlot.setConsultDate(date);
             tutorSlot.setPossibleTime(newBytes);
-            System.out.println("TTTT"+tutorSlot);
             tutorSlotRepository.save(tutorSlot);
         }else {
             // 기존 Slot에 Time 수정
             byte[] oldBytes = tutorSlot.getPossibleTime();
-            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,0);
+            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,false);
             if (resultBytes == null) {
                 System.out.println("중복된 시간 체크섬 오류");
                 return false; // 체크섬 오류
@@ -235,7 +234,7 @@ public class CalendarServiceImpl implements CalendarService{
         byte[] newBytes = timeChanger.dateTimeToByte(calendarMentorPossibleReqDto.getStart(), calendarMentorPossibleReqDto.getEnd());
         // 기존 Slot에 Time 수정
         byte[] oldBytes = tutorSlot.getPossibleTime();
-        byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,1);
+        byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,true);
         if (resultBytes == null) {
             System.out.println("중복된 시간 체크섬 오류");
             return false; // 체크섬 오류

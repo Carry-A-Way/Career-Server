@@ -36,7 +36,13 @@ public class TimeChanger {
         return byteArray;
     }
     // newByte oldByte 합체
-    public byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte, int type) {
+    /***
+    * newByte : 추가 또는 제거를 원하는 시간대
+    * oldByte : 현재 멘토가 가지고 있는 시간대
+    * useAND : true( ~new AND old, DELETE )
+    *          false(new OR old, INSERT )
+    * */
+    public byte[] combineBytesWithXOR(byte[] newByte, byte[] oldByte, boolean isDelete) {
         int maxLength = Math.max(newByte.length, oldByte.length);
         newByte = padByteArray(newByte, maxLength);
         oldByte = padByteArray(oldByte, maxLength);
@@ -44,31 +50,20 @@ public class TimeChanger {
         byte[] combinedByte = new byte[maxLength];
 
         for (int i = 0; i < maxLength; i++) {
-            combinedByte[i] = (byte) (newByte[i] ^ oldByte[i]);
-        }
-
-        // insert의 경우 XOR 체크섬
-        int totalOnes = countOnes(combinedByte);
-        if(type == 0) {
-            if (totalOnes == countOnes(newByte) + countOnes(oldByte)) {
-                return combinedByte;
+            if (isDelete) {
+                combinedByte[i] = (byte) (~newByte[i] & oldByte[i]); // Using AND operation : Delete
             } else {
-                return null;
+                combinedByte[i] = (byte) (newByte[i] | oldByte[i]); // Using OR operation : Insert
             }
         }
-        // delete의 경우 XOR 체크섬
-        if(type == 1) {
-            // old 1101100
-            // new 1100000
-            // tot 0001100
-            if (countOnes(oldByte) == countOnes(newByte) + totalOnes) {
-                return combinedByte;
-            } else {
-                return null;
-            }
-        }
-        return null;
+        System.out.println("old");
+        printByte(oldByte);
+        System.out.println("new");
+        printByte(newByte);
+        System.out.println("now");
+        printByte(combinedByte);
 
+        return combinedByte;
     }
     public byte[] padByteArray(byte[] byteArray, int length) {
         if (byteArray.length >= length) {
@@ -90,6 +85,17 @@ public class TimeChanger {
             }
         }
         return count;
+    }
+    public void printByte(byte[] combinedByte) {
+        if (combinedByte != null) {
+            System.out.print("Combined Bytes: ");
+            for (byte b : combinedByte) {
+                System.out.print(Integer.toBinaryString(b & 255 | 256).substring(1) + " ");
+            }
+            System.out.println();
+        } else {
+            System.out.println("Combined Bytes: null");
+        }
     }
 
 
