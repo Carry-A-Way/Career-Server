@@ -135,6 +135,25 @@ public class CalendarServiceImpl implements CalendarService{
 
     @Override
     public Boolean RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto) {
+        // 튜터 시간표에 상담 신청시간이 포함되는지 확인
+        TimeChanger timeChanger = new TimeChanger();
+        TutorSlot tutorSlot = null;
+        try {
+            tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(
+                    tutorDetailRepository.findByTutorId(calendarRegistReqDto.getMentorId())
+                    ,calendarRegistReqDto.getStartTime().toLocalDate());
+        }catch (NullPointerException e) {
+            System.out.println("해당 날짜를 등록하지 않았습니다.");
+            return false;
+        }
+        byte[] newBytes = timeChanger.dateTimeToByte(calendarRegistReqDto.getStartTime(), calendarRegistReqDto.getEndTime());
+
+        // 신청 시간이 멘토 상담 가능 시간 내에 포함되는지 확인
+        if(!timeChanger.checkIndexesInOldForOnesInNew(tutorSlot.getPossibleTime(), newBytes)) {
+            System.out.println("상담 가능 시간대에 포함되어있지 않습니다.");
+            return false;
+        }
+
         try{
             Consult consult = calendarRegistReqDto.toEntityConsult();
             consult.setMentor(userRepository.findById(calendarRegistReqDto.getMentorId()).get());

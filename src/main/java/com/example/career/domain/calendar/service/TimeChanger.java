@@ -2,7 +2,9 @@ package com.example.career.domain.calendar.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 
 // TutorSlot 에 들어갈 시간을 Long으로 바꿔주거나 그 반대의 메서드
 public class TimeChanger {
@@ -97,6 +99,48 @@ public class TimeChanger {
             System.out.println("Combined Bytes: null");
         }
     }
+
+    // 상담 시간 확인
+    public boolean checkIndexesInOldForOnesInNew(byte[] oldByte, byte[] newByte) {
+        List<Integer> indexes = calculateIndexesWithOnes(newByte);
+        System.out.println(indexes);
+        // Check if all indexes in old have corresponding 1s in new
+        for (int index : indexes) {
+            if (index >= oldByte.length * 8) {
+                return false; // Return false if any index is out of range
+            }
+
+            int byteIndex = index / 8; // Calculate the index of the byte in the array
+            int bitIndex = index % 8; // Calculate the index of the bit within the byte
+
+            // Extract the specific bits from the bytes
+            byte oldByteValue = oldByte[byteIndex];
+
+            // Extract the bit at the specified index from the byte
+            int oldBit = (oldByteValue >> (7 - bitIndex)) & 1;
+
+            if (oldBit != 1) {
+                return false; // Return false if any index does not have a corresponding 1 in old
+            }
+        }
+        return true; // If all indexes in old have corresponding 1s in new
+    }
+
+    public List<Integer> calculateIndexesWithOnes(byte[] newByte) {
+        List<Integer> indexes = new ArrayList<>();
+        for (int byteIndex = 0; byteIndex < newByte.length; byteIndex++) {
+            byte byteValue = newByte[byteIndex];
+            for (int bitIndex = 0; bitIndex < 8; bitIndex++) {
+                if (((byteValue >> (7 - bitIndex)) & 1) == 1) {
+                    // If the bit is 1, calculate the index and add it to the list
+                    int index = byteIndex * 8 + bitIndex;
+                    indexes.add(index);
+                }
+            }
+        }
+        return indexes;
+    }
+
 
 
 }
