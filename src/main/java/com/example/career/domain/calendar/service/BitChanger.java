@@ -37,18 +37,30 @@ public class BitChanger {
                     if (!check) {
                         possibleTime = new PossibleTime(); // 새 객체 생성
                         possibleTime.setStart(hour * count / 2 + ":" + minute);
+
+                    }
+                    // 24:00시 일때
+                    if(count == 47) {
+                        int temphour = hour * (count+1) / 2;
+                        minute = 0;
+                        System.out.println(count+ " 시간: "+ temphour + ":" +minute);
+                        possibleTime.setEnd(temphour + ":" + minute);
                         possibleTimeList.add(possibleTime);
                     }
+
                     check = true;
                 } else {
                     if (check) {
                         int temphour = hour * count / 2;
+
                         if (count % 2 == 0) {
                             minute = 0;
                         } else {
                             minute = 30;
                         }
+                        System.out.println(count+ " 시간: "+ temphour + ":" +minute);
                         possibleTime.setEnd(temphour + ":" + minute);
+                        possibleTimeList.add(possibleTime);
                     }
                     check = false;
                 }
