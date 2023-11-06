@@ -32,6 +32,9 @@ public class ConsultEachRespDto {
 
     private String major;
 
+    private String flow;
+    private String questions;
+
     private LocalDateTime studentEnter;
 
     private LocalDateTime studentLeft;

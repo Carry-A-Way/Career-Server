@@ -19,7 +19,8 @@ public class LastUpcomingConsult {
     private String reason;
     private String major;
     // 학생의 질문들
-    private QueryRespDto studentRequest;
+    private String flow;
+    private String questions;
     // 학생 정보
     private ConsultMenteeRespDto student;
     private LocalDateTime studentEnter;

@@ -8,7 +8,6 @@ import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Entity.TutorSlot;
 import com.example.career.domain.consult.Repository.ConsultRepository;
-import com.example.career.domain.consult.Repository.QuestionRepository;
 import com.example.career.domain.consult.Repository.TutorSlotRepository;
 import com.example.career.domain.meeting.dto.ZoomMeetingObjectDTO;
 import com.example.career.domain.meeting.entity.ZoomMeetingObjectEntity;
@@ -59,8 +58,6 @@ public class CalendarServiceImpl implements CalendarService{
                 LastUpcomingConsult lastUp = consult.toLastUpcomingConsult();
                 // 학생 정보
                 lastUp.setStudent(consult.getMentee().toConsultMenteeRespDto());
-                // 학생의 요구(질문) 사항
-                lastUp.setStudentRequest(consult.getQuestion().toQueryRespDto());
                 lastUpcomingConsults.add(lastUp);
             }
             // 진행 상담일 때
@@ -69,8 +66,6 @@ public class CalendarServiceImpl implements CalendarService{
                 UpcomingConsults up = consult.toUpcomingConsult();
                 // 학생 정보
                 up.setStudent(consult.getMentee().toConsultMenteeRespDto());
-                // 학생의 요구(질문) 사항
-                up.setStudentRequest(consult.getQuestion().toQueryRespDto());
                 upcomingConsults.add(up);
             }
 
@@ -158,7 +153,6 @@ public class CalendarServiceImpl implements CalendarService{
             Consult consult = calendarRegistReqDto.toEntityConsult();
             consult.setMentor(userRepository.findById(calendarRegistReqDto.getMentorId()).get());
             consult.setMentee(userRepository.findById(calendarRegistReqDto.getMenteeId()).get());
-            consult.setQuestion(calendarRegistReqDto.toEntityQuery());
 
             // consult 저장
             consultRepository.save(consult);
