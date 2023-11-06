@@ -1,6 +1,5 @@
 package com.example.career.domain.consult.Dto;
 
-import com.example.career.domain.consult.Entity.Question;
 import com.example.career.domain.user.Dto.MenteeRespDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,7 @@ public class ConsultRespDto {
     private String major;
     private int status;
     private MenteeRespDto menteeRespDto;
-    private Question question;
+    private String flow;
+    private String questions;
 
 }

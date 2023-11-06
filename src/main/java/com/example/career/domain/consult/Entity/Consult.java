@@ -55,9 +55,11 @@ public class Consult {
     @JoinColumn(name = "studentId", referencedColumnName = "id")
     private User mentee;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "questionId", referencedColumnName = "id")
-    private Question question;
+    @Column(columnDefinition = "TEXT")
+    private String questions;
+
+    @Column(columnDefinition = "TINYTEXT")
+    private String flow;
 
 //    @ManyToOne
 //    @JoinColumn(name = "major_id", referencedColumnName = "id")
@@ -95,6 +97,8 @@ public class Consult {
                 .mentor(mentor)
                 .mentee(mentee)
                 .major(major)
+                .flow(flow)
+                .questions(questions)
                 .studentEnter(studentEnter)
                 .studentLeft(studentLeft)
                 .tutorEnter(tutorEnter)
@@ -113,6 +117,8 @@ public class Consult {
                 .reason(reason)
                 .status(status)
                 .major(major)
+                .flow(flow)
+                .questions(questions)
                 .studentEnter(studentEnter)
                 .studentLeft(studentLeft)
                 .tutorEnter(tutorEnter)
@@ -131,6 +137,8 @@ public class Consult {
                 .reason(reason)
                 .status(status)
                 .major(major)
+                .flow(flow)
+                .questions(questions)
                 .studentEnter(studentEnter)
                 .studentLeft(studentLeft)
                 .tutorEnter(tutorEnter)
@@ -149,6 +157,8 @@ public class Consult {
                 .reason(reason)
                 .status(status)
                 .major(major)
+                .flow(flow)
+                .questions(questions)
                 .studentEnter(studentEnter)
                 .studentLeft(studentLeft)
                 .tutorEnter(tutorEnter)
