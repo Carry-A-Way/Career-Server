@@ -39,7 +39,6 @@ pipeline {
             }
           }
         }
-
         stage('Bulid Docker') {
           steps {
             echo 'Bulid Docker'
