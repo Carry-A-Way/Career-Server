@@ -24,18 +24,7 @@ pipeline {
              }
           }
         }
-        stage('SCM') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('SonarQube Analysis') {
-          steps {
-            withSonarQubeEnv("SonarQube-Server") {
-                sh "./gradlew sonar"
-            }
-          }
-        }
+
         stage('Bulid Gradle') {
           steps {
             echo 'Bulid Gradle'
