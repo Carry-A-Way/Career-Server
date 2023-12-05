@@ -18,20 +18,6 @@ pipeline {
              }
           }
         }
-        stage('Bulid Gradle') {
-          steps {
-            echo 'Bulid Gradle'
-            dir('.'){
-                sh './gradlew build -x test'
-                sh './gradlew clean build'
-            }
-          }
-          post {
-            failure {
-              error 'This pipeline stops here...'
-            }
-          }
-        }
         stage('SCM') {
             steps {
                 checkout scm
