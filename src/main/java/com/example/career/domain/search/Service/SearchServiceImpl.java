@@ -1,11 +1,13 @@
 package com.example.career.domain.search.Service;
 
+import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Entity.Comment;
 import com.example.career.domain.community.Entity.Recomment;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
+import com.example.career.domain.community.Service.ArticleService;
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,12 +25,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService{
     private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
     @Override
-    public List<CommunitySearchRespDto> getArticlesByKeyWord(String keyWord, int page, int size) {
+    public List<ArticleDto> getArticlesByKeyWord(Long userId, String keyWord, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<Article> articles = articleRepository.findAllBySearchKeyWord(keyWord, pageable);
-        List<CommunitySearchRespDto> communitySearchRespDtos = articles.stream().map(Article::toDto).collect(Collectors.toList());
 
-        return communitySearchRespDtos;
+        return articleService.convertToArticleDtoList(articles,userId);
     }
 }
