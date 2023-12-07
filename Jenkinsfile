@@ -85,17 +85,17 @@ pipeline {
     }
 	post {
         success {
-            discordSend description: "알림테스트",
-            footer: "테스트 빌드가 성공했습니다.",
+            discordSend description: "Success 알림",
+            footer: "Jenkins 빌드가 성공했습니다.",
             link: env.BUILD_URL, result: currentBuild.currentResult,
-            title: "테스트 젠킨스 job",
+            title: "젠킨스 job",
             webhookURL: "https://discord.com/api/webhooks/1176830413927366696/SWHvUY1sEE4EFKQPf33gJiLClpZz-diK9mOn6OUF0_EFjLTYq2D2Mv8U7HpBVHToQdCT"
         }
         failure {
-            discordSend description: "알림테스트",
-            footer: "테스트 빌드가 실패했습니다.",
+            discordSend description: "Fail 알림",
+            footer: "Jenkins 빌드가 실패했습니다.",
             link: env.BUILD_URL, result: currentBuild.currentResult,
-            title: "테스트 젠킨스 job",
+            title: "젠킨스 job",
             webhookURL: "https://discord.com/api/webhooks/1176830413927366696/SWHvUY1sEE4EFKQPf33gJiLClpZz-diK9mOn6OUF0_EFjLTYq2D2Mv8U7HpBVHToQdCT"
         }
     }
