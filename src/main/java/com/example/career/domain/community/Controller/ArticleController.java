@@ -37,6 +37,16 @@ public class ArticleController {
     }
 
     @Authenticated
+    @GetMapping("suggestion")
+    public ResponseEntity<List<ArticleDto>> suggestArticlesToMentor(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        List<ArticleDto> articles = articleService.suggestArticlesToMentor(user, page, size);
+        return ResponseEntity.ok(articles);
+    }
+
+
+
+    @Authenticated
     @GetMapping("my_articles")
     public ResponseEntity<List<ArticleDto>> myArticles(@RequestParam int page, @RequestParam int size, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");

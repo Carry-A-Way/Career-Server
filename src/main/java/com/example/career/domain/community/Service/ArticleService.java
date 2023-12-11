@@ -72,9 +72,20 @@ public class ArticleService {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Article> result = articleRepository.findAll(pageable);
         List<Article> articles = result.getContent();
-
         return convertToArticleDtoList(articles, userId);
     }
+    public List<ArticleDto> suggestArticlesToMentor(User user, int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        // 게시글 중 멘티의 major 판단
+
+        // 유저의
+//        Page<Article> result = articleRepository.findAllByCategoryId(pageable);
+//        List<Article> articles = result.getContent();
+
+        return null;
+    }
+
 
     public List<ArticleDto> getMyArticles(int page, int size, Long userId) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
