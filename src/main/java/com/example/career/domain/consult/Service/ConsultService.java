@@ -9,4 +9,5 @@ public interface ConsultService {
     public List<UpcomingConsults> getList(User mentor, int status);
     public MentorHomeRespDto getMentorHome(User mentor);
     public ConsultEachRespDto requestConsult(ConsultYesorNoReqDto consultYesorNoReqDto, int status);
+    public void mentorJoinInConsult(Long consultId);
 }

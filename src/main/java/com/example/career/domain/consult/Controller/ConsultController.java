@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Controller;
 
+import com.example.career.domain.consult.Dto.ConsultJoinReqDto;
 import com.example.career.domain.consult.Dto.ConsultRespDto;
 import com.example.career.domain.consult.Dto.ConsultYesorNoReqDto;
 import com.example.career.domain.consult.Entity.Consult;
@@ -37,4 +38,11 @@ public class ConsultController {
         User user = (User) request.getAttribute("user");
         return new ValidCheck(consultService.getMentorHome(user));
     }
+
+    // 멘토가 상담에 참여
+    @GetMapping ("mentor/join")
+    public void mentorJoinInConsult(@RequestBody ConsultJoinReqDto consultJoinReqDto){
+        consultService.mentorJoinInConsult(consultJoinReqDto.getConsultId());
+    }
+
 }

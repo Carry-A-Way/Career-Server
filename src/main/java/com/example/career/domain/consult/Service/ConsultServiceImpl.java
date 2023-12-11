@@ -6,9 +6,12 @@ import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.user.Entity.User;
 import com.example.career.domain.user.Repository.StudentDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
+import com.example.career.global.time.KoreaTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -101,5 +104,12 @@ public class ConsultServiceImpl implements ConsultService{
 
         //Entity -> Save -> Dto
         return consultRepository.save(consult).toConsultEachRespDto();
+    }
+
+    @Override
+    @Transactional
+    public void mentorJoinInConsult(Long consultId) {
+        Consult consult = consultRepository.findById(consultId).get();
+        consult.setTutorEnter(KoreaTime.now());
     }
 }
