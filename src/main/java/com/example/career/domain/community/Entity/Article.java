@@ -86,6 +86,7 @@ public class Article {
     private LocalDateTime updatedAt;
 
     public CommunitySearchRespDto toDto() {
+        List<String> images = new ArrayList<>();
         return CommunitySearchRespDto.builder()
                 .id(id)
                 .userId(user.getId())

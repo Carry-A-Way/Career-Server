@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,12 +23,7 @@ public class ArticleDto {
     private String title;
     private String content;
     private List<String> removedImageUrls;
-    private String img1;
-    private String img2;
-    private String img3;
-    private String img4;
-    private String img5;
-    private String img6;
+    private List<String> imgs;
     private int heartCnt;
     private int commentCnt;
     private LocalDateTime createdAt;
@@ -49,54 +45,52 @@ public class ArticleDto {
     }
 
     public Article toArticleEntity(User user) {
-        return Article.builder()
+        Article.ArticleBuilder builder = Article.builder()
                 .user(user)
                 .categoryId(categoryId)
                 .title(title)
                 .content(content)
-                .img1(img1)
-                .img2(img2)
-                .img3(img3)
-                .img4(img4)
-                .img5(img5)
-                .img6(img6)
                 .heartCnt(heartCnt)
-                .commentCnt(commentCnt)
-                .build();
+                .commentCnt(commentCnt);
 
+        if (imgs != null) {
+            if (imgs.size() > 0) builder.img1(imgs.get(0));
+            if (imgs.size() > 1) builder.img2(imgs.get(1));
+            if (imgs.size() > 2) builder.img3(imgs.get(2));
+            if (imgs.size() > 3) builder.img4(imgs.get(3));
+            if (imgs.size() > 4) builder.img5(imgs.get(4));
+            if (imgs.size() > 5) builder.img6(imgs.get(5));
+        }
+
+        return builder.build();
     }
 
     public static ArticleDto from(Article article) {
         if (article == null) return null;
 
-        List<String> imageUrls = Arrays.asList(
-                article.getImg1(),
-                article.getImg2(),
-                article.getImg3(),
-                article.getImg4(),
-                article.getImg5(),
-                article.getImg6()
-        );
+        List<String> imageUrls = new ArrayList<>();
+        if (article.getImg1() != null) imageUrls.add(article.getImg1());
+        if (article.getImg2() != null) imageUrls.add(article.getImg2());
+        if (article.getImg3() != null) imageUrls.add(article.getImg3());
+        if (article.getImg4() != null) imageUrls.add(article.getImg4());
+        if (article.getImg5() != null) imageUrls.add(article.getImg5());
+        if (article.getImg6() != null) imageUrls.add(article.getImg6());
+
 
         ArticleDto dto = ArticleDto.builder()
                 .id(article.getId())
                 .categoryId(article.getCategoryId())
                 .title(article.getTitle())
                 .content(article.getContent())
-                .img1(article.getImg1())
-                .img2(article.getImg2())
-                .img3(article.getImg3())
-                .img4(article.getImg4())
-                .img5(article.getImg5())
-                .img6(article.getImg6())
                 .heartCnt(article.getHeartCnt())
                 .commentCnt(article.getCommentCnt())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
+                .imgs(imageUrls)
                 .user(new UserBrief(article.getUser()))
                 .build();
 
-        dto.setImgUrls(imageUrls);
+//        dto.setImgUrls(imageUrls);
 
         return dto;
     }
