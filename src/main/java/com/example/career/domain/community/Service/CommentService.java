@@ -97,7 +97,7 @@ public class CommentService {
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
         boolean hasRecomments = !comment.getRecomments().isEmpty();
-        articleRepository.decrementArticleCommentCnt(commentDtoReq.getArticleId());
+        articleRepository.decrementArticleCommentCnt(comment.getArticle().getId());
 
         //대댓글이 없는 경우
         if (!hasRecomments) {
