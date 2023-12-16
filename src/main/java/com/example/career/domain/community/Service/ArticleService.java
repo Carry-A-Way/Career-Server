@@ -13,13 +13,16 @@ import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.HeartRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 
+import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Repository.TutorDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
 import com.example.career.global.time.KoreaTime;
 import com.example.career.global.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +50,7 @@ public class ArticleService {
     private final CommentService commentService;
 
     private final S3Uploader s3Uploader;
+    private final TutorDetailRepository tutorDetailRepository;
 
     public List<ArticleDto> convertToArticleDtoList(List<Article> articles, Long userId) {
         List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
@@ -75,15 +79,21 @@ public class ArticleService {
         return convertToArticleDtoList(articles, userId);
     }
     public List<ArticleDto> suggestArticlesToMentor(User user, int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        TutorDetail tutorDetail = tutorDetailRepository.findByTutorId(user.getId());
 
-        // 게시글 중 멘티의 major 판단
+        LocalDateTime tenDaysAgo = KoreaTime.now().minusDays(10);
+        System.out.println(tutorDetail);
+        System.out.println(tenDaysAgo);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("updatedAt").descending());
 
-        // 유저의
-//        Page<Article> result = articleRepository.findAllByCategoryId(pageable);
-//        List<Article> articles = result.getContent();
-
-        return null;
+        Page<Article> articlePage = articleRepository.findMatchingArticles(
+                tutorDetail.getConsultMajor1(),
+                tutorDetail.getConsultMajor2(),
+                tutorDetail.getConsultMajor3(),
+                tenDaysAgo,
+                pageable);
+        System.out.println(articlePage);
+        return convertToArticleDtoList(articlePage.getContent(), user.getId());
     }
 
 

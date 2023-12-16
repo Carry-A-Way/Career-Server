@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,4 +56,13 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllBySearchKeyWord(@Param("keyword") String keyword, Pageable pageable);
 
     Page<Article> findAllByCategoryId(Long categoryId, Pageable pageable);
+
+    @Query("SELECT a FROM Article a WHERE " +
+            "(a.majors LIKE %:major1% OR a.majors LIKE %:major2% OR a.majors LIKE %:major3%) AND " +
+            "a.updatedAt >= :cutoffDate")
+    Page<Article> findMatchingArticles(@Param("major1") String major1,
+                                       @Param("major2") String major2,
+                                       @Param("major3") String major3,
+                                       @Param("cutoffDate") LocalDateTime cutoffDate,
+                                       Pageable pageable);
 }
