@@ -30,6 +30,7 @@ public class ArticleDto {
     private LocalDateTime updatedAt;
     private Boolean isHeartClicked;
     private UserBrief user;
+    private String majors; // "수학과,수학교육과" ,로 분리
 
     public void setImgUrls(List<String> urlList) {
         if (urlList == null) return;
@@ -49,6 +50,7 @@ public class ArticleDto {
                 .user(user)
                 .categoryId(categoryId)
                 .title(title)
+                .majors(majors)
                 .content(content)
                 .heartCnt(heartCnt)
                 .commentCnt(commentCnt);
@@ -84,6 +86,7 @@ public class ArticleDto {
                 .content(article.getContent())
                 .heartCnt(article.getHeartCnt())
                 .commentCnt(article.getCommentCnt())
+                .majors(article.getMajors())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .imgs(imageUrls)

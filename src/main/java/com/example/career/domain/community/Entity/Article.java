@@ -52,6 +52,8 @@ public class Article {
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String content;
 
+    @Column(columnDefinition = "VARCHAR(40)")
+    private String majors;
     @Column(nullable = false)
     @ColumnDefault("0")
     private int heartCnt;
