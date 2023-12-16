@@ -1,5 +1,6 @@
 package com.example.career.domain.major.Entity;
 
+import com.example.career.domain.major.Dto.MajorNameRespDto;
 import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,10 @@ public class Major {
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(15)",nullable = false)
-    private String name;
+    private String major;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
-    private String describeMajor;
+    private String description;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -36,5 +37,11 @@ public class Major {
     public void prePersist() {
         this.createdAt = KoreaTime.now();
         this.updatedAt = this.createdAt;
+    }
+    public MajorNameRespDto toNameDto() {
+        return MajorNameRespDto.builder()
+                .id(id)
+                .major(major)
+                .build();
     }
 }

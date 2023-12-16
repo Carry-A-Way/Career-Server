@@ -55,6 +55,7 @@ public class Consult {
     @JoinColumn(name = "studentId", referencedColumnName = "id")
     private User mentee;
 
+
     @Column(columnDefinition = "TEXT")
     private String questions;
 
