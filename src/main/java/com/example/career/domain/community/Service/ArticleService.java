@@ -66,7 +66,6 @@ public class ArticleService {
     private ArticleDto convertToArticleDto(Article article, Long userId) {
         ArticleDto articleDto = ArticleDto.from(article);
         List<Heart> likedArticles = heartRepository.findByUserIdAndType(userId, 0);
-
         // 게시글 isLiked 설정
         articleDto.setIsHeartClicked(likedArticles.stream().anyMatch(heart -> heart.getTypeId().equals(article.getId())));
         return articleDto;
