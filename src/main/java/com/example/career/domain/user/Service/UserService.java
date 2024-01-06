@@ -20,7 +20,9 @@ public interface UserService {
     public SignUpReqDto signupStudent(SignUpReqDto userDto);
     public User getUserByUsername(String username) throws Exception;
     @Transactional
-    public void modifyProfile(SignUpReqDto signUpReqDto, String username) throws Exception;
+    public void modifyProfileTutor(SignUpReqDto signUpReqDto, String username) throws Exception;
+    @Transactional
+    public void modifyProfileStudent(SignUpReqDto signUpReqDto, String username) throws Exception;
     public boolean validUsername(String username);
     public boolean validNickname(String nickname);
     public boolean validTelephone(String telephone);

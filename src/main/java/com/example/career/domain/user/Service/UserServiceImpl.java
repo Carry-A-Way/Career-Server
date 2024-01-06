@@ -116,14 +116,14 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void modifyProfile(SignUpReqDto signUpReqDto, String username) throws Exception {
+    public void modifyProfileTutor(SignUpReqDto signUpReqDto, String username) throws Exception {
         User user = getUserByUsername(username);
 
         Long id = user.getId();
 
         TutorDetail tutorDetail = tutorDetailRepository.findByTutorId(id);
 
-        Set<String> userFields = new HashSet<>(Arrays.asList("name", "username", "birth", "nickname", "telephone", "password", "gender", "introduce", "hobby", "profileImg"));
+        Set<String> userFields = new HashSet<>(Arrays.asList("email", "name", "username", "birth", "nickname", "telephone", "password", "gender", "introduce", "hobby", "profileImg"));
         Set<String> tutorDetailFields = new HashSet<>(Arrays.asList("consultMajor1", "consultMajor2", "consultMajor3"));
 
         updateEntityFields(user, signUpReqDto, userFields, false);
@@ -169,6 +169,22 @@ public class UserServiceImpl implements UserService{
 
         //TODO: List<MultipartFile> activeImg 저장해야함.
         
+    }
+
+    @Transactional
+    @Override
+    public void modifyProfileStudent(SignUpReqDto signUpReqDto, String username) throws Exception {
+        User user = getUserByUsername(username);
+
+        Long id = user.getId();
+
+        StudentDetail studentDetail = studentDetailRepository.findByStudentId(id);
+
+        Set<String> userFields = new HashSet<>(Arrays.asList("email", "name", "username", "birth", "nickname", "telephone", "password", "gender", "introduce", "hobby", "profileImg"));
+        Set<String> studentDetailFields = new HashSet<>(Arrays.asList("interestingMajor1", "interestingMajor2", "interestingMajor3"));
+
+        updateEntityFields(user, signUpReqDto, userFields, false);
+        updateEntityFields(studentDetail, signUpReqDto, studentDetailFields, false);
     }
 
     private <T, DTO> void updateEntityFields(T entity, DTO dto, Set<String> fieldsToCheck, boolean skip) {

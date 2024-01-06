@@ -32,6 +32,7 @@ public class UserController {
 
     private final UserService userService;
     private final TutorDetailService tutorDetailService;
+    private final StudentDetailService studentDetailService;
     private final SchoolService schoolService;
     private final TagService tagService;
     private final CareerService careerService;
@@ -61,7 +62,7 @@ public class UserController {
 
     @Authenticated
     @GetMapping("/mentor/profile")
-    public ResponseEntity<Object> getProfile(HttpServletRequest request) throws Exception {
+    public ResponseEntity<Object> getProfileMentor(HttpServletRequest request) throws Exception {
         User userAop = (User) request.getAttribute("user");
         String username = userAop.getUsername();
 
@@ -97,10 +98,32 @@ public class UserController {
         }
     }
 
+    @Authenticated
+    @GetMapping("/mentee/profile")
+    public ResponseEntity<Object> getProfileMentee(HttpServletRequest request) throws Exception {
+        User userAop = (User) request.getAttribute("user");
+        String username = userAop.getUsername();
+
+        try {
+            User user = userService.getUserByUsername(username);
+            Long id = user.getId();
+            SignUpReqDto signUpReqDto = SignUpReqDto.from(user);
+
+            StudentDetail studentDetail = studentDetailService.getStudentDetailByStudentId(id);
+            signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor1());
+            signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor2());
+            signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor3());
+
+            return ResponseEntity.ok(signUpReqDto);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error message");
+        }
+    }
+
     @Transactional
     @Authenticated
     @PostMapping("/mentor/modify_profile")
-    public ResponseEntity<Object> modifyProfile(MultipartHttpServletRequest request) throws Exception {
+    public ResponseEntity<Object> modifyProfileMentor(MultipartHttpServletRequest request) throws Exception {
         User userAop = (User) request.getAttribute("user");
         String username = userAop.getUsername();
 
@@ -116,8 +139,32 @@ public class UserController {
             user.setProfileImg(url);
         }
 
-        userService.modifyProfile(user, username);
+        userService.modifyProfileTutor(user, username);
         
+        return ResponseEntity.ok(null);
+    }
+
+    @Transactional
+    @Authenticated
+    @PostMapping("/mentee/modify_profile")
+    public ResponseEntity<Object> modifyProfileMentee(MultipartHttpServletRequest request) throws Exception {
+        User userAop = (User) request.getAttribute("user");
+        String username = userAop.getUsername();
+
+        // 파일 데이터 추출
+        MultipartFile multipartFile = request.getFile("image");
+
+        // JSON 데이터 추출
+        String jsonStr = request.getParameter("json");
+        SignUpReqDto user = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
+
+        if (multipartFile != null) {
+            String url = userService.uploadProfile(multipartFile);
+            user.setProfileImg(url);
+        }
+
+        userService.modifyProfileStudent(user, username);
+
         return ResponseEntity.ok(null);
     }
 

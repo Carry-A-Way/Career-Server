@@ -40,6 +40,10 @@ public class SignUpReqDto {
     private Boolean isTutor;
 
     private String profileImg; // MultipartFile
+
+    private String interestingMajor1;
+    private String interestingMajor2;
+    private String interestingMajor3;
     private String consultMajor1;
     private String consultMajor2;
     private String consultMajor3;
@@ -81,6 +85,9 @@ public class SignUpReqDto {
     public StudentDetail toStudentDetailEntity(Long studentId) {
         return StudentDetail.builder()
                 .studentId(studentId)
+                .interestingMajor1(interestingMajor1)
+                .interestingMajor2(interestingMajor2)
+                .interestingMajor3(interestingMajor3)
                 .build();
     }
     public TutorDetail toTutorDetailEntity(Long tutorId) {
