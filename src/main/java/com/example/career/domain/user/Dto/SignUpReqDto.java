@@ -1,6 +1,7 @@
 package com.example.career.domain.user.Dto;
 
 import com.example.career.domain.user.Entity.Authority;
+import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
 import lombok.*;
@@ -31,6 +32,7 @@ public class SignUpReqDto {
     private String password; //
     private String role ="USER"; // USER
     private Boolean gender; //
+    private String email;
     private String introduce; //
     private String hobby;
     private Set<AuthorityDto> authorityDtoSet;
@@ -58,6 +60,7 @@ public class SignUpReqDto {
         return User.builder()
                 .password(password)
                 .name(name)
+                .email(email)
                 .profileImg(profileImg)
                 .username(username)
                 .isTutor(isTutor)
@@ -75,6 +78,11 @@ public class SignUpReqDto {
                 .build();
     }
 
+    public StudentDetail toStudentDetailEntity(Long studentId) {
+        return StudentDetail.builder()
+                .studentId(studentId)
+                .build();
+    }
     public TutorDetail toTutorDetailEntity(Long tutorId) {
         return TutorDetail.builder()
                 .tutorId(tutorId)
@@ -89,6 +97,7 @@ public class SignUpReqDto {
 
         return SignUpReqDto.builder()
                 .name(user.getName())
+                .email(user.getEmail())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .isTutor(user.getIsTutor())

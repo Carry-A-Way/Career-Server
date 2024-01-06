@@ -25,7 +25,7 @@ public class PurchaseUsed {
     private LocalDateTime usedDate;
 
     @ManyToOne
-    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    @JoinColumn(name = "stu_id", referencedColumnName = "studentId")
     private StudentDetail stuDetail;
 
     @ManyToOne

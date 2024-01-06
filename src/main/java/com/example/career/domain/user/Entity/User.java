@@ -57,6 +57,9 @@ public class User
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String password;
 
+    @Column(columnDefinition = "CHAR(30)")
+    private String email;
+
     @Column(columnDefinition = "CHAR(7)", nullable = false)
     private String role = "USER";
 

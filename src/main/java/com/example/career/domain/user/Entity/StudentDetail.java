@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @Table(name = "StudentDetail")
 public class StudentDetail {
     @Id
-    private Long student_id;
+    private Long studentId;
 
 //    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "student_id", referencedColumnName = "id")
+//    @JoinColumn(name = "studentId", referencedColumnName = "id")
 //    private Long user_id;
 
-    @Column(nullable = false, columnDefinition = "varchar(50)")
+    @Column(columnDefinition = "varchar(50)")
     private String interestingMajor1;
     @Column(columnDefinition = "varchar(50)")
     private String interestingMajor2;

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final TutorDetailRepository tutorDetailRepository;
+    private final StudentDetailRepository studentDetailRepository;
     private final SchoolRepository schoolRepository;
     private final TagRepository tagRepository;
     private final CareerRepository careerRepository;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public SignUpReqDto signup(SignUpReqDto signUpReqDto) {
+    public SignUpReqDto signupTutor(SignUpReqDto signUpReqDto) {
         if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
@@ -79,6 +80,29 @@ public class UserServiceImpl implements UserService{
 //        EntityUtils.saveEntities(signUpReqDto.getSchoolList(), id, schoolRepository, SchoolDto::toSchoolEntity);
 //        EntityUtils.saveEntities(signUpReqDto.getCareerList(), id, careerRepository, CareerDto::toCareerEntity);
 //        EntityUtils.saveEntities(signUpReqDto.getTagList(), id, tagRepository, TagDto::toTagEntity);
+
+        return SignUpReqDto.from(user);
+    }
+
+    @Transactional
+    @Override
+    public SignUpReqDto signupStudent(SignUpReqDto signUpReqDto) {
+        if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
+            throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
+        }
+        signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
+
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
+        User user = signUpReqDto.toUserEntity(Collections.singleton(authority));
+        user = userRepository.save(user);
+
+        Long id = user.getId();
+
+        StudentDetail studentDetail = signUpReqDto.toStudentDetailEntity(id);
+        studentDetailRepository.save(studentDetail);
 
         return SignUpReqDto.from(user);
     }

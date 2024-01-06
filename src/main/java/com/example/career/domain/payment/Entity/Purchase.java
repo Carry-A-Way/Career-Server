@@ -23,7 +23,7 @@ public class Purchase {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "stu_id", referencedColumnName = "student_id")
+    @JoinColumn(name = "stu_id", referencedColumnName = "studentId")
     private StudentDetail stuDetail;
 
     @ManyToOne

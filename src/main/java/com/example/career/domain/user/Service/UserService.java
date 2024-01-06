@@ -14,7 +14,10 @@ public interface UserService {
     public User signIn(UserReqDto userReqDto);
 //    public User signUp(SignUpReqDto signUpReqDto);
     @Transactional
-    public SignUpReqDto signup(SignUpReqDto userDto);
+    public SignUpReqDto signupTutor(SignUpReqDto userDto);
+
+    @Transactional
+    public SignUpReqDto signupStudent(SignUpReqDto userDto);
     public User getUserByUsername(String username) throws Exception;
     @Transactional
     public void modifyProfile(SignUpReqDto signUpReqDto, String username) throws Exception;
