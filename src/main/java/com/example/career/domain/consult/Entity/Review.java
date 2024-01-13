@@ -1,5 +1,7 @@
 package com.example.career.domain.consult.Entity;
 
+import com.example.career.domain.consult.Dto.ReviewRespDto;
+import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
@@ -19,7 +21,11 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Long consultId;
 
     @Column(nullable = false)
     private int rate;
@@ -30,6 +36,9 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "tutorId", referencedColumnName = "tutorId")
     private TutorDetail tutorDetail;
+    @ManyToOne
+    @JoinColumn(name = "studentId", referencedColumnName = "studentId")
+    private StudentDetail studentDetail;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -38,5 +47,16 @@ public class Review {
     public void prePersist() {
         this.createdAt = KoreaTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    public ReviewRespDto toRespDto() {
+        return ReviewRespDto.builder()
+                .id(id)
+                .consultId(consultId)
+                .rate(rate)
+                .comment(comment)
+                .createdAt(createdAt)
+                .updatedAt(updatedAt)
+                .build();
     }
 }

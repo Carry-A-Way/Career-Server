@@ -1,9 +1,8 @@
 package com.example.career.domain.consult.Controller;
 
-import com.example.career.domain.consult.Dto.ConsultJoinReqDto;
-import com.example.career.domain.consult.Dto.ConsultRespDto;
-import com.example.career.domain.consult.Dto.ConsultYesorNoReqDto;
+import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
+import com.example.career.domain.consult.Entity.Review;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Service.ConsultService;
 import com.example.career.domain.user.Entity.User;
@@ -11,6 +10,7 @@ import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +43,19 @@ public class ConsultController {
     @GetMapping ("mentor/join")
     public void mentorJoinInConsult(@RequestBody ConsultJoinReqDto consultJoinReqDto){
         consultService.mentorJoinInConsult(consultJoinReqDto.getConsultId());
+    }
+    @Authenticated
+    @PostMapping("write/review")
+    public ReviewRespDto writeReviewAfterConsult(HttpServletRequest request, @RequestBody ReviewWriteReqDto reviewWriteReqDto) {
+        User user = (User) request.getAttribute("user");
+        return consultService.writeReview(user, reviewWriteReqDto);
+    }
+
+    @Authenticated
+    @PostMapping("update/review")
+    public ReviewRespDto updateReviewAfterConsult(HttpServletRequest request, @RequestBody ReviewWriteReqDto reviewWriteReqDto) {
+        User user = (User) request.getAttribute("user");
+        return consultService.updateReview(user, reviewWriteReqDto);
     }
 
 }
