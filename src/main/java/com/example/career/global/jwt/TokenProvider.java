@@ -53,7 +53,7 @@ public class TokenProvider implements InitializingBean {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-//                .claim("id", id)
+                .claim("id", id)    // 게시글 및 댓글 클릭시 내 댓글인지 여부 판단하는 데에 사용.
                 .claim("isTutor", isTutor)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
