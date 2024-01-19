@@ -37,6 +37,9 @@ public class School {
     @Column(columnDefinition = "VARCHAR(30)")
     private String schoolName;
 
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String majorName;
+
     @Column(columnDefinition = "VARCHAR(10)")
     private String startDate;
 

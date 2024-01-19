@@ -17,6 +17,7 @@ public class SchoolDto {
     private Long idx; // 경력 갯수 idx
     private String schoolType; // 고등, 대학
     private String schoolName;
+    private String majorName;
     private String startDate;
     private String endDate;
     private String state; // 졸업, 졸업예정 등
@@ -26,6 +27,8 @@ public class SchoolDto {
                 .tutorId(id)
                 .idx(idx)
                 .schoolName(schoolName)
+                .schoolType(schoolType)
+                .majorName(majorName)
                 .startDate(startDate)
                 .endDate(endDate)
                 .state(state)
@@ -39,6 +42,7 @@ public class SchoolDto {
                 .idx(school.getIdx())
                 .schoolType(school.getSchoolType())
                 .schoolName(school.getSchoolName())
+                .majorName(school.getMajorName())
                 .startDate(school.getStartDate())
                 .endDate(school.getEndDate())
                 .state(school.getState())
