@@ -1,5 +1,6 @@
 package com.example.career.domain.user.Service;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.*;
@@ -251,6 +252,11 @@ public class UserServiceImpl implements UserService{
             System.out.println(urlList);
         }
         return urlList;
+    }
+
+    @Override
+    public UserBriefWithRate getUserCardData(Long userId) {
+        return tutorDetailRepository.findUserCardData(userId);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.career.domain.user.Service;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.user.Dto.MentorHomeRespDto;
 import com.example.career.domain.user.Dto.UserReqDto;
 import com.example.career.domain.user.Dto.SignUpReqDto;
@@ -33,4 +34,7 @@ public interface UserService {
     public SignUpReqDto getMyUserWithAuthorities();
     public String uploadProfile(MultipartFile multipartFile) throws IOException;
     public List<String> uploadActiceImages(List<MultipartFile> MultipartFile) throws IOException;
+
+    public UserBriefWithRate getUserCardData(Long userId);
+
 }

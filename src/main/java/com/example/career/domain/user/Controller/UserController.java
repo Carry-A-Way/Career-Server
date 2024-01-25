@@ -1,5 +1,6 @@
 package com.example.career.domain.user.Controller;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.*;
 import com.example.career.domain.user.Service.*;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -238,5 +240,18 @@ public class UserController {
         return "test";
     }
 
+    @GetMapping("card")
+    public ResponseEntity<?> getUsersCardData(@RequestParam Long userId) {
+        UserBriefWithRate userBriefWithRate = userService.getUserCardData(userId);
+
+        // 객체가 null인 경우 확인
+        if (userBriefWithRate == null) {
+            // null인 경우 No Content 상태 코드 반환
+            return new ResponseEntity<>("멘토 ID를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
+        }
+
+        // 데이터가 있는 경우, 정상적으로 반환
+        return ResponseEntity.ok(userBriefWithRate);
+    }
 
 }
