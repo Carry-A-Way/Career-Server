@@ -1,5 +1,6 @@
 package com.example.career.domain.community.Dto.Brief;
 
+import com.example.career.domain.user.Entity.School;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
 import jakarta.persistence.Column;
@@ -7,11 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserBriefWithRate {
     private Long id;
+    private String name;
     private String nickname;
     private Boolean isTutor;
     private String profileImg;
@@ -26,8 +30,12 @@ public class UserBriefWithRate {
     private String consultMajor3;
     private String consultMethod;
 
+    private List<School> schoolList;
+
+
     public UserBriefWithRate(User user, TutorDetail tutorDetail) {
         this.id = user.getId();
+        this.name = user.getName();
         this.nickname = user.getNickname();
         this.isTutor = user.getIsTutor();
         this.profileImg = user.getProfileImg();
