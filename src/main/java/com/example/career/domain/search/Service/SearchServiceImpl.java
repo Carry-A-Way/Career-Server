@@ -12,6 +12,7 @@ import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.community.Service.ArticleService;
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import com.example.career.domain.user.Entity.TutorDetail;
+import com.example.career.domain.user.Repository.SchoolRepository;
 import com.example.career.domain.user.Repository.TutorDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ public class SearchServiceImpl implements SearchService{
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
     private final TutorDetailRepository tutorDetailRepository;
+    private final SchoolRepository schoolRepository;
     @Override
     public List<ArticleDto> getArticlesByKeyWord(Long userId, String keyWord, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -42,13 +44,43 @@ public class SearchServiceImpl implements SearchService{
     @Override
     public List<UserBriefWithRate> getUserByTags(String keyword, String type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-
+        List<UserBriefWithRate> userBriefWithRates;
         if (type.equals("rank")) {
-            return tutorDetailRepository.findByKeywordOrderByRateCountDesc(keyword, pageable).getContent();
+            userBriefWithRates = tutorDetailRepository.findByKeywordOrderByRateCountDesc(keyword, pageable).getContent();
         } else if (type.equals("rate")) {
-            return tutorDetailRepository.findByKeywordOrderByRateAvgDesc(keyword, pageable).getContent();
+            userBriefWithRates = tutorDetailRepository.findByKeywordOrderByRateAvgDesc(keyword, pageable).getContent();
         } else {
             throw new IllegalArgumentException("Invalid type: " + type);
         }
+        if (userBriefWithRates != null) {
+            for(int i=0; i< userBriefWithRates.size(); i++) {
+                try{
+                    userBriefWithRates.get(i).setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(userBriefWithRates.get(i).getId()));
+
+                }catch(NullPointerException e) {
+                    userBriefWithRates.get(i).setSchoolList(null);
+                }
+            }
+        }
+        return userBriefWithRates;
+    }
+
+    @Override
+    public List<UserBriefWithRate> getUserByRecently(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<UserBriefWithRate> userBriefWithRates;
+        userBriefWithRates = tutorDetailRepository.findByUserRecently(pageable).getContent();
+
+        if (userBriefWithRates != null) {
+            for(int i=0; i< userBriefWithRates.size(); i++) {
+                try{
+                    userBriefWithRates.get(i).setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(userBriefWithRates.get(i).getId()));
+
+                }catch(NullPointerException e) {
+                    userBriefWithRates.get(i).setSchoolList(null);
+                }
+            }
+        }
+        return userBriefWithRates;
     }
 }

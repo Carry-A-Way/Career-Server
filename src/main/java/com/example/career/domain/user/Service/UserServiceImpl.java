@@ -256,7 +256,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserBriefWithRate getUserCardData(Long userId) {
-        return tutorDetailRepository.findUserCardData(userId);
+        UserBriefWithRate userBriefWithRate = tutorDetailRepository.findUserCardData(userId);
+        try{
+            userBriefWithRate.setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(userId));
+
+        }catch (NullPointerException e) {
+            userBriefWithRate.setSchoolList(null);
+        }
+        return userBriefWithRate;
     }
 
     @Override

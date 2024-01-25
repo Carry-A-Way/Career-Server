@@ -32,4 +32,9 @@ public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long> {
             "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
             "WHERE (t.tutorId = :userId) ")
     UserBriefWithRate findUserCardData(@Param("userId") Long userId);
+
+    @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
+            "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
+            "ORDER BY u.createdAt DESC")
+    Page<UserBriefWithRate> findByUserRecently(Pageable pageable);
 }
