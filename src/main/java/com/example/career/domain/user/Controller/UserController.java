@@ -78,7 +78,7 @@ public class UserController {
             signUpReqDto.setMyLife(tutorDetail.getMyLife());
 
             List<School> schoolList = schoolService.getSchoolByTutorId(id);
-            List<Tag> tagList = tagService.getTagByTutorId(id);
+            List<Tag> tagList = tagService.getTagByUserId(id);
             List<Career> careerList = careerService.getCareerByTutorId(id);
 
             List<SchoolDto> schoolDtoList = schoolList.stream().map(SchoolDto::from)
@@ -114,6 +114,11 @@ public class UserController {
             signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor1());
             signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor2());
             signUpReqDto.setInterestingMajor1(studentDetail.getInterestingMajor3());
+
+            List<Tag> tagList = tagService.getTagByUserId(id);
+            List<TagDto> tagDtoList = tagList.stream().map(TagDto::from)
+                    .collect(Collectors.toList());
+            signUpReqDto.setTagList(tagDtoList);
 
             return ResponseEntity.ok(signUpReqDto);
         } catch (Exception e) {

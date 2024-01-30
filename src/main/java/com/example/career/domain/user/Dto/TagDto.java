@@ -17,7 +17,7 @@ public class TagDto {
 
     public Tag toTagEntity(Long id) {
         return Tag.builder()
-                .tutorId(id)
+                .userId(id)
                 .idx(idx)
                 .name(name)
                 .build();

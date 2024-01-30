@@ -21,11 +21,11 @@ public class Tag {
     private Long id;
 
     @Column(nullable = false)
-    private Long tutorId;
+    private Long userId;
 
     @Column(nullable = false, unique = true)
     private Long idx;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(15)")
+    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
     private String name;
 }
