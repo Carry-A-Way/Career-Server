@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.career.domain.major.Service.MajorServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-30T17:49:52" hostname="DESKTOP-NKKIF8F" time="0.034">
+  <properties/>
+  <testcase name="전공 자동 완성 테스트" classname="com.example.career.domain.major.Service.MajorServiceTest" time="0.034"/>
+  <system-out><![CDATA[2024-01-31T02:49:52.860+09:00  INFO 5364 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.career.domain.major.Service.MajorServiceTest]: MajorServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -13,6 +13,6 @@ public class MajorServiceImpl implements MajorService{
     private final MajorRepository majorRepository;
     @Override
     public List<Major> getMajorListContaining(String majorName) {
-        return majorRepository.findByMajorNameContaining(majorName);
+        return majorRepository.findByMajorNameContainingOrderByMajorNameAsc(majorName);
     }
 }

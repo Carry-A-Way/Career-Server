@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - CareerApplicationTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>CareerApplicationTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.example.career.html">com.example.career</a> &gt; CareerApplicationTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.179s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">contextLoads()</td>
+<td class="success">0.179s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>02:49:42.927 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [CareerApplicationTests]: using SpringBootContextLoader
+02:49:42.932 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.example.career.CareerApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+02:49:42.932 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.example.career.CareerApplicationTests]: CareerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+02:49:42.961 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [CareerApplicationTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+02:49:43.047 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\career-server\Career-Server\build\classes\java\main\com\example\career\CareerApplication.class]
+02:49:43.049 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.example.career.CareerApplication for test class com.example.career.CareerApplicationTests
+02:49:43.159 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners for test class [CareerApplicationTests]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, WithSecurityContextTestExecutionListener, EventPublishingTestExecutionListener, ReactorContextTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+02:49:43.160 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: class [CareerApplicationTests], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.2)
+
+2024-01-31T02:49:43.487+09:00  INFO 5364 --- [    Test worker] c.example.career.CareerApplicationTests  : Starting CareerApplicationTests using Java 17.0.6 with PID 5364 (started by User in C:\career-server\Career-Server)
+2024-01-31T02:49:43.489+09:00  INFO 5364 --- [    Test worker] c.example.career.CareerApplicationTests  : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-01-31T02:49:44.378+09:00  INFO 5364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-31T02:49:44.558+09:00  INFO 5364 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 171 ms. Found 20 JPA repository interfaces.
+2024-01-31T02:49:44.906+09:00  INFO 5364 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-01-31T02:49:44.940+09:00  INFO 5364 --- [    Test worker] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2024-01-31T02:49:45.303+09:00  INFO 5364 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-31T02:49:45.365+09:00  INFO 5364 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2024-01-31T02:49:45.568+09:00  WARN 5364 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2024-01-31T02:49:45.708+09:00  INFO 5364 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-31T02:49:46.090+09:00  INFO 5364 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@36511772
+2024-01-31T02:49:46.093+09:00  INFO 5364 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-31T02:49:46.164+09:00  INFO 5364 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2024-01-31T02:49:46.189+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(12, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@7323dce7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@5f68eec6)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-9, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@4ff9f715) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@118a4d5)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(-3, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6cb194f5) replaced previous registration(org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@74b7497b)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4003, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@74f649a7) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@308c65e0)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4001, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@50fa5938) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@1e482ecd)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(4002, org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@58b5f7d2) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@bc52a41)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2004, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@9f48198) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5615f82d)
+2024-01-31T02:49:46.190+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2005, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@21698e5a) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@3dc2f14)
+2024-01-31T02:49:46.191+09:00 DEBUG 5364 --- [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2011, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@2e8986b6) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@5724c7da)
+2024-01-31T02:49:47.964+09:00  INFO 5364 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-01-31T02:49:47.977+09:00  INFO 5364 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+자격증명 완료
+2024-01-31T02:49:50.168+09:00  WARN 5364 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-31T02:49:50.538+09:00  INFO 5364 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7144cd51, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@28fb3476, org.springframework.security.web.context.SecurityContextHolderFilter@13638ddf, org.springframework.security.web.header.HeaderWriterFilter@44f2d195, org.springframework.security.web.authentication.logout.LogoutFilter@1c8020c6, org.springframework.web.filter.CorsFilter@50ca509b, com.example.career.global.jwt.JwtFilter@228ec493, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68172eeb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24037ea, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5592464a, org.springframework.security.web.access.ExceptionTranslationFilter@698af960, org.springframework.security.web.access.intercept.AuthorizationFilter@2a6e710e]
+2024-01-31T02:49:51.059+09:00  INFO 5364 --- [    Test worker] c.example.career.CareerApplicationTests  : Started CareerApplicationTests in 7.852 seconds (process running for 9.169)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.5.1</a> at 2024. 1. 31. 오전 2:49:53</p>
+</div>
+</div>
+</body>
+</html>
