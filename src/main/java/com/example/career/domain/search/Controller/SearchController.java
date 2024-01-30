@@ -6,6 +6,8 @@ import com.example.career.domain.community.Dto.response.ArticleDto;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
+import com.example.career.domain.major.Entity.Major;
+import com.example.career.domain.major.Service.MajorService;
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import com.example.career.domain.search.Service.SearchService;
 import com.example.career.domain.user.Entity.TutorDetail;
@@ -19,13 +21,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("search")
 public class SearchController {
     private final SearchService searchService;
+    private final MajorService majorService;
     @Authenticated
     @GetMapping("community")
     public ResponseEntity<List<ArticleDto>> searchCommunityList(@RequestParam String keyWord, @RequestParam int page, @RequestParam int size, HttpServletRequest request) {
@@ -43,4 +48,5 @@ public class SearchController {
     public ResponseEntity<List<UserBriefWithRate>> searchMentorByCreatedAt(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(searchService.getUserByRecently(page, size));
     }
+
 }

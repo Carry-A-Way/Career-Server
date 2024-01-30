@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MajorNameRespDto {
     private Long id;
-    private String major;
+    private String majorName;
 }
