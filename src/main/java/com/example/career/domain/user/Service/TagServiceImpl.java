@@ -13,7 +13,7 @@ public class TagServiceImpl implements TagService{
 
     private final TagRepository tagRepository;
     @Override
-    public List<Tag> getTagByTutorId(Long id) {
-        return tagRepository.findAllByTutorId(id);
+    public List<Tag> getTagByUserId(Long id) {
+        return tagRepository.findAllByUserId(id);
     }
 }

@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 schoolRepository,
                 SchoolDto::toSchoolEntity,
-                (tutorId, idx) -> schoolRepository.findByTutorIdAndIdx(tutorId, idx),
+                (userId, idx) -> schoolRepository.findByTutorIdAndIdx(userId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((SchoolDto) dto).getIdx()
         );
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 tagRepository,
                 TagDto::toTagEntity,
-                (tutorId, idx) -> tagRepository.findByTutorIdAndIdx(tutorId, idx),
+                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((TagDto) dto).getIdx()
         );
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService{
                 id,
                 careerRepository,
                 CareerDto::toCareerEntity,
-                (tutorId, idx) -> careerRepository.findByTutorIdAndIdx(tutorId, idx),
+                (userId, idx) -> careerRepository.findByTutorIdAndIdx(userId, idx),
                 (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
                 dto -> ((CareerDto) dto).getIdx()
         );
@@ -195,6 +195,16 @@ public class UserServiceImpl implements UserService{
 
         updateEntityFields(user, signUpReqDto, userFields, false);
         updateEntityFields(studentDetail, signUpReqDto, studentDetailFields, false);
+
+        EntityUtils.processEntities(
+                signUpReqDto.getTagList(),
+                id,
+                tagRepository,
+                TagDto::toTagEntity,
+                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
+                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
+                dto -> ((TagDto) dto).getIdx()
+        );
     }
 
     private <T, DTO> void updateEntityFields(T entity, DTO dto, Set<String> fieldsToCheck, boolean skip) {

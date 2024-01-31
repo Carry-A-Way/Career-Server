@@ -25,7 +25,7 @@ public class Major {
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(15)",nullable = false)
-    private String major;
+    private String majorName;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String description;
@@ -41,7 +41,7 @@ public class Major {
     public MajorNameRespDto toNameDto() {
         return MajorNameRespDto.builder()
                 .id(id)
-                .major(major)
+                .majorName(majorName)
                 .build();
     }
 }
