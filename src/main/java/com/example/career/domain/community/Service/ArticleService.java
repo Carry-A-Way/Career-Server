@@ -195,6 +195,11 @@ public class ArticleService {
 
         // 해당 게시글의 댓글 가져오기
         List<Comment> comments = commentRepository.findByArticleIdWithRecomments(id);
+        for (Comment comment: comments) {
+            if (comment.getIsDeleted()) {
+                comment.setContent("삭제된 댓글입니다.");
+            }
+        }
         // 댓글 isLiked 설정
         details.put("comments", commentService.convertToCommentDtoListWithRecommentDtosInside(comments, userId));
 

@@ -30,7 +30,7 @@ public class CommentDto {
     private ArticleBrief article;
     private List<RecommentDto> recomments;
     private Long commentId = -1L;
-    private Boolean isDeteletd = false;
+    private Boolean isDeleted = false;
 
     public static Comment toCommentEntity(User user, Article article, CommentDtoReq dto) {
         return Comment.builder()
@@ -52,7 +52,7 @@ public class CommentDto {
         commentDto.updatedAt = comment.getUpdatedAt();
         commentDto.user = new UserBrief(comment.getUser());
         commentDto.article = new ArticleBrief(comment.getArticle());
-        commentDto.isDeteletd = comment.getIsDeleted();
+        commentDto.isDeleted = comment.getIsDeleted();
 
         // Mapping recomments
         List<RecommentDto> recommentDtos = comment.getRecomments().stream()

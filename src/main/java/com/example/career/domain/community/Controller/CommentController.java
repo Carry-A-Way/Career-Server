@@ -24,6 +24,7 @@ public class CommentController {
     @Authenticated
     @GetMapping("my_comments")
     public ResponseEntity<List<CommentDto>> allCommentedArticles(HttpServletRequest request, @RequestParam int page, @RequestParam int size) {
+        System.out.println(" 여기");
         User user = (User) request.getAttribute("user");
         Long userId = user.getId();
         List<CommentDto> comments = commentService.allComments(userId, page, size);

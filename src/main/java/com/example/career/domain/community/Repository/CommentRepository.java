@@ -29,7 +29,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
                     "SELECT COUNT(*) FROM (" +
                             "SELECT a.id " +
                             "FROM article a " +
-                            "JOIN comment c ON a.id = c.article_id AND c.user_id = :userId " +
+                            "JOIN comment c ON a.id = c.article_id AND c.user_id = :userId AND c.is_deleted = false " +
                             "UNION " +
                             "SELECT a.id " +
                             "FROM article a " +
