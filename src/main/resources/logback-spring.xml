@@ -4,9 +4,18 @@
     <!-- 콘솔 로깅 -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="Console" />
+    </root>
+
+    <logger name="com.example.career" level="DEBUG">
+        <appender-ref ref="Console" />
+    </logger>
+
 
     <property name="LOG_PATH" value="./logs"/>
     <property name="LOG_FILE_NAME" value="api"/>
@@ -50,8 +59,7 @@
         </rollingPolicy>
     </appender>
 
-    <!-- 모든 프로파일에서 사용할 로거 설정 -->
-    <logger name="com.example.career.global.aop.LoggingAspect" level="INFO">
+    <logger name="com.example.career.global.aop.LoggingAspect" level="DEBUG">
         <appender-ref ref="Console" />
         <appender-ref ref="ApiLogFile" />
         <appender-ref ref="ErrorLogFile" />

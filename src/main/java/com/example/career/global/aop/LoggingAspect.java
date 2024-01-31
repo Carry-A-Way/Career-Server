@@ -18,7 +18,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Aspect
 @Component
@@ -54,11 +56,17 @@ public class LoggingAspect {
 
         // 로그 정보를 생성합니다.
         final RequestApiInfo apiInfo = new RequestApiInfo(joinPoint, joinPoint.getTarget().getClass(), objectMapper);
+
+        Object[] parameters = apiInfo.getParameters();
+        String parametersAsString = Arrays.stream(parameters)
+                .map(p -> p instanceof HttpServletRequest ? "HttpServletRequest" : p.toString())
+                .collect(Collectors.joining(", ", "[", "]"));
+
         final LogInfo logInfo = new LogInfo(
                 apiInfo.getUrl(),
                 apiInfo.getName(),
                 apiInfo.getMethod(),
-                objectMapper.writeValueAsString(apiInfo.getParameters()),
+                parametersAsString,
                 objectMapper.writeValueAsString(apiInfo.getBody()),
                 clientIpAddress, // 클라이언트 IP 주소
                 username, // 유저 이름
