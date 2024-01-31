@@ -4,3 +4,4 @@
 *.properties
 *.probe
 .idea/dataSources.xml
+./logs
