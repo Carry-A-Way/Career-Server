@@ -200,6 +200,11 @@ public class ArticleService {
                 comment.setContent("삭제된 댓글입니다.");
             }
         }
+        // Filter out comments with getRecommentCnt() == 0 and getIsDeleted() == true
+        comments = comments.stream()
+                .filter(comment -> comment.getRecommentCnt() > 0 || !comment.getIsDeleted())
+                .collect(Collectors.toList());
+
         // 댓글 isLiked 설정
         details.put("comments", commentService.convertToCommentDtoListWithRecommentDtosInside(comments, userId));
 
