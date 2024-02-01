@@ -5,6 +5,7 @@ import com.example.career.domain.user.Entity.Tag;
 import com.example.career.domain.user.Entity.TutorDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,6 @@ public interface SchoolRepository extends JpaRepository<School,Long> {
     public Optional<School> findByTutorIdAndIdx(Long id, Long idx);
     public List<School> findAllByTutorId(Long id);
     public List<School> findAllByTutorIdOrderByIdxAsc(Long id);
-
+    @Transactional
+    public void deleteByTutorIdAndIdx(Long tutorId, Long idx);
 }

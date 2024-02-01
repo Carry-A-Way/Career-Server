@@ -207,6 +207,34 @@ public class UserServiceImpl implements UserService{
         );
     }
 
+    @Transactional
+    @Override
+    public void deleteListInMentorProfile(ListDeleteReqDto listDeleteReqDto, Long userId) {
+        List<SchoolDto> schoolList = listDeleteReqDto.getSchoolList();
+        List<TagDto> tagList = listDeleteReqDto.getTagList();
+        List<CareerDto> careerList = listDeleteReqDto.getCareerList();
+
+        for (SchoolDto schoolDto: schoolList) {
+            schoolRepository.deleteByTutorIdAndIdx(userId, schoolDto.getIdx());
+        }
+        for (TagDto tagDto: tagList) {
+            tagRepository.deleteByUserIdAndIdx(userId, tagDto.getIdx());
+        }
+        for (CareerDto careerDto: careerList) {
+            careerRepository.deleteByTutorIdAndIdx(userId, careerDto.getIdx());
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteListInMenteeProfile(ListDeleteReqDto listDeleteReqDto, Long userId) {
+        List<TagDto> tagList = listDeleteReqDto.getTagList();
+
+        for (TagDto tagDto: tagList) {
+            tagRepository.deleteByUserIdAndIdx(userId, tagDto.getIdx());
+        }
+    }
+
     private <T, DTO> void updateEntityFields(T entity, DTO dto, Set<String> fieldsToCheck, boolean skip) {
         if (entity == null) {
             return;

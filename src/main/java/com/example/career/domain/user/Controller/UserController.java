@@ -141,6 +141,8 @@ public class UserController {
         // JSON 데이터 추출
         String jsonStr = request.getParameter("json");
 
+        // delete list 데이터 추출
+        String deleteJsonStr = request.getParameter("delete");
         if (multipartFile != null) {
             String url = userService.uploadProfile(multipartFile);
             userAop.setProfileImg(url);
@@ -151,7 +153,12 @@ public class UserController {
             SignUpReqDto signUpReqDto = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
             userService.modifyProfileTutor(signUpReqDto, username);
         }
-        
+
+        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
+            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
+            userService.deleteListInMentorProfile(listDeleteReqDto, userAop.getId());
+        }
+
         return ResponseEntity.ok(null);
     }
 
@@ -168,6 +175,9 @@ public class UserController {
         // JSON 데이터 추출
         String jsonStr = request.getParameter("json");
 
+        // delete list 데이터 추출
+        String deleteJsonStr = request.getParameter("delete");
+
         if (multipartFile != null) {
             String url = userService.uploadProfile(multipartFile);
             userAop.setProfileImg(url);
@@ -176,6 +186,11 @@ public class UserController {
         if (jsonStr != null && !jsonStr.isEmpty()) {
             SignUpReqDto signUpReqDto = new ObjectMapper().readValue(jsonStr, SignUpReqDto.class);
             userService.modifyProfileStudent(signUpReqDto, username);
+        }
+
+        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
+            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
+            userService.deleteListInMenteeProfile(listDeleteReqDto, userAop.getId());
         }
 
         return ResponseEntity.ok(null);
