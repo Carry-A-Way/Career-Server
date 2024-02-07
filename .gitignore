@@ -4,8 +4,8 @@
 *.properties
 *.probe
 .idea/dataSources.xml
-logs
-logs/*
-logs/api-error.log
-logs/api.log
-logs/api*
+./logs
+./logs/*
+./logs/api-error.log
+./logs/api.log
+./logs/api*
