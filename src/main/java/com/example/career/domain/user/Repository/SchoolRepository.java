@@ -17,4 +17,6 @@ public interface SchoolRepository extends JpaRepository<School,Long> {
     public List<School> findAllByTutorIdOrderByIdxAsc(Long id);
     @Transactional
     public void deleteByTutorIdAndIdx(Long tutorId, Long idx);
+    @Transactional
+    public void deleteAllByTutorId(Long tutorId);
 }

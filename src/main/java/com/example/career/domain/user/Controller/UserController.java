@@ -142,7 +142,7 @@ public class UserController {
         String jsonStr = request.getParameter("json");
 
         // delete list 데이터 추출
-        String deleteJsonStr = request.getParameter("delete");
+//        String deleteJsonStr = request.getParameter("delete");
         if (multipartFile != null) {
             String url = userService.uploadProfile(multipartFile);
             userAop.setProfileImg(url);
@@ -154,10 +154,10 @@ public class UserController {
             userService.modifyProfileTutor(signUpReqDto, username);
         }
 
-        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
-            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
-            userService.deleteListInMentorProfile(listDeleteReqDto, userAop.getId());
-        }
+//        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
+//            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
+//            userService.deleteListInMentorProfile(listDeleteReqDto, userAop.getId());
+//        }
 
         return ResponseEntity.ok(null);
     }
@@ -175,8 +175,9 @@ public class UserController {
         // JSON 데이터 추출
         String jsonStr = request.getParameter("json");
 
+        // tagList delta version
         // delete list 데이터 추출
-        String deleteJsonStr = request.getParameter("delete");
+//        String deleteJsonStr = request.getParameter("delete");
 
         if (multipartFile != null) {
             String url = userService.uploadProfile(multipartFile);
@@ -188,12 +189,23 @@ public class UserController {
             userService.modifyProfileStudent(signUpReqDto, username);
         }
 
-        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
-            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
-            userService.deleteListInMenteeProfile(listDeleteReqDto, userAop.getId());
-        }
+        // tagList delta version
+//        if (deleteJsonStr != null && !deleteJsonStr.isEmpty()) {
+//            ListDeleteReqDto listDeleteReqDto = new ObjectMapper().readValue(deleteJsonStr, ListDeleteReqDto.class);
+//            userService.deleteListInMenteeProfile(listDeleteReqDto, userAop.getId());
+//        }
 
         return ResponseEntity.ok(null);
+    }
+
+    @Transactional
+    @Authenticated
+    @PostMapping("/mentee/modify_tagList")
+    public ResponseEntity<Object> modifyMenteeTagList(HttpServletRequest request, @RequestBody SignUpReqDto signUpReqDto) throws Exception {
+        User userAop = (User) request.getAttribute("user");
+        Long id = userAop.getId();
+        userService.modifyMenteeTagList(signUpReqDto.getTagList(), id);
+        return ResponseEntity.ok(signUpReqDto.getTagList());
     }
 
     @PostMapping("/signup")

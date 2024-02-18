@@ -16,4 +16,6 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     public List<Tag> findAllByUserId(Long id);
     @Transactional
     public void deleteByUserIdAndIdx(Long userId, Long idx);
+    @Transactional
+    public void deleteAllByUserId(Long userId);
 }

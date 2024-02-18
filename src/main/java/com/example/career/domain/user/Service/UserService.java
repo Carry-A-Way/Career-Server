@@ -1,10 +1,7 @@
 package com.example.career.domain.user.Service;
 
 import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
-import com.example.career.domain.user.Dto.ListDeleteReqDto;
-import com.example.career.domain.user.Dto.MentorHomeRespDto;
-import com.example.career.domain.user.Dto.UserReqDto;
-import com.example.career.domain.user.Dto.SignUpReqDto;
+import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +22,14 @@ public interface UserService {
     void modifyProfileTutor(SignUpReqDto signUpReqDto, String username) throws Exception;
     @Transactional
     void modifyProfileStudent(SignUpReqDto signUpReqDto, String username) throws Exception;
+    @Transactional
+    void modifyMentorTagList(List<TagDto> tagDtoList, Long id);
+    @Transactional
+    void modifyMentorSchoolList(List<SchoolDto> schoolDtoList, Long id);
+    @Transactional
+    void modifyMentorCareerList(List<CareerDto> careerDtoList, Long id);
+    @Transactional
+    void modifyMenteeTagList(List<TagDto> tagDtoList, Long id);
     boolean validUsername(String username);
     boolean validNickname(String nickname);
     boolean validTelephone(String telephone);

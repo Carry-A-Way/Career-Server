@@ -140,39 +140,41 @@ public class UserServiceImpl implements UserService{
         List<TagDto> tagList = signUpReqDto.getTagList();
         List<CareerDto> careerList = signUpReqDto.getCareerList();
 
-        // SchoolList, TagList, CareerList에 대해 업데이트
-        EntityUtils.processEntities(
-                signUpReqDto.getSchoolList(),
-                id,
-                schoolRepository,
-                SchoolDto::toSchoolEntity,
-                (userId, idx) -> schoolRepository.findByTutorIdAndIdx(userId, idx),
-                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
-                dto -> ((SchoolDto) dto).getIdx()
-        );
+        modifyMentorTagList(tagList, id);
+        modifyMentorCareerList(careerList, id);
+        modifyMentorSchoolList(schoolList, id);
+//        // SchoolList, TagList, CareerList에 대해 업데이트
+//        EntityUtils.processEntities(
+//                signUpReqDto.getSchoolList(),
+//                id,
+//                schoolRepository,
+//                SchoolDto::toSchoolEntity,
+//                (userId, idx) -> schoolRepository.findByTutorIdAndIdx(userId, idx),
+//                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
+//                dto -> ((SchoolDto) dto).getIdx()
+//        );
+//
+//        EntityUtils.processEntities(
+//                signUpReqDto.getTagList(),
+//                id,
+//                tagRepository,
+//                TagDto::toTagEntity,
+//                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
+//                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
+//                dto -> ((TagDto) dto).getIdx()
+//        );
+//
+//
+//        EntityUtils.processEntities(
+//                signUpReqDto.getCareerList(),
+//                id,
+//                careerRepository,
+//                CareerDto::toCareerEntity,
+//                (userId, idx) -> careerRepository.findByTutorIdAndIdx(userId, idx),
+//                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
+//                dto -> ((CareerDto) dto).getIdx()
+//        );
 
-        EntityUtils.processEntities(
-                signUpReqDto.getTagList(),
-                id,
-                tagRepository,
-                TagDto::toTagEntity,
-                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
-                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
-                dto -> ((TagDto) dto).getIdx()
-        );
-
-
-        EntityUtils.processEntities(
-                signUpReqDto.getCareerList(),
-                id,
-                careerRepository,
-                CareerDto::toCareerEntity,
-                (userId, idx) -> careerRepository.findByTutorIdAndIdx(userId, idx),
-                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
-                dto -> ((CareerDto) dto).getIdx()
-        );
-
-        //TODO: List<MultipartFile> activeImg 저장해야함.
         
     }
 
@@ -190,21 +192,65 @@ public class UserServiceImpl implements UserService{
 
         StudentDetail studentDetail = studentDetailRepository.findByStudentId(id);
 
+
         Set<String> userFields = new HashSet<>(Arrays.asList("email", "name", "username", "birth", "nickname", "telephone", "password", "gender", "introduce", "hobby", "profileImg"));
         Set<String> studentDetailFields = new HashSet<>(Arrays.asList("interestingMajor1", "interestingMajor2", "interestingMajor3"));
 
         updateEntityFields(user, signUpReqDto, userFields, false);
         updateEntityFields(studentDetail, signUpReqDto, studentDetailFields, false);
 
-        EntityUtils.processEntities(
-                signUpReqDto.getTagList(),
-                id,
-                tagRepository,
-                TagDto::toTagEntity,
-                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
-                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
-                dto -> ((TagDto) dto).getIdx()
-        );
+        modifyMenteeTagList(signUpReqDto.getTagList(), id);
+
+        // tagList delta version
+//        EntityUtils.processEntities(
+//                signUpReqDto.getTagList(),
+//                id,
+//                tagRepository,
+//                TagDto::toTagEntity,
+//                (userId, idx) -> tagRepository.findByUserIdAndIdx(userId, idx),
+//                (entity, dto, fields, isUpdate) -> updateEntityFields(entity, dto, fields, isUpdate),
+//                dto -> ((TagDto) dto).getIdx()
+//        );
+    }
+
+    @Transactional
+    @Override
+    public void modifyMentorTagList(List<TagDto> tagDtoList, Long id) {
+        tagRepository.deleteAllByUserId(id);
+        if (tagDtoList == null) return;
+        for (TagDto tagDto: tagDtoList) {
+            tagRepository.save(tagDto.toTagEntity(id));
+        }
+    }
+
+    @Transactional
+    @Override
+    public void modifyMentorSchoolList(List<SchoolDto> schoolDtoList, Long id) {
+        schoolRepository.deleteAllByTutorId(id);
+        if (schoolDtoList == null) return;
+        for (SchoolDto schoolDto: schoolDtoList) {
+            schoolRepository.save(schoolDto.toSchoolEntity(id));
+        }
+    }
+
+    @Transactional
+    @Override
+    public void modifyMentorCareerList(List<CareerDto> careerDtoList, Long id) {
+        careerRepository.deleteAllByTutorId(id);
+        if (careerDtoList == null) return;
+        for (CareerDto careerDto: careerDtoList) {
+            careerRepository.save(careerDto.toCareerEntity(id));
+        }
+    }
+
+    @Transactional
+    @Override
+    public void modifyMenteeTagList(List<TagDto> tagDtoList, Long id) {
+        tagRepository.deleteAllByUserId(id);
+        if (tagDtoList == null) return;
+        for (TagDto tagDto: tagDtoList) {
+            tagRepository.save(tagDto.toTagEntity(id));
+        }
     }
 
     @Transactional
