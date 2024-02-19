@@ -12,6 +12,7 @@ import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.community.Service.ArticleService;
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import com.example.career.domain.user.Entity.TutorDetail;
+import com.example.career.domain.user.Repository.FAQRepository;
 import com.example.career.domain.user.Repository.SchoolRepository;
 import com.example.career.domain.user.Repository.TutorDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class SearchServiceImpl implements SearchService{
     private final ArticleService articleService;
     private final TutorDetailRepository tutorDetailRepository;
     private final SchoolRepository schoolRepository;
+    private final FAQRepository faqRepository;
     @Override
     public List<ArticleDto> getArticlesByKeyWord(Long userId, String keyWord, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);

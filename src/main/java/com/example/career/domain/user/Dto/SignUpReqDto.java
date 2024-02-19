@@ -1,9 +1,6 @@
 package com.example.career.domain.user.Dto;
 
-import com.example.career.domain.user.Entity.Authority;
-import com.example.career.domain.user.Entity.StudentDetail;
-import com.example.career.domain.user.Entity.TutorDetail;
-import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Entity.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,6 +56,7 @@ public class SignUpReqDto {
     private List<TagDto> tagList;
 
     private List<MultipartFile> activeImg;
+    private List<FAQ> FAQ;
 
 
     public User toUserEntity(Set<Authority> authorities){
