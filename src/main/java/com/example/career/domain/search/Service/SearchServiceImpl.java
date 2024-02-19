@@ -10,9 +10,6 @@ import com.example.career.domain.community.Repository.ArticleRepository;
 import com.example.career.domain.community.Repository.CommentRepository;
 import com.example.career.domain.community.Repository.RecommentRepository;
 import com.example.career.domain.community.Service.ArticleService;
-import com.example.career.domain.consult.Dto.ReviewRespDto;
-import com.example.career.domain.consult.Entity.Review;
-import com.example.career.domain.consult.Repository.ReviewRepository;
 import com.example.career.domain.search.Dto.CommunitySearchRespDto;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Repository.SchoolRepository;
@@ -36,7 +33,6 @@ public class SearchServiceImpl implements SearchService{
     private final ArticleService articleService;
     private final TutorDetailRepository tutorDetailRepository;
     private final SchoolRepository schoolRepository;
-    private final ReviewRepository reviewRepository;
     @Override
     public List<ArticleDto> getArticlesByKeyWord(Long userId, String keyWord, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -61,20 +57,8 @@ public class SearchServiceImpl implements SearchService{
                 try{
                     userBriefWithRates.get(i).setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(userBriefWithRates.get(i).getId()));
 
-
                 }catch(NullPointerException e) {
                     userBriefWithRates.get(i).setSchoolList(null);
-                }
-                try{
-                    userBriefWithRates.get(i).setReview(
-                            reviewRepository.findAllByTutorDetailOrderByCreatedAt(
-                                    tutorDetailRepository.findByTutorId(
-                                            userBriefWithRates.get(i).getId()
-                                    )
-                            ).stream().map(Review::toRespDto).toList()
-                    );
-                }catch(NullPointerException e) {
-                    userBriefWithRates.get(i).setReview(null);
                 }
             }
         }
@@ -94,17 +78,6 @@ public class SearchServiceImpl implements SearchService{
 
                 }catch(NullPointerException e) {
                     userBriefWithRates.get(i).setSchoolList(null);
-                }
-                try{
-                    userBriefWithRates.get(i).setReview(
-                            reviewRepository.findAllByTutorDetailOrderByCreatedAt(
-                                    tutorDetailRepository.findByTutorId(
-                                            userBriefWithRates.get(i).getId()
-                                    )
-                            ).stream().map(Review::toRespDto).toList()
-                    );
-                }catch(NullPointerException e) {
-                    userBriefWithRates.get(i).setReview(null);
                 }
             }
         }

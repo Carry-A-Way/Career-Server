@@ -1,7 +1,9 @@
 package com.example.career.domain.user.Service;
 
 import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
+import com.example.career.domain.consult.Entity.Review;
 import com.example.career.domain.consult.Repository.ConsultRepository;
+import com.example.career.domain.consult.Repository.ReviewRepository;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.*;
 import com.example.career.domain.user.Exception.DuplicateMemberException;
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final ConsultRepository consultRepository;
     private final S3Uploader s3Uploader;
+    private final ReviewRepository reviewRepository;
     @Override
     public User signIn(UserReqDto userReqDto) {
         String username = userReqDto.getUsername();
@@ -346,6 +349,17 @@ public class UserServiceImpl implements UserService{
 
         }catch (NullPointerException e) {
             userBriefWithRate.setSchoolList(null);
+        }
+        try{
+            userBriefWithRate.setReview(
+                    reviewRepository.findAllByTutorDetailOrderByCreatedAt(
+                            tutorDetailRepository.findByTutorId(
+                                    userBriefWithRate.getId()
+                            )
+                    ).stream().map(Review::toRespDto).toList()
+            );
+        }catch(NullPointerException e) {
+            userBriefWithRate.setReview(null);
         }
         return userBriefWithRate;
     }
