@@ -40,13 +40,14 @@ public class SearchController {
     }
 
     @GetMapping("mentor")
-    public ResponseEntity<List<UserBriefWithRate>> searchMentorByTags(@RequestParam String keyWord, @RequestParam String type, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<List<UserBriefWithRate>> searchMentorByTags(@RequestParam(required = false) String keyWord, @RequestParam String type, @RequestParam int page, @RequestParam int size) {
+        if(type.equals("recently")) {
+            return ResponseEntity.ok(searchService.getUserByRecently(page, size));
 
-        return ResponseEntity.ok(searchService.getUserByTags(keyWord, type, page, size));
-    }
-    @GetMapping("mentor/recently")
-    public ResponseEntity<List<UserBriefWithRate>> searchMentorByCreatedAt(@RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(searchService.getUserByRecently(page, size));
+        }else {
+            return ResponseEntity.ok(searchService.getUserByTags(keyWord, type, page, size));
+
+        }
     }
 
 }
