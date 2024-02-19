@@ -39,8 +39,15 @@ public class LoggingAspect {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
         // 클라이언트 IP와 사용자 에이전트를 추출합니다.
-        String clientIpAddress = request.getHeader("X-Forwarded-For");
-        if (clientIpAddress == null) {
+        // 클라이언트 실제 IP 추출 로직 수정
+        String clientIpAddress = request.getHeader("X-Real-IP");
+        if (clientIpAddress == null || clientIpAddress.isEmpty()) {
+            clientIpAddress = request.getHeader("X-Forwarded-For");
+        }
+        if (clientIpAddress != null && !clientIpAddress.isEmpty()) {
+            // X-Forwarded-For 헤더에 여러 IP가 존재할 수 있으므로, 첫 번째 IP만 추출
+            clientIpAddress = clientIpAddress.split(",")[0].trim();
+        } else {
             clientIpAddress = request.getRemoteAddr();
         }
         String userAgent = request.getHeader("User-Agent");
