@@ -19,13 +19,13 @@ public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long> {
     // rateCount에 따라 내림차순으로 정렬하면서 키워드에 맞는 TutorDetail 찾기
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
             "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
-            "WHERE (t.consultMajor1 LIKE %:keyword% OR t.consultMajor2 LIKE %:keyword% OR t.consultMajor3 LIKE %:keyword%) " +
+            "WHERE (u.isTutor = true AND t.consultMajor1 LIKE %:keyword% OR t.consultMajor2 LIKE %:keyword% OR t.consultMajor3 LIKE %:keyword%) " +
             "ORDER BY t.rateCount DESC")
     Page<UserBriefWithRate> findByKeywordOrderByRateCountDesc(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
             "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
-            "WHERE (t.consultMajor1 LIKE %:keyword% OR t.consultMajor2 LIKE %:keyword% OR t.consultMajor3 LIKE %:keyword%) " +
+            "WHERE (u.isTutor = true AND t.consultMajor1 LIKE %:keyword% OR t.consultMajor2 LIKE %:keyword% OR t.consultMajor3 LIKE %:keyword%) " +
             "ORDER BY t.rateAvg DESC")
     Page<UserBriefWithRate> findByKeywordOrderByRateAvgDesc(@Param("keyword") String keyword, Pageable pageable);
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
@@ -35,6 +35,7 @@ public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long> {
 
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
             "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
+            "WHERE u.isTutor = true " +
             "ORDER BY u.createdAt DESC")
     Page<UserBriefWithRate> findByUserRecently(Pageable pageable);
 }
