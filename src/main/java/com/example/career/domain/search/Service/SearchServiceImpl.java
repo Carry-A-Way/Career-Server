@@ -95,6 +95,17 @@ public class SearchServiceImpl implements SearchService{
                 }catch(NullPointerException e) {
                     userBriefWithRates.get(i).setSchoolList(null);
                 }
+                try{
+                    userBriefWithRates.get(i).setReview(
+                            reviewRepository.findAllByTutorDetailOrderByCreatedAt(
+                                    tutorDetailRepository.findByTutorId(
+                                            userBriefWithRates.get(i).getId()
+                                    )
+                            ).stream().map(Review::toRespDto).toList()
+                    );
+                }catch(NullPointerException e) {
+                    userBriefWithRates.get(i).setReview(null);
+                }
             }
         }
         return userBriefWithRates;
