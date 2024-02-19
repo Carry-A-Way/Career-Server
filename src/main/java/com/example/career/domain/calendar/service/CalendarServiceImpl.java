@@ -44,7 +44,8 @@ public class CalendarServiceImpl implements CalendarService{
     private final TutorSlotRepository tutorSlotRepository;
     private final TutorDetailRepository tutorDetailRepository;
     @Override
-    public CalendarMentorRespDto getMentorCalendar(User mentor) {
+    public CalendarMentorRespDto getMentorCalendar(Long mentorId) {
+        User mentor = userRepository.findById(mentorId).get();
         CalendarMentorRespDto calendarMentorRespDto = new CalendarMentorRespDto();
         List<Consult> mentorConsultList = consultRepository.findAllByMentor(mentor);
         if(mentorConsultList == null) return null;

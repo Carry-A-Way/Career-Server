@@ -27,9 +27,9 @@ public class CalendarController {
     private final CalendarService calendarService;
     @Authenticated
     @GetMapping("mentor/view")
-    public ResponseEntity<CalendarMentorRespDto> getCalendarByMentorId(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
-        return new ResponseEntity<>(calendarService.getMentorCalendar(user), HttpStatus.OK);
+    public ResponseEntity<CalendarMentorRespDto> getCalendarByMentorId(HttpServletRequest request, @RequestParam Long mentorId) {
+
+        return new ResponseEntity<>(calendarService.getMentorCalendar(mentorId), HttpStatus.OK);
     }
 
     // 상담 거절 - 멘토가

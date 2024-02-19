@@ -272,6 +272,7 @@ public class UserController {
         return "test";
     }
 
+    // 멘토카드 (상세보기)
     @GetMapping("card")
     public ResponseEntity<?> getUsersCardData(@RequestParam Long userId) {
         UserBriefWithRate userBriefWithRate = userService.getUserCardData(userId);

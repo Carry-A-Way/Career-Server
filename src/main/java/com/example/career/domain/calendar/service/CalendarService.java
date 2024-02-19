@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CalendarService {
-    public CalendarMentorRespDto getMentorCalendar(User mentor);
+    public CalendarMentorRespDto getMentorCalendar(Long mentorId);
     public Boolean denyConsultByMentor(User user, CalendarDenyReqDto calendarDenyReqDto);
     public Boolean AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, User user) throws IOException;
     public Boolean RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto);
