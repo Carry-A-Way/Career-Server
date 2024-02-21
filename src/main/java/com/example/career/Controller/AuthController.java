@@ -40,7 +40,7 @@ public class AuthController {
 
         User user = userService.getUserByUsername(authentication.getName());
 
-        String jwt = tokenProvider.createToken(authentication, user.getId(), user.getIsTutor());
+        String jwt = tokenProvider.createToken(authentication, user.getId(), user.getIsTutor(), user.getNickname());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
