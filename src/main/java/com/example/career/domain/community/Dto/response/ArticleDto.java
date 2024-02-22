@@ -3,7 +3,10 @@ package com.example.career.domain.community.Dto.response;
 import com.example.career.domain.community.Dto.Brief.UserBrief;
 import com.example.career.domain.community.Entity.Article;
 import com.example.career.domain.user.Entity.User;
+import com.example.career.global.aop.LoggingAspect;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -32,6 +35,8 @@ public class ArticleDto {
     private UserBrief user;
     private String majors; // "수학과,수학교육과" ,로 분리
 
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+
     public void setImgUrls(List<String> urlList) {
         if (urlList == null) return;
 
@@ -40,7 +45,8 @@ public class ArticleDto {
                 Field field = this.getClass().getDeclaredField("img" + (i + 1));
                 field.set(this, urlList.get(i));
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
+                logger.error("Error set ImgUrls", e);
+
             }
         }
     }

@@ -5,7 +5,10 @@ import com.example.career.domain.major.Dto.MajorReqDto;
 import com.example.career.domain.major.Entity.Major;
 import com.example.career.domain.major.Repository.MajorRepository;
 import com.example.career.domain.major.Service.MajorService;
+import com.example.career.global.aop.LoggingAspect;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 public class MajorController {
     private final MajorRepository majorRepository;
     private final MajorService majorService;
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+
 
     @GetMapping("get/all")
     public List<Major> getMajorAll() {
@@ -35,7 +40,7 @@ public class MajorController {
             return true;
         } catch (Exception e) {
             // 기타 예외 처리
-            e.printStackTrace();
+            logger.error("Error saving majors", e);
             return false;
         }
 
