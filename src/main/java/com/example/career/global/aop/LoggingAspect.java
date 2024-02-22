@@ -72,7 +72,11 @@ public class LoggingAspect {
         String parametersAsString = Arrays.stream(parameters)
                 .map(p -> p instanceof HttpServletRequest ? "HttpServletRequest" : p.toString())
                 .collect(Collectors.joining(", ", "[", "]"));
-
+        if(apiInfo.getUrl().equals("/search/mentor")) {
+            // 첫 번째 파라미터를 parametersAsString에 할당
+            Object firstParameter = parameters.length > 0 ? parameters[0] : "";
+            parametersAsString = firstParameter instanceof HttpServletRequest ? "HttpServletRequest" : firstParameter.toString();
+        }
         final LogInfo logInfo = new LogInfo(
                 apiInfo.getUrl(),
                 apiInfo.getName(),
