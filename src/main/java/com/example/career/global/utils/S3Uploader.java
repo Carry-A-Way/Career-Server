@@ -53,7 +53,8 @@ public class S3Uploader {
     // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        String manualUrl = "https://s3.ap-northeast-2.amazonaws.com/" + bucket + "/" + fileName;
+        return manualUrl;
     }
 
     // 로컬에 저장된 이미지 지우기
