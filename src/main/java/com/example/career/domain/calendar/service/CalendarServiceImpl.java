@@ -145,8 +145,13 @@ public class CalendarServiceImpl implements CalendarService{
         byte[] newBytes = timeChanger.dateTimeToByte(calendarRegistReqDto.getStartTime(), calendarRegistReqDto.getEndTime());
 
         // 신청 시간이 멘토 상담 가능 시간 내에 포함되는지 확인
-        if (!timeChanger.checkIndexesInOldForOnesInNew(tutorSlot.getPossibleTime(), newBytes)) {
-            return ResponseEntity.badRequest().body("상담 가능 시간대에 포함되어있지 않습니다.");
+        try {
+            if (!timeChanger.checkIndexesInOldForOnesInNew(tutorSlot.getPossibleTime(), newBytes)) {
+                return ResponseEntity.badRequest().body("상담 가능 시간대에 존재하지 않습니다. 개발자 문의");
+            }
+        }
+         catch (NullPointerException e) {
+                return ResponseEntity.badRequest().body("해당 날짜를 등록하지 않았습니다.");
         }
         // 중복 테스트
 // 중복된 상담이 있는지 확인
