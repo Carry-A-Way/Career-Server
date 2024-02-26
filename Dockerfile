@@ -1,4 +1,8 @@
+# x86
 FROM openjdk:17-alpine
+
+# arm64
+#FROM openjdk:17-jdk
 
 ARG JAR_FILE=build/libs/*.jar
 
