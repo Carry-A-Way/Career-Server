@@ -24,6 +24,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -130,7 +131,7 @@ public class CalendarServiceImpl implements CalendarService{
     }
 
     @Override
-    public Boolean RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto) {
+    public ResponseEntity<String> RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto) {
         // 튜터 시간표에 상담 신청시간이 포함되는지 확인
         TimeChanger timeChanger = new TimeChanger();
         TutorSlot tutorSlot = null;
@@ -138,32 +139,38 @@ public class CalendarServiceImpl implements CalendarService{
             tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(
                     tutorDetailRepository.findByTutorId(calendarRegistReqDto.getMentorId())
                     ,calendarRegistReqDto.getStartTime().toLocalDate());
-        }catch (NullPointerException e) {
-            System.out.println("해당 날짜를 등록하지 않았습니다.");
-            return false;
+        } catch (NullPointerException e) {
+            return ResponseEntity.badRequest().body("해당 날짜를 등록하지 않았습니다.");
         }
         byte[] newBytes = timeChanger.dateTimeToByte(calendarRegistReqDto.getStartTime(), calendarRegistReqDto.getEndTime());
 
         // 신청 시간이 멘토 상담 가능 시간 내에 포함되는지 확인
-        if(!timeChanger.checkIndexesInOldForOnesInNew(tutorSlot.getPossibleTime(), newBytes)) {
-            System.out.println("상담 가능 시간대에 포함되어있지 않습니다.");
-            return false;
+        if (!timeChanger.checkIndexesInOldForOnesInNew(tutorSlot.getPossibleTime(), newBytes)) {
+            return ResponseEntity.badRequest().body("상담 가능 시간대에 포함되어있지 않습니다.");
+        }
+        // 중복 테스트
+// 중복된 상담이 있는지 확인
+        List<Consult> overlappingConsults = consultRepository.findOverlappingConsults(
+                calendarRegistReqDto.getMentorId(),
+                calendarRegistReqDto.getStartTime(),
+                calendarRegistReqDto.getEndTime());
+
+        if (!overlappingConsults.isEmpty()) {
+            // 중복된 상담이 있다면, false 반환
+            return ResponseEntity.badRequest().body("이미 신청이 완료된 시간 입니다. (중복이란 뜻)");
         }
 
-        try{
+        try {
             Consult consult = calendarRegistReqDto.toEntityConsult();
             consult.setMentor(userRepository.findById(calendarRegistReqDto.getMentorId()).get());
             consult.setMentee(userRepository.findById(calendarRegistReqDto.getMenteeId()).get());
 
             // consult 저장
             consultRepository.save(consult);
-
-
-        }catch (Exception e) {
-            System.out.println("RegisterConsultByMentee error : "+e);
-            return false;
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("RegisterConsultByMentee error: " + e.getMessage());
         }
-        return true;
+        return ResponseEntity.ok("상담이 성공적으로 등록되었습니다.");
     }
     @Transactional
     @Override

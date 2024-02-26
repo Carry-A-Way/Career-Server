@@ -52,9 +52,9 @@ public class CalendarController {
 
     // 상담 신청 - 멘티가
     @PostMapping("mentee/register")
-    public ResponseEntity<Boolean> RegisterConsultByMentee(@RequestBody CalendarRegistReqDto calendarRegistReqDto) {
+    public ResponseEntity<String> RegisterConsultByMentee(@RequestBody CalendarRegistReqDto calendarRegistReqDto) {
 
-        return new ResponseEntity<>(calendarService.RegisterConsultByMentee(calendarRegistReqDto), HttpStatus.OK);
+        return calendarService.RegisterConsultByMentee(calendarRegistReqDto);
     }
 
     // 멘토 캘린더 상담 가능날짜 추가
