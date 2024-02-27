@@ -9,6 +9,7 @@ import java.util.List;
 public interface ConsultService {
     public List<UpcomingConsults> getList(User mentor, int status);
     public MentorHomeRespDto getMentorHome(User mentor);
+    public MentorHomeRespDto getMenteeHome(User mentee);
     public ConsultEachRespDto requestConsult(ConsultYesorNoReqDto consultYesorNoReqDto, int status);
     public void mentorJoinInConsult(Long consultId);
     public ReviewRespDto writeReview(User user, ReviewWriteReqDto reviewWriteReqDto);

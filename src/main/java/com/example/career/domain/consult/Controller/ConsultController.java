@@ -38,6 +38,14 @@ public class ConsultController {
         User user = (User) request.getAttribute("user");
         return new ValidCheck(consultService.getMentorHome(user));
     }
+    // 멘티의 상담 내역
+    @Authenticated
+    @GetMapping ("mentee")
+    public ValidCheck menteeHome(HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        return new ValidCheck(consultService.getMenteeHome(user));
+    }
+
 
     // 멘토가 상담에 참여
     @GetMapping ("mentor/join")
