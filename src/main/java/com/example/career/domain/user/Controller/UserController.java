@@ -273,6 +273,7 @@ public class UserController {
     }
 
     // 멘토카드 (상세보기)
+    @Authenticated
     @GetMapping("card")
     public ResponseEntity<?> getUsersCardData(HttpServletRequest request, @RequestParam Long userId) {
         User user = (User) request.getAttribute("user");

@@ -1,10 +1,7 @@
 package com.example.career.domain.community.Dto.Brief;
 
 import com.example.career.domain.consult.Dto.ReviewRespDto;
-import com.example.career.domain.user.Entity.FAQ;
-import com.example.career.domain.user.Entity.School;
-import com.example.career.domain.user.Entity.TutorDetail;
-import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Entity.*;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +32,7 @@ public class UserBriefWithRate {
     private List<School> schoolList;
     private List<ReviewRespDto> review;
     private List<FAQ> FAQ;
-
+    private List<Career> career;
     private Boolean heart;
 
 

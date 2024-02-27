@@ -388,11 +388,13 @@ public class UserServiceImpl implements UserService{
         UserBriefWithRate userBriefWithRate = tutorDetailRepository.findUserCardData(mentorId);
         try{
             userBriefWithRate.setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(mentorId));
-            userBriefWithRate.setHeart(searchService.setUserHeart(menteeId, mentorId));
 
         }catch (NullPointerException e) {
             userBriefWithRate.setSchoolList(null);
         }
+
+        userBriefWithRate.setHeart(searchService.setUserHeart(menteeId, mentorId));
+
         try{
             userBriefWithRate.setReview(
                     reviewRepository.findAllByTutorDetailOrderByCreatedAt(
@@ -409,6 +411,12 @@ public class UserServiceImpl implements UserService{
 
         }catch (NullPointerException e) {
             userBriefWithRate.setFAQ(null);
+        }
+        try{
+            userBriefWithRate.setCareer(careerRepository.findAllByTutorId(mentorId));
+
+        }catch (NullPointerException e) {
+            userBriefWithRate.setCareer(null);
         }
         return userBriefWithRate;
     }
