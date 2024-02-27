@@ -36,6 +36,8 @@ public class UserBriefWithRate {
     private List<ReviewRespDto> review;
     private List<FAQ> FAQ;
 
+    private Boolean heart;
+
 
     public UserBriefWithRate(User user, TutorDetail tutorDetail) {
         this.id = user.getId();

@@ -3,6 +3,7 @@ package com.example.career.domain.user.Service;
 import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,9 +42,15 @@ public interface UserService {
     String uploadProfile(MultipartFile multipartFile) throws IOException;
     List<String> uploadActiceImages(List<MultipartFile> MultipartFile) throws IOException;
 
-    UserBriefWithRate getUserCardData(Long userId);
+    UserBriefWithRate getUserCardData(Long menteeId, Long mentorId);
 
     void deleteListInMentorProfile(ListDeleteReqDto listDeleteReqDto, Long userId);
 
     void deleteListInMenteeProfile(ListDeleteReqDto listDeleteReqDto, Long userId);
+
+
+    // 좋아요 누름
+    ResponseEntity<String> insertHeart(User mentee, Long mentorId);
+    // 좋아요 취소
+    ResponseEntity<String> deleteHeart(User mentee, Long mentorId);
 }

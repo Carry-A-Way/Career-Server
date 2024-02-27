@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface SearchService {
     public List<ArticleDto> getArticlesByKeyWord(Long userId, String keyWord, int page, int size);
-    public List<UserBriefWithRate> getUserByTags(String keyWord, String type, int page, int size);
-    public List<UserBriefWithRate> getUserByRecently(int page, int size);
+    public List<UserBriefWithRate> getUserByTags(String keyWord, String type, int page, int size, Long userId);
+    public List<UserBriefWithRate> getUserByRecently(int page, int size, Long userId);
+    public boolean setUserHeart(Long menteeId, Long mentorId);
+    public List<UserBriefWithRate> MyClickedHeartMentor(int page, int size, Long userId);
 }

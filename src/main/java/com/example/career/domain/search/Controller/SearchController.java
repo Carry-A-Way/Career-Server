@@ -38,15 +38,27 @@ public class SearchController {
         Long userId = user.getId();
         return ResponseEntity.ok(searchService.getArticlesByKeyWord(userId, keyWord, page, size));
     }
-
+    @Authenticated
     @GetMapping("mentor")
-    public ResponseEntity<List<UserBriefWithRate>> searchMentorByTags(@RequestParam(required = false) String keyWord, @RequestParam String type, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<List<UserBriefWithRate>> searchMentorByTags(HttpServletRequest request, @RequestParam(required = false) String keyWord, @RequestParam String type, @RequestParam int page, @RequestParam int size) {
+        User user = (User) request.getAttribute("user");
         if(type.equals("recently")) {
-            return ResponseEntity.ok(searchService.getUserByRecently(page, size));
+            return ResponseEntity.ok(searchService.getUserByRecently(page, size, user.getId()));
 
         }else {
-            return ResponseEntity.ok(searchService.getUserByTags(keyWord, type, page, size));
+            return ResponseEntity.ok(searchService.getUserByTags(keyWord, type, page, size, user.getId()));
 
+        }
+    }
+    @Authenticated
+    @GetMapping("mentor/heart")
+    public ResponseEntity<?> getHeartMentorListOfMentee(HttpServletRequest request, @RequestParam int page, @RequestParam int size) {
+        User user = (User) request.getAttribute("user");
+        List<UserBriefWithRate> userBriefWithRates = searchService.MyClickedHeartMentor(page, size, user.getId());
+        if(userBriefWithRates.size() == 0) {
+            return ResponseEntity.ok("좋아요 누른 멘토가 없습니다.");
+        }else {
+            return ResponseEntity.ok(userBriefWithRates);
         }
     }
 

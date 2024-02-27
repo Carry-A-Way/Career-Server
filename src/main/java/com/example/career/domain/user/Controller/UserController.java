@@ -274,8 +274,9 @@ public class UserController {
 
     // 멘토카드 (상세보기)
     @GetMapping("card")
-    public ResponseEntity<?> getUsersCardData(@RequestParam Long userId) {
-        UserBriefWithRate userBriefWithRate = userService.getUserCardData(userId);
+    public ResponseEntity<?> getUsersCardData(HttpServletRequest request, @RequestParam Long userId) {
+        User user = (User) request.getAttribute("user");
+        UserBriefWithRate userBriefWithRate = userService.getUserCardData(user.getId(), userId);
 
         // 객체가 null인 경우 확인
         if (userBriefWithRate == null) {
@@ -287,4 +288,20 @@ public class UserController {
         return ResponseEntity.ok(userBriefWithRate);
     }
 
+    // 멘티-멘토 좋아요
+    @Authenticated
+    @PostMapping("mentee/heart/insert")
+    public ResponseEntity<?> menteeClickedHeart(HttpServletRequest request, @RequestParam Long mentorId) {
+        User user = (User) request.getAttribute("user");
+
+        return userService.insertHeart(user, mentorId);
+    }
+
+    @Authenticated
+    @PostMapping("mentee/heart/delete")
+    public ResponseEntity<?> menteeUnClickedHeart(HttpServletRequest request, @RequestParam Long mentorId) {
+        User user = (User) request.getAttribute("user");
+
+        return userService.deleteHeart(user, mentorId);
+    }
 }

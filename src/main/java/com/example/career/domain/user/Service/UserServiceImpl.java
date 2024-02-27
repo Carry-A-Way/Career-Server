@@ -4,6 +4,7 @@ import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Entity.Review;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Repository.ReviewRepository;
+import com.example.career.domain.search.Service.SearchService;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.*;
 import com.example.career.domain.user.Exception.DuplicateMemberException;
@@ -22,7 +23,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +45,8 @@ public class UserServiceImpl implements UserService{
     private final S3Uploader s3Uploader;
     private final ReviewRepository reviewRepository;
     private final FAQRepository faqRepository;
+    private final MentorHeartRepository mentorHeartRepository;
+    private final SearchService searchService;
 
     @Override
     public User signIn(UserReqDto userReqDto) {
@@ -295,6 +300,32 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public ResponseEntity<String> insertHeart(User mentee, Long mentorId) {
+        MentorHeart mentorHeart = MentorHeart.builder()
+                .menteeId(mentee.getId())
+                .mentorId(mentorId)
+                .build();
+        try{
+            mentorHeart = mentorHeartRepository.save(mentorHeart);
+            if(mentorHeart == null) {
+                return  ResponseEntity.badRequest().body("저장에 실패하였습니다.");
+            }
+        }catch(DataIntegrityViolationException e) {
+            return  ResponseEntity.badRequest().body("중복 데이터가 감지되었습니다.");
+
+        }
+        return ResponseEntity.ok("좋아요 등록에 성공하였습니다.");
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<String> deleteHeart(User mentee, Long mentorId) {
+        mentorHeartRepository.deleteMentorHeartByMenteeIdAndAndMentorId(mentee.getId(), mentorId);
+        return ResponseEntity.ok("좋아요 취소에 성공하였습니다.");
+    }
+
+
     private <T, DTO> void updateEntityFields(T entity, DTO dto, Set<String> fieldsToCheck, boolean skip) {
         if (entity == null) {
             return;
@@ -353,10 +384,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserBriefWithRate getUserCardData(Long userId) {
-        UserBriefWithRate userBriefWithRate = tutorDetailRepository.findUserCardData(userId);
+    public UserBriefWithRate getUserCardData(Long menteeId, Long mentorId) {
+        UserBriefWithRate userBriefWithRate = tutorDetailRepository.findUserCardData(mentorId);
         try{
-            userBriefWithRate.setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(userId));
+            userBriefWithRate.setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(mentorId));
+            userBriefWithRate.setHeart(searchService.setUserHeart(menteeId, mentorId));
 
         }catch (NullPointerException e) {
             userBriefWithRate.setSchoolList(null);
@@ -373,7 +405,7 @@ public class UserServiceImpl implements UserService{
             userBriefWithRate.setReview(null);
         }
         try{
-            userBriefWithRate.setFAQ(faqRepository.findAllByTutorIdOrderById(userId));
+            userBriefWithRate.setFAQ(faqRepository.findAllByTutorIdOrderById(mentorId));
 
         }catch (NullPointerException e) {
             userBriefWithRate.setFAQ(null);
