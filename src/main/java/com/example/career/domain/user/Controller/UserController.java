@@ -282,7 +282,7 @@ public class UserController {
         // 객체가 null인 경우 확인
         if (userBriefWithRate == null) {
             // null인 경우 No Content 상태 코드 반환
-            return new ResponseEntity<>("멘토 ID를 다시 확인해주세요.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("멘토 ID를 다시 확인해주세요.");
         }
 
         // 데이터가 있는 경우, 정상적으로 반환

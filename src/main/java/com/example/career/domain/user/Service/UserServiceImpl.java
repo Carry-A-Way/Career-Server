@@ -386,6 +386,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserBriefWithRate getUserCardData(Long menteeId, Long mentorId) {
         UserBriefWithRate userBriefWithRate = tutorDetailRepository.findUserCardData(mentorId);
+        if(userBriefWithRate == null) return null;
         try{
             userBriefWithRate.setSchoolList(schoolRepository.findAllByTutorIdOrderByIdxAsc(mentorId));
 
