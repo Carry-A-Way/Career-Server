@@ -22,6 +22,7 @@ public interface ConsultRepository extends JpaRepository<Consult, Long> {
     List<Consult> findOverlappingConsults(@Param("mentorId") Long mentorId,
                                           @Param("startTime") LocalDateTime startTime,
                                           @Param("endTime") LocalDateTime endTime);
+    List<Consult> findByStatusAndStartTimeBefore(int status, LocalDateTime startTime);
 
 
 }

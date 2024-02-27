@@ -13,6 +13,7 @@ import com.example.career.domain.user.Repository.TutorDetailRepository;
 import com.example.career.domain.user.Repository.UserRepository;
 import com.example.career.global.time.KoreaTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -205,5 +206,25 @@ public class ConsultServiceImpl implements ConsultService{
         review.setRate(reviewWriteReqDto.getRate());
 
         return review.toRespDto();
+    }
+
+    public ResponseEntity<String> updateConsultationStatus() {
+        // 현재 시간으로부터 30분 후의 시간 계산
+        LocalDateTime thirtyMinutesFromNow = KoreaTime.now().plusMinutes(30);
+
+        // status가 0이고, 상담 시작 시간이 현재 시간으로부터 30분 후 이전인 상담 조회
+        List<Consult> consultations = consultRepository.findByStatusAndStartTimeBefore(0, thirtyMinutesFromNow);
+        System.out.println("상담 수락 안해서 취소된 상담 갯수 : "+ consultations.size());
+        System.out.println("현재 시간 : "+ KoreaTime.now());
+        for(int i=0; i<consultations.size(); i++) {
+            System.out.println(consultations.get(i).getId()+" : "+consultations.get(i).getStartTime());
+        }
+        // 조회된 상담들의 상태 업데이트
+        consultations.forEach(consult -> {
+            consult.setStatus(4);
+            consult.setReason("멘토가 상담을 수락하지 않았습니다. (시간 초과)");
+            consultRepository.save(consult);
+        });
+        return  ResponseEntity.ok("상담 수락 안해서 취소된 상담 갯수 : "+ consultations.size());
     }
 }

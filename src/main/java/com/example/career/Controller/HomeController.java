@@ -1,5 +1,6 @@
 package com.example.career.Controller;
 
+import com.example.career.domain.consult.Service.ConsultService;
 import com.example.career.global.annotation.Authenticated;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -25,10 +26,18 @@ import java.security.Key;
 @RequiredArgsConstructor
 
 public class HomeController {
+    private final ConsultService consultService;
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    // 상담 시간
+    @PostMapping("schedule/update/consultation")
+    public ResponseEntity<?> updateConsultationStatus() {
+        return consultService.updateConsultationStatus();
+    }
+
     @PostMapping("test")
     public TestDTO conntectTest() {
         return new TestDTO();
