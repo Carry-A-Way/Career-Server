@@ -102,7 +102,7 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 LastUpcomingConsult lastUp = consult.toLastUpcomingConsult();
                 // 학생 정보
-                lastUp.setStudent(consult.getMentor().toConsultMenteeRespDto());
+                lastUp.setMentor((consult.getMentor().toConsultMentorRespDto()));
                 lastUpcomingConsults.add(lastUp);
             }
             // 진행 상담일 때
@@ -110,7 +110,7 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 UpcomingConsults up = consult.toUpcomingConsult();
                 // 학생 정보
-                up.setStudent(consult.getMentor().toConsultMenteeRespDto());
+                up.setMentor(consult.getMentor().toConsultMentorRespDto());
                 upcomingConsults.add(up);
             }
             // 완료 상담일 때 + 취소된 상담
@@ -118,7 +118,7 @@ public class ConsultServiceImpl implements ConsultService{
                 //상담 내용
                 PreviousConsult pre = consult.toPreviousConsult();
                 // 학생 정보
-                pre.setStudent(consult.getMentor().toConsultMenteeRespDto());
+                pre.setMentor(consult.getMentor().toConsultMentorRespDto());
                 previousConsults.add(pre);
             }
         }

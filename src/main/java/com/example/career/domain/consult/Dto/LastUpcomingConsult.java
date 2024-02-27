@@ -23,6 +23,7 @@ public class LastUpcomingConsult {
     private String questions;
     // 학생 정보
     private ConsultMenteeRespDto student;
+    private ConsultMentorRespDto mentor;
     private LocalDateTime studentEnter;
 
     private LocalDateTime studentLeft;

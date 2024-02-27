@@ -1,6 +1,7 @@
 package com.example.career.domain.user.Entity;
 
 import com.example.career.domain.consult.Dto.ConsultMenteeRespDto;
+import com.example.career.domain.consult.Dto.ConsultMentorRespDto;
 import com.example.career.domain.user.Dto.MenteeRespDto;
 import com.example.career.domain.user.Dto.MentorHomeRespDto;
 import com.example.career.global.time.KoreaTime;
@@ -126,7 +127,17 @@ public class User
                 .gender(gender)
                 .birth(birth)
                 .profileImg(profileImg)
-                .stuUrl("https://test.com")
+                .stuUrl(null)
+                .build();
+    }
+    public ConsultMentorRespDto toConsultMentorRespDto(){
+        return ConsultMentorRespDto.builder()
+                .mentorId(id)
+                .nickname(nickname)
+                .gender(gender)
+                .birth(birth)
+                .profileImg(profileImg)
+                .mentorUrl(null)
                 .build();
     }
 //
