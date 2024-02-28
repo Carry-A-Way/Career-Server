@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
@@ -33,10 +34,8 @@ public class StudentDetail {
     private String interestingMajor3;
 
     @Column(nullable = false)
-    private int credit20=0;
-
-    @Column(nullable = false)
-    private int credit40=0;
+    @ColumnDefault("0")
+    private int myPoint;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
