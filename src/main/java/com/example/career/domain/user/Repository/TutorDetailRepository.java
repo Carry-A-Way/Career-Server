@@ -9,12 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import io.hypersistence.utils.spring.repository.HibernateRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long> {
+public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long>{
     public TutorDetail findByTutorId(Long id);
     // rateCount에 따라 내림차순으로 정렬하면서 키워드에 맞는 TutorDetail 찾기
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +

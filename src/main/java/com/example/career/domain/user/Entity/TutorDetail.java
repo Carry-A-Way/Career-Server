@@ -53,6 +53,9 @@ public class TutorDetail {
     @ColumnDefault("0.0")
     private float rateAvg;
 
+    @ColumnDefault("-1")
+    private int wage;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
