@@ -34,7 +34,7 @@ public class UserBriefWithRate {
     private List<FAQ> FAQ;
     private List<Career> career;
     private Boolean heart;
-
+    private int wage;
 
     public UserBriefWithRate(User user, TutorDetail tutorDetail) {
         this.id = user.getId();
@@ -51,5 +51,6 @@ public class UserBriefWithRate {
         this.consultMajor2 = tutorDetail.getConsultMajor2();
         this.consultMajor3 = tutorDetail.getConsultMajor3();
         this.consultMethod = tutorDetail.getConsultMethod();
+        this.wage = tutorDetail.getWage();
     }
 }
