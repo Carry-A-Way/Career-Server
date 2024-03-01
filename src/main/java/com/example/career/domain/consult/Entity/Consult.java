@@ -1,9 +1,6 @@
 package com.example.career.domain.consult.Entity;
 
-import com.example.career.domain.consult.Dto.ConsultEachRespDto;
-import com.example.career.domain.consult.Dto.LastUpcomingConsult;
-import com.example.career.domain.consult.Dto.PreviousConsult;
-import com.example.career.domain.consult.Dto.UpcomingConsults;
+import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.major.Entity.Major;
 import com.example.career.domain.user.Entity.StudentDetail;
 import com.example.career.domain.user.Entity.TutorDetail;
@@ -168,6 +165,19 @@ public class Consult {
                 .endTime(endTime)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
+                .build();
+    }
+
+    public BriefConsultRespDto toBriefDto() {
+        return BriefConsultRespDto.builder()
+                .id(id)
+                .zoomLink(zoomLink)
+                .status(status)
+                .questions(questions)
+                .flow(flow)
+                .major(major)
+                .startTime(startTime)
+                .endTime(endTime)
                 .build();
     }
 

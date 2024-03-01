@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Service;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Review;
 import com.example.career.domain.user.Entity.User;
@@ -16,4 +17,6 @@ public interface ConsultService {
     public ReviewRespDto writeReview(User user, ReviewWriteReqDto reviewWriteReqDto);
     public ReviewRespDto updateReview(User user, ReviewWriteReqDto reviewWriteReqDto);
     public ResponseEntity<String> updateConsultationStatus();
+
+    public ResponseEntity<?> menteeScheduledConsultList(User user);
 }

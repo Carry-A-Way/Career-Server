@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Service;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Entity.Review;
@@ -226,5 +227,25 @@ public class ConsultServiceImpl implements ConsultService{
             consultRepository.save(consult);
         });
         return  ResponseEntity.ok("Canceled Consultation cuz timeover : "+ consultations.size());
+    }
+
+    @Override
+    public ResponseEntity<?> menteeScheduledConsultList(User user) {
+        // status가 1인 consult 뽑아오기
+        List<Consult> consultList = consultRepository.findAllByMenteeAndStatus(user, 1);
+        if(consultList.size() == 0) return ResponseEntity.badRequest().body("예정된 상담이 존재하지 않습니다.");
+        List<UserBriefWithConsult> userBriefWithConsults = new ArrayList<>();
+        try {
+
+            for (int i=0; i<consultList.size(); i++) {
+                UserBriefWithConsult userBriefWithConsult = tutorDetailRepository.findUserCardDataUsingConsult(consultList.get(i).getMentor().getId());
+                userBriefWithConsult.setBriefConsultRespDto(consultList.get(i).toBriefDto());
+                userBriefWithConsults.add(userBriefWithConsult);
+            }
+        }catch (NullPointerException e) {
+            return ResponseEntity.badRequest().body("상담과 멘토간 데이터 매핑 에러 (개발자 문의)");
+        }
+        return ResponseEntity.ok(userBriefWithConsults);
+
     }
 }

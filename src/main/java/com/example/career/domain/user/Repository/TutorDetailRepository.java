@@ -1,6 +1,7 @@
 package com.example.career.domain.user.Repository;
 
 import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
+import com.example.career.domain.consult.Dto.UserBriefWithConsult;
 import com.example.career.domain.user.Entity.TutorDetail;
 import com.example.career.domain.user.Entity.User;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import io.hypersistence.utils.spring.repository.HibernateRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +34,10 @@ public interface TutorDetailRepository extends JpaRepository<TutorDetail,Long>{
             "WHERE (t.tutorId = :userId) ")
     UserBriefWithRate findUserCardData(@Param("userId") Long userId);
 
+    @Query("SELECT new com.example.career.domain.consult.Dto.UserBriefWithConsult(u, t) " +
+            "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +
+            "WHERE (t.tutorId = :userId) ")
+    UserBriefWithConsult findUserCardDataUsingConsult(@Param("userId") Long userId);
 
     @Query("SELECT new com.example.career.domain.community.Dto.Brief.UserBriefWithRate(u, t) " +
             "FROM TutorDetail t INNER JOIN User u ON t.tutorId = u.id " +

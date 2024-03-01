@@ -1,5 +1,6 @@
 package com.example.career.domain.consult.Controller;
 
+import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Dto.*;
 import com.example.career.domain.consult.Entity.Consult;
 import com.example.career.domain.consult.Entity.Review;
@@ -10,6 +11,7 @@ import com.example.career.global.annotation.Authenticated;
 import com.example.career.global.valid.ValidCheck;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +66,13 @@ public class ConsultController {
     public ReviewRespDto updateReviewAfterConsult(HttpServletRequest request, @RequestBody ReviewWriteReqDto reviewWriteReqDto) {
         User user = (User) request.getAttribute("user");
         return consultService.updateReview(user, reviewWriteReqDto);
+    }
+
+    @Authenticated
+    @GetMapping("scheduled")
+    public ResponseEntity<?> menteeScheduledConsultList(HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        return consultService.menteeScheduledConsultList(user);
     }
 
 }
