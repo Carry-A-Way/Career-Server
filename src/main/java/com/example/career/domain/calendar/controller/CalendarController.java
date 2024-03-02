@@ -75,6 +75,11 @@ public class CalendarController {
         Long userId = user.getId();
         return new ResponseEntity<>(calendarService.getMentorPossibleTime(userId),HttpStatus.OK);
     }
+    // 멘티가 멘토의 상담 가능 시간대 조회
+    @PostMapping("mentee/get/possible/time")
+    public ResponseEntity<CalendarGetPossibleTimeRespDto> menteeGetMentorsPossibleTime( @RequestParam Long mentorId) {
+        return new ResponseEntity<>(calendarService.getMentorPossibleTime(mentorId),HttpStatus.OK);
+    }
     // 상담 가능 시간대 삭제
     @Authenticated
     @PostMapping("mentor/delete/possible/time")
