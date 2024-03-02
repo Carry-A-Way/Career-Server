@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudentDetailServiceImpl implements StudentDetailService {
     private final StudentDetailRepository studentDetailRepository;
     @Override
+    @Transactional
     public StudentDetail getStudentDetailByStudentId(Long id) {
         return studentDetailRepository.findByStudentId(id);
     };
