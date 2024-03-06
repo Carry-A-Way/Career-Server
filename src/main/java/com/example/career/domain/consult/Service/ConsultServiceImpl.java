@@ -34,12 +34,17 @@ public class ConsultServiceImpl implements ConsultService{
     private final StudentDetailRepository studentDetailRepository;
     @Override
     public List<UpcomingConsults> getList(User mentor, int status) {
-        List<Consult> consultList = consultRepository.findAllByMentorAndStatus(mentor, status);
-        List<UpcomingConsults> upcomingConsults = new ArrayList<>();
+        List<Consult> consultList;
+
+        if(mentor.getIsTutor()) {
+            consultList = consultRepository.findAllByMentor(mentor);
+        }else {
+            consultList = consultRepository.findAllByMentee(mentor);
+
+        }        List<UpcomingConsults> upcomingConsults = new ArrayList<>();
         for(Consult consult : consultList) {
             UpcomingConsults up = consult.toUpcomingConsult();
             // 학생 정보
-            up.setStudent(consult.getMentee().toConsultMenteeRespDto());
             upcomingConsults.add(up);
         }
 
@@ -50,7 +55,7 @@ public class ConsultServiceImpl implements ConsultService{
     @Override
     public MentorHomeRespDto getMentorHome(User mentor) {
         MentorHomeRespDto mentorHomeRespDto = new MentorHomeRespDto();
-        List<Consult> mentorConsultList = null;
+        List<Consult> mentorConsultList;
         if(mentor.getIsTutor()) {
             mentorConsultList = consultRepository.findAllByMentor(mentor);
         }else {
