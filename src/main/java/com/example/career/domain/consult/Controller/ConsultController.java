@@ -33,19 +33,12 @@ public class ConsultController {
         return new ValidCheck(consultService.requestConsult(consultYesorNoReqDto, status));
     }
 
-    // 멘토 홈페이지 상담내역 메서드
+    // 멘토, 멘티 홈페이지 상담내역 메서드 (전체 조회)
     @Authenticated
-    @GetMapping ("mentor")
+    @GetMapping ("user")
     public ValidCheck mentorHome(HttpServletRequest request){
         User user = (User) request.getAttribute("user");
         return new ValidCheck(consultService.getMentorHome(user));
-    }
-    // 멘티의 상담 내역
-    @Authenticated
-    @GetMapping ("mentee")
-    public ValidCheck menteeHome(HttpServletRequest request){
-        User user = (User) request.getAttribute("user");
-        return new ValidCheck(consultService.getMenteeHome(user));
     }
 
 

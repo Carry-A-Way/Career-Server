@@ -17,4 +17,6 @@ public class MentorHomeRespDto {
     private List<LastUpcomingConsult> lastUpcomingConsult;
     private List<UpcomingConsults> upcomingConsult;
     private List<PreviousConsult> previousConsult;
+    private List<CanceledConsultByMentor> canceledConsultByMentor;
+    private List<CanceledConsultByMentee> canceledConsultByMentee;
 }
