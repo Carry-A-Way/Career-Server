@@ -226,6 +226,7 @@ public class ConsultServiceImpl implements ConsultService{
 
 
         return  ResponseEntity.ok("Canceled Consultation cuz timeover : "+ consultations.size()+overdueConsultations.size());
+
     }
 
     @Override
