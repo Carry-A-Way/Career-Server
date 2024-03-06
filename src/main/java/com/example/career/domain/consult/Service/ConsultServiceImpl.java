@@ -212,6 +212,8 @@ public class ConsultServiceImpl implements ConsultService{
     public ResponseEntity<String> updateConsultationStatus() {
         // 현재 시간으로부터 30분 후의 시간 계산
         LocalDateTime thirtyMinutesFromNow = KoreaTime.now().plusMinutes(30);
+        // 현재 시간으로부터 1일 전의 시간 계산
+        LocalDateTime oneDayAgo = KoreaTime.now().minusDays(1);
 
         // status가 0이고, 상담 시작 시간이 현재 시간으로부터 30분 후 이전인 상담 조회
         List<Consult> consultations = consultRepository.findByStatusAndStartTimeBefore(0, thirtyMinutesFromNow);
@@ -226,13 +228,32 @@ public class ConsultServiceImpl implements ConsultService{
             consult.setReason("멘토가 상담을 수락하지 않았습니다. (시간 초과)");
             consultRepository.save(consult);
         });
-        return  ResponseEntity.ok("Canceled Consultation cuz timeover : "+ consultations.size());
+
+
+        // endTime 기준으로 1일이 지난 상담 조회
+        List<Consult> overdueConsultations = consultRepository.findByStatusAndEndTimeBefore(1, oneDayAgo);
+        System.out.println(overdueConsultations);
+        System.out.println("상담 종료 시간으로부터 1일이 지나 취소된 상담 갯수 : "+ overdueConsultations.size());
+        for(int i=0; i<overdueConsultations.size(); i++) {
+            System.out.println(overdueConsultations.get(i).getId()+" : "+overdueConsultations.get(i).getEndTime());
+        }
+        // 조회된 상담들의 상태 업데이트
+        overdueConsultations.forEach(consult -> {
+            consult.setStatus(4); // 취소된 상태로 업데이트
+            consult.setReason("상담 종료 시간으로부터 1일이 지나 취소되었습니다.");
+            consultRepository.save(consult);
+        });
+
+
+
+
+        return  ResponseEntity.ok("Canceled Consultation cuz timeover : "+ consultations.size()+overdueConsultations.size());
     }
 
     @Override
     public ResponseEntity<?> menteeScheduledConsultList(User user) {
         // status가 1인 consult 뽑아오기
-        List<Consult> consultList = consultRepository.findAllByMenteeAndStatus(user, 1);
+        List<Consult> consultList = consultRepository.findAllByMenteeAndStatusAndEndTimeAfter(user, 1, KoreaTime.now());
         if(consultList.size() == 0) return ResponseEntity.badRequest().body("예정된 상담이 존재하지 않습니다.");
         List<UserBriefWithConsult> userBriefWithConsults = new ArrayList<>();
         try {

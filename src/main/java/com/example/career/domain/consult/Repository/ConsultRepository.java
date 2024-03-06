@@ -13,7 +13,7 @@ import java.util.List;
 public interface ConsultRepository extends JpaRepository<Consult, Long> {
     List<Consult> findAllByMentor(User mentor);
     List<Consult> findAllByMentee(User mentee);
-    List<Consult> findAllByMenteeAndStatus(User mentee, int status);
+    List<Consult> findAllByMenteeAndStatusAndEndTimeAfter(User mentee, int status, LocalDateTime endTime);
     List<Consult> findAllByMentorAndStatus(User mentor, int status);
 
     @Query("SELECT c FROM Consult c WHERE c.mentor.id = :mentorId AND c.status <> 2 " +
@@ -24,6 +24,8 @@ public interface ConsultRepository extends JpaRepository<Consult, Long> {
                                           @Param("startTime") LocalDateTime startTime,
                                           @Param("endTime") LocalDateTime endTime);
     List<Consult> findByStatusAndStartTimeBefore(int status, LocalDateTime startTime);
+
+    List<Consult> findByStatusAndEndTimeBefore(int status, LocalDateTime endTime);
 
 
 }

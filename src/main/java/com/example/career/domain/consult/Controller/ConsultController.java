@@ -72,6 +72,8 @@ public class ConsultController {
     @GetMapping("scheduled")
     public ResponseEntity<?> menteeScheduledConsultList(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
+
+        if(user.getIsTutor()) return ResponseEntity.badRequest().body("멘티가 아닙니다. 다시.");
         return consultService.menteeScheduledConsultList(user);
     }
 
