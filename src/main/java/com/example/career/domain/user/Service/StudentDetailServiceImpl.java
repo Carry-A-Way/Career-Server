@@ -32,4 +32,11 @@ public class StudentDetailServiceImpl implements StudentDetailService {
             throw new Exception("포인트가 부족합니다.");
         }
     }
+
+    @Override
+    @Transactional
+    public int getMenteeMyPoint(Long id) {
+        StudentDetail studentDetail = studentDetailRepository.findByStudentId(id);
+        return studentDetail.getMyPoint();
+    }
 }
