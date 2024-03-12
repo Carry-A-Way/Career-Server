@@ -1,6 +1,7 @@
 package com.example.career.domain.user.Entity;
 
 import com.example.career.global.time.KoreaTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,9 @@ public class StudentDetail {
     @ColumnDefault("0")
     private int myPoint;
 
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -44,5 +48,16 @@ public class StudentDetail {
     public void prePersist() {
         this.createdAt = KoreaTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    public void addDelta(int delta) {
+        validDelta(delta);
+        this.myPoint += delta;
+    }
+
+    private void validDelta(int delta) {
+        if (this.myPoint + delta < 0) {
+            throw new IllegalArgumentException();
+        }
     }
 }

@@ -38,6 +38,10 @@ public class TutorDetail {
     @Column(nullable = false)
     private int cash = 0;
 
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
+
     @Column(columnDefinition = "MEDIUMTEXT")
     private String myLife;
 
@@ -63,6 +67,17 @@ public class TutorDetail {
     public void prePersist() {
         this.createdAt = KoreaTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    public void addDelta(int delta) {
+        validDelta(delta);
+        this.cash += delta;
+    }
+
+    private void validDelta(int delta) {
+        if (this.cash + delta < 0) {
+            throw new IllegalArgumentException();
+        }
     }
 
 //    public UserBriefWithRate UserBriefWithRate() {

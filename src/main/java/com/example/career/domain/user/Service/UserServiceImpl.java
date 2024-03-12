@@ -114,6 +114,7 @@ public class UserServiceImpl implements UserService{
 
         Long id = user.getId();
 
+        System.out.println("여기여기여기 = " + id);
         StudentDetail studentDetail = signUpReqDto.toStudentDetailEntity(id);
         studentDetailRepository.save(studentDetail);
 
