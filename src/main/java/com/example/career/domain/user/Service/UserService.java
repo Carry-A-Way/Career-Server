@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
+    User findById(Long id);
     User signIn(UserReqDto userReqDto);
 //    public User signUp(SignUpReqDto signUpReqDto);
     @Transactional
-    SignUpReqDto signupTutor(SignUpReqDto userDto);
-
+    SignUpReqDto signupTutor(SignUpReqDto userDto, boolean isSns);
     @Transactional
-    SignUpReqDto signupStudent(SignUpReqDto userDto);
+    SignUpReqDto signupStudent(SignUpReqDto userDto, boolean isSns);
+
     User getUserByUsername(String username) throws Exception;
     @Transactional
     void modifyProfileTutor(SignUpReqDto signUpReqDto, String username) throws Exception;

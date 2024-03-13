@@ -4,6 +4,8 @@ import com.example.career.domain.community.Dto.Brief.UserBriefWithRate;
 import com.example.career.domain.consult.Entity.Review;
 import com.example.career.domain.consult.Repository.ConsultRepository;
 import com.example.career.domain.consult.Repository.ReviewRepository;
+import com.example.career.domain.oauth.Entity.UserSns;
+import com.example.career.domain.oauth.Repository.UserSnsRepository;
 import com.example.career.domain.search.Service.SearchService;
 import com.example.career.domain.user.Dto.*;
 import com.example.career.domain.user.Entity.*;
@@ -47,6 +49,12 @@ public class UserServiceImpl implements UserService{
     private final FAQRepository faqRepository;
     private final MentorHeartRepository mentorHeartRepository;
     private final SearchService searchService;
+    private final UserSnsRepository userSnsRepository;
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
     @Override
     public User signIn(UserReqDto userReqDto) {
@@ -72,17 +80,20 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public SignUpReqDto signupTutor(SignUpReqDto signUpReqDto) {
+    public SignUpReqDto signupTutor(SignUpReqDto signUpReqDto, boolean isSns) {
         if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
-        signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
+
+        if (signUpReqDto.getPassword() != null) {
+            signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
+        }
 
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
 
-        User user = signUpReqDto.toUserEntity(Collections.singleton(authority));
+        User user = signUpReqDto.toUserEntity(Collections.singleton(authority), isSns);
         user = userRepository.save(user);
 
         Long id = user.getId();
@@ -99,17 +110,20 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public SignUpReqDto signupStudent(SignUpReqDto signUpReqDto) {
+    public SignUpReqDto signupStudent(SignUpReqDto signUpReqDto, boolean isSns) {
         if (userRepository.findOneWithAuthoritiesByUsername(signUpReqDto.getUsername()).orElse(null) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
-        signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
+
+        if (signUpReqDto.getPassword() != null) {
+            signUpReqDto.setPassword(passwordEncoder.encode(signUpReqDto.getPassword()));
+        }
 
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
 
-        User user = signUpReqDto.toUserEntity(Collections.singleton(authority));
+        User user = signUpReqDto.toUserEntity(Collections.singleton(authority), isSns);
         user = userRepository.save(user);
 
         Long id = user.getId();
