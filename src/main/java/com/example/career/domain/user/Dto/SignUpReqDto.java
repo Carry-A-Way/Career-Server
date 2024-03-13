@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class SignUpReqDto {
+    private Long id;
     private String name; //
     private String username; //
     private String birth;
@@ -59,7 +60,7 @@ public class SignUpReqDto {
     private List<FAQ> FAQ;
 
 
-    public User toUserEntity(Set<Authority> authorities){
+    public User toUserEntity(Set<Authority> authorities, boolean isSns){
 
         return User.builder()
                 .password(password)
@@ -79,6 +80,7 @@ public class SignUpReqDto {
                 .authType(1)
                 .authorities(authorities)
                 .activated(true)
+                .isSns(isSns)
                 .build();
     }
 
@@ -104,6 +106,7 @@ public class SignUpReqDto {
         if(user == null) return null;
 
         return SignUpReqDto.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .username(user.getUsername())

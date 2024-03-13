@@ -53,13 +53,13 @@ public class UserController {
     @Transactional
     @PostMapping("signup/mentor")
     public ResponseEntity<SignUpReqDto> signUpTutor(@RequestBody SignUpReqDto signUpReqDto) throws IOException {
-        return ResponseEntity.ok(userService.signupTutor(signUpReqDto));
+        return ResponseEntity.ok(userService.signupTutor(signUpReqDto, false));
     }
 
     @Transactional
     @PostMapping("signup/mentee")
     public ResponseEntity<SignUpReqDto> SignUpStudent(@RequestBody SignUpReqDto signUpReqDto) throws IOException {
-        return ResponseEntity.ok(userService.signupStudent(signUpReqDto));
+        return ResponseEntity.ok(userService.signupStudent(signUpReqDto, false));
     }
 
     @Authenticated
@@ -210,7 +210,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpReqDto> signup(@Valid @RequestBody SignUpReqDto userDto) {
-        return ResponseEntity.ok(userService.signupTutor(userDto));
+        return ResponseEntity.ok(userService.signupTutor(userDto, false));
     }
 
     @GetMapping("/user")
