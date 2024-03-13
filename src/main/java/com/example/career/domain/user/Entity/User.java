@@ -6,10 +6,8 @@ import com.example.career.domain.user.Dto.MenteeRespDto;
 import com.example.career.domain.user.Dto.MentorHomeRespDto;
 import com.example.career.global.time.KoreaTime;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
@@ -22,6 +20,7 @@ import java.util.Set;
 @Entity
 @Builder
 @DynamicUpdate
+@Getter
 @Table(name = "User")
 public class User
 //        implements UserDetails
@@ -79,6 +78,10 @@ public class User
     @Column(columnDefinition = "MEDIUMTEXT")
     private String profileImg;
 
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean isSns;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -100,6 +103,10 @@ public class User
             joinColumns = {@JoinColumn(name= "id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
+
+    public boolean getIsSns() {
+        return this.isSns;
+    }
 
     public MentorHomeRespDto toHomeDto() {
         return MentorHomeRespDto.builder().nickname(nickname)
