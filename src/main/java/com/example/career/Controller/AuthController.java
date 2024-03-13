@@ -26,8 +26,6 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserService userService;
 
-    private final PasswordEncoder passwordEncoder;
-
     @PostMapping("/authenticate")
     public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) throws Exception {
 
@@ -39,6 +37,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = userService.getUserByUsername(authentication.getName());
+        if (user.getIsSns() == true) {
+            throw new Exception("SNS로 가입된 유저입니다.");
+        }
 
         String jwt = tokenProvider.createToken(authentication, user.getId(), user.getIsTutor(), user.getNickname());
 
