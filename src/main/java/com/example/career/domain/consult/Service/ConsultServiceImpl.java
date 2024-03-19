@@ -37,9 +37,9 @@ public class ConsultServiceImpl implements ConsultService{
         List<Consult> consultList;
 
         if(mentor.getIsTutor()) {
-            consultList = consultRepository.findAllByMentor(mentor);
+            consultList = consultRepository.findAllByMentorAndStatus(mentor, status);
         }else {
-            consultList = consultRepository.findAllByMentee(mentor);
+            consultList = consultRepository.findAllByMenteeAndStatus(mentor, status);
 
         }        List<UpcomingConsults> upcomingConsults = new ArrayList<>();
         for(Consult consult : consultList) {
