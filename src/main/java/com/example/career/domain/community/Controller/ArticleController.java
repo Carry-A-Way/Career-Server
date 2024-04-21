@@ -96,7 +96,7 @@ public class ArticleController {
         if (multipartFiles != null && !multipartFiles.isEmpty()) {
             imgUrls = articleService.uploadImages(multipartFiles);
         }
-
+        System.out.println("여기 ~~~~ : "+imgUrls);
         articleDto.setImgUrls(imgUrls);
 
         Article article = articleService.addArticle(articleDto, userId);

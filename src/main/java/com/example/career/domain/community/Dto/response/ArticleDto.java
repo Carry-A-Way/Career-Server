@@ -40,16 +40,9 @@ public class ArticleDto {
     public void setImgUrls(List<String> urlList) {
         if (urlList == null) return;
 
-        for (int i = 0; i < urlList.size(); i++) {
-            try {
-                Field field = this.getClass().getDeclaredField("img" + (i + 1));
-                field.set(this, urlList.get(i));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                logger.error("Error set ImgUrls", e);
-
-            }
-        }
+        this.imgs = new ArrayList<>(urlList);
     }
+
 
     public Article toArticleEntity(User user) {
         Article.ArticleBuilder builder = Article.builder()
@@ -62,16 +55,21 @@ public class ArticleDto {
                 .commentCnt(commentCnt);
 
         if (imgs != null) {
-            if (imgs.size() > 0) builder.img1(imgs.get(0));
-            if (imgs.size() > 1) builder.img2(imgs.get(1));
-            if (imgs.size() > 2) builder.img3(imgs.get(2));
-            if (imgs.size() > 3) builder.img4(imgs.get(3));
-            if (imgs.size() > 4) builder.img5(imgs.get(4));
-            if (imgs.size() > 5) builder.img6(imgs.get(5));
+            for (int i = 0; i < imgs.size(); i++) {
+                switch (i) {
+                    case 0: builder.img1(imgs.get(i)); break;
+                    case 1: builder.img2(imgs.get(i)); break;
+                    case 2: builder.img3(imgs.get(i)); break;
+                    case 3: builder.img4(imgs.get(i)); break;
+                    case 4: builder.img5(imgs.get(i)); break;
+                    case 5: builder.img6(imgs.get(i)); break;
+                }
+            }
         }
 
         return builder.build();
     }
+
 
     public static ArticleDto from(Article article) {
         if (article == null) return null;
