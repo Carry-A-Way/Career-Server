@@ -51,8 +51,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<ArticleCountByCategoryDto> countArticlesByCategoryId();
 
     @Query("SELECT a FROM Article a WHERE a.title LIKE %:keyword% OR a.content LIKE %:keyword% " +
-            "OR a.id IN (SELECT c.id FROM Comment c WHERE c.content LIKE %:keyword%) " +
-            "OR a.id IN (SELECT r.id FROM Recomment r WHERE r.content LIKE %:keyword%)")
+            "OR a.id IN (SELECT c.article FROM Comment c WHERE c.content LIKE %:keyword%) " +
+            "OR a.id IN (SELECT r.article FROM Recomment r WHERE r.content LIKE %:keyword%)")
     List<Article> findAllBySearchKeyWord(@Param("keyword") String keyword, Pageable pageable);
 
     Page<Article> findAllByCategoryId(Long categoryId, Pageable pageable);
