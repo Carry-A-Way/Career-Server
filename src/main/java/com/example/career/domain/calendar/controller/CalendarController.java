@@ -56,7 +56,14 @@ public class CalendarController {
 
         return calendarService.RegisterConsultByMentee(calendarRegistReqDto);
     }
+    // 상담 거절 - 멘토가
+    @Authenticated
+    @PostMapping("mentee/deny")
+    public ResponseEntity<Boolean> DenyConsultByMentee(@RequestBody CalendarDenyReqDto calendarDenyReqDto, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        return new ResponseEntity<>(calendarService.denyConsultByMentor(user, calendarDenyReqDto), HttpStatus.OK);
 
+    }
     // 멘토 캘린더 상담 가능날짜 추가
     @Authenticated
     @PostMapping("mentor/insert/possible/time")

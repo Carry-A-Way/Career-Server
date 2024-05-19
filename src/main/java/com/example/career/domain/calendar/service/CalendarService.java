@@ -16,6 +16,7 @@ import java.util.List;
 public interface CalendarService {
     public CalendarMentorRespDto getMentorCalendar(Long mentorId);
     public Boolean denyConsultByMentor(User user, CalendarDenyReqDto calendarDenyReqDto);
+    public Boolean denyConsultByMentee(User user, CalendarDenyReqDto calendarDenyReqDto);
     public Boolean AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, User user) throws IOException;
     public ResponseEntity<String> RegisterConsultByMentee(CalendarRegistReqDto calendarRegistReqDto);
     public boolean insertMentorPossibleTime(CalendarMentorPossibleReqDto calendarMentorPossibleReqDto, Long userId);

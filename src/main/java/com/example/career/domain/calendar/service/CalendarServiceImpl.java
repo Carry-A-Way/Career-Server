@@ -98,6 +98,22 @@ public class CalendarServiceImpl implements CalendarService{
     }
 
     @Override
+    public Boolean denyConsultByMentee(User user, CalendarDenyReqDto calendarDenyReqDto) {
+        Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
+
+        // 멘토가 자신의 consult를 삭제하는지 체크
+        if(consult.getMentee().getId() == user.getId()) {
+
+            // 준영속 변경감지
+            consult.setStatus(3);
+            consult.setReason(calendarDenyReqDto.getReason());
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     @Transactional
     public Boolean AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, User user) throws IOException {
         Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
