@@ -9,6 +9,6 @@
 ./logs/api-error.log
 ./logs/api.log
 ./logs/api*
-/bin/
-/build/
-/logs/
+bin/*
+build/*
+logs/*
