@@ -65,7 +65,7 @@ public class SecurityConfig {
 //                .requestMatchers("/test", "/api/hello", "/api/authenticate", "/user/signup").permitAll()
                 .requestMatchers("/user/signup/*", "/user/valid/*","/user/card/*", "/user/file/*","/consultation/*",
                         "/oauth/*",
-                        "/api/authenticate","/file/delete", "/major/*", "/health", "/schedule/update/consultation").permitAll()
+                        "/api/authenticate","/file/delete", "/major/*", "/health", "/schedule/update/consultation","/_new/support/reservation/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
