@@ -17,7 +17,7 @@ public interface ConsultRepository extends JpaRepository<Consult, Long> {
     List<Consult> findAllByMenteeAndStatus(User mentee, int status);
     List<Consult> findAllByMentorAndStatus(User mentor, int status);
 
-    @Query("SELECT c FROM Consult c WHERE c.mentor.id = :mentorId AND c.status <> 2 " +
+    @Query("SELECT c FROM Consult c WHERE c.mentor.id = :mentorId AND c.status < 2 " +
             "AND ((c.startTime <= :startTime AND c.endTime > :startTime) OR " +
             "(c.startTime < :endTime AND c.endTime >= :endTime) OR " +
             "(c.startTime >= :startTime AND c.endTime <= :endTime))")

@@ -84,30 +84,88 @@ public class CalendarServiceImpl implements CalendarService{
     public Boolean denyConsultByMentor(User user, CalendarDenyReqDto calendarDenyReqDto) {
 
         Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
+        TutorSlot tutorSlot = null;
 
         // 멘토가 자신의 consult를 삭제하는지 체크
         if(consult.getMentor().getId() == user.getId()) {
 
+            try {
+                // 해당 날짜의 멘토 시간표 가져오기
+                tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(
+                        tutorDetailRepository.findByTutorId(consult.getMentor().getId())
+                        ,consult.getStartTime().toLocalDate());
+            } catch (NullPointerException e) {
+//            return ResponseEntity.badRequest().body("해당 날짜를 등록하지 않았습니다.");
+                System.out.println("해당 날짜를 등록하지 않았습니다.");
+                return false;
+            }
             // 준영속 변경감지
             consult.setStatus(3);
             consult.setReason(calendarDenyReqDto.getReason());
+
+            // 멘토 시간표에서도 삭제
+            TimeChanger timeChanger = new TimeChanger();
+            byte[] newBytes = timeChanger.dateTimeToByte(consult.getStartTime(), consult.getEndTime());
+
+            /***
+             * newByte : 추가 또는 제거를 원하는 시간대
+             * oldByte : 현재 멘토가 가지고 있는 시간대
+             * useAND : true( ~new AND old, DELETE )
+             *          false(new OR old, INSERT )
+             * */
+            byte[] oldBytes = tutorSlot.getPossibleTime();
+            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,false);
+
+            tutorSlot.setPossibleTime(resultBytes);
+            tutorSlotRepository.save(tutorSlot);
 
             return true;
         }
         return false;
     }
-
+    // 멘티가 상담을 거절
     @Override
     @Transactional
     public Boolean denyConsultByMentee(User user, CalendarDenyReqDto calendarDenyReqDto) {
         Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
+
+        TutorSlot tutorSlot = null;
+
+
         // 멘토가 자신의 consult를 삭제하는지 체크
         if(consult.getMentee().getId() == user.getId()) {
+
+            try {
+                // 해당 날짜의 멘토 시간표 가져오기
+                tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(
+                        tutorDetailRepository.findByTutorId(consult.getMentor().getId())
+                        ,consult.getStartTime().toLocalDate());
+            } catch (NullPointerException e) {
+//            return ResponseEntity.badRequest().body("해당 날짜를 등록하지 않았습니다.");
+                System.out.println("해당 날짜를 등록하지 않았습니다.");
+                return false;
+            }
 
             // 준영속 변경감지
             consult.setStatus(4);
             consult.setReason(calendarDenyReqDto.getReason());
 
+            // 멘토 시간표에서도 삭제
+            TimeChanger timeChanger = new TimeChanger();
+            byte[] newBytes = timeChanger.dateTimeToByte(consult.getStartTime(), consult.getEndTime());
+
+            /***
+             * newByte : 추가 또는 제거를 원하는 시간대
+             * oldByte : 현재 멘토가 가지고 있는 시간대
+             * useAND : true( ~new AND old, DELETE )
+             *          false(new OR old, INSERT )
+             * */
+
+            byte[] oldBytes = tutorSlot.getPossibleTime();
+            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,false);
+
+            tutorSlot.setPossibleTime(resultBytes);
+            tutorSlotRepository.save(tutorSlot);
             return true;
         }
         return false;
@@ -117,7 +175,7 @@ public class CalendarServiceImpl implements CalendarService{
     @Transactional
     public Boolean AcceptConsultByMentor(CalendarDenyReqDto calendarDenyReqDto, User user) throws IOException {
         Consult consult = consultRepository.findById(calendarDenyReqDto.getConsultId()).get();
-
+        TutorSlot tutorSlot = null;
         // 멘토가 자신의 consult를 수락 & 상담 신청 중(status = 0) 인 거 체크
         if(consult.getMentor().getId() == user.getId() && consult.getStatus() == 0 && consult != null) {
 
@@ -132,8 +190,9 @@ public class CalendarServiceImpl implements CalendarService{
             zoomMeetingObjectDTO.setTopic(user.getNickname()+"님의 "+consult.getMajor()+" 상담입니다.");
             zoomMeetingObjectDTO.setAgenda(user.getNickname()+"님의 "+consult.getMajor()+" 상담입니다.");
             ZoomMeetingObjectEntity zoomMeetingObjectEntity = null;
+            zoomMeetingObjectEntity = zoomMeetingService.createMeeting(zoomMeetingObjectDTO);
+
             try {
-                zoomMeetingObjectEntity = zoomMeetingService.createMeeting(zoomMeetingObjectDTO);
             }catch(Exception e) {
                 System.out.println("상담 수락 중 ZOOM API 에러\n" +e.getMessage());
                 return false;
@@ -141,6 +200,35 @@ public class CalendarServiceImpl implements CalendarService{
 
             consult.setZoomLink(zoomMeetingObjectEntity.getStart_url());
             consult.setMeetingId(zoomMeetingObjectEntity.getId());
+
+
+            try {
+                // 해당 날짜의 멘토 시간표 가져오기
+                tutorSlot = tutorSlotRepository.findTutorSlotByTutorDetailAndConsultDate(
+                        tutorDetailRepository.findByTutorId(consult.getMentor().getId())
+                        ,consult.getStartTime().toLocalDate());
+            } catch (NullPointerException e) {
+//            return ResponseEntity.badRequest().body("해당 날짜를 등록하지 않았습니다.");
+                System.out.println("해당 날짜를 등록하지 않았습니다.");
+                return false;
+            }
+
+            // 멘토 시간표에서도 삭제
+            TimeChanger timeChanger = new TimeChanger();
+            byte[] newBytes = timeChanger.dateTimeToByte(consult.getStartTime(), consult.getEndTime());
+
+            /***
+             * newByte : 추가 또는 제거를 원하는 시간대
+             * oldByte : 현재 멘토가 가지고 있는 시간대
+             * useAND : true( ~new AND old, DELETE )
+             *          false(new OR old, INSERT )
+             * */
+
+            byte[] oldBytes = tutorSlot.getPossibleTime();
+            byte[] resultBytes = timeChanger.combineBytesWithXOR(newBytes,oldBytes,true);
+
+            tutorSlot.setPossibleTime(resultBytes);
+            tutorSlotRepository.save(tutorSlot);
             return true;
         }
         return false;
