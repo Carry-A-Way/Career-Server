@@ -71,7 +71,7 @@ public class ZoomMeetingServiceImpl implements ZoomMeetingService{
         settingsDTO.setAuto_recording("cloud");
         settingsDTO.setMute_upon_entry(true);
         zoomMeetingObjectDTO.setSettings(settingsDTO);
-
+        System.out.println(settingsDTO);
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + zoomTokenRepository.findById(0L).get().getAccessToken());

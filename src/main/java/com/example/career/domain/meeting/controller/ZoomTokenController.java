@@ -13,6 +13,6 @@ public class ZoomTokenController {
     @GetMapping("/zoom/auth")
     public String redirectToZoomAuth() {
         // Zoom OAuth 2.0 인증 시작 URL
-        return "redirect:https://zoom.us/oauth/authorize?response_type=code&client_id="+clientID+"&redirect_uri=http://localhost:8080/_new/support/reservation/zoomApi";
+        return "redirect:https://zoom.us/oauth/authorize?response_type=code&client_id="+clientID+"&redirect_uri=http://localhost:8080/_new/support/reservation/zoomApi?code=pRty4OPk6uhMCdnqqgmSEmMVls5jJYaTA";
     }
 }
