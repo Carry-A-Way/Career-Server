@@ -11,8 +11,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.career.domain.oauth.Dto.SnsSignUpReqDto;
+import com.example.career.domain.user.Dto.LoginDto;
+import com.example.career.domain.user.Dto.SignUpReqDto;
+import com.example.career.domain.user.Dto.TokenDto;
+import com.example.career.domain.user.Entity.User;
+import com.example.career.domain.user.Service.UserService;
+import com.example.career.global.jwt.JwtFilter;
+import com.example.career.global.jwt.TokenProvider;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
@@ -29,11 +46,9 @@ public class KakaoService {
 
     @Value("${oauth.kakao.clientId}")
     private String restId;
-
     public String getReturnAccessToken(String code) {
         String access_token = "";
         String refresh_token = "";
-
         try {
             URL url = new URL("https://kauth.kakao.com/oauth/token");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -51,6 +66,7 @@ public class KakaoService {
             sb.append(restId);
             sb.append("&redirect_uri="); // 앱 CALLBACK 경로
             sb.append(redirect);
+            sb.append("&code=" + code);
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -114,6 +130,9 @@ public class KakaoService {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
             String id = element.getAsJsonObject().get("id").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            JsonObject profile = kakao_account.getAsJsonObject("profile");
+            String nickname = profile.get("nickname").getAsString();
+            String gender = kakao_account.get("gender").getAsString();
 
 //            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 //            JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
@@ -123,8 +142,11 @@ public class KakaoService {
 //            String email = kakao_account.getAsJsonObject().get("email").getAsString();
 //            log.warn("email:: " + email);
 //            resultMap.put("nickname", nickname);
+
             resultMap.put("id", id);
             resultMap.put("email", email);
+            resultMap.put("name", nickname);
+            resultMap.put("gender", gender);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -132,4 +154,7 @@ public class KakaoService {
         }
         return resultMap;
     }
+
+
+
 }
