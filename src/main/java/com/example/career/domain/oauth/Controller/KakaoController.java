@@ -3,6 +3,7 @@ package com.example.career.domain.oauth.Controller;
 import com.example.career.domain.oauth.Dto.SnsSignUpReqDto;
 import com.example.career.domain.oauth.Entity.UserSns;
 import com.example.career.domain.oauth.Service.KakaoService;
+import com.example.career.domain.oauth.Service.SnsIdCheckService;
 import com.example.career.domain.oauth.Service.UserSnsService;
 import com.example.career.domain.user.Dto.LoginDto;
 import com.example.career.domain.user.Dto.SignUpReqDto;
@@ -39,8 +40,9 @@ import java.util.Map;
 public class KakaoController {
     private final RestTemplate restTemplate;
     private final KakaoService kakaoService;
-    private final UserSnsService userSnsService;
+    private final SnsIdCheckService snsIdCheckService;
     private final UserService userService;
+
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -66,7 +68,7 @@ public class KakaoController {
 //    }
 
     @GetMapping("kakao/callback")
-    public ResponseEntity<Object> redirectkakao(@RequestParam String code, HttpSession session) throws IOException {
+    public ResponseEntity<Object> redirectkakao(@RequestParam String code, HttpSession session) throws Exception {
         System.out.println("code:: " + code);
 
         // 접속토큰 get
@@ -74,8 +76,29 @@ public class KakaoController {
         // 접속자 정보 get
         Map<String, Object> result = kakaoService.getUserInfo(kakaoToken);
         System.out.print("result:: " + result);
+
         if (result == null || result.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        String snsId = (String) result.get("id");
+        String username = (String) result.get("email");
+        boolean isRegistered = snsIdCheckService.checkAndRegisterUser(Long.parseLong(snsId));
+        System.out.println("is registered in : " +  isRegistered);
+
+        if (isRegistered) {
+            // 가입된 유저라면 로그인 처리
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(username, snsId);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            User user = userService.getUserByUsername(username);
+            // JWT 토큰 생성
+            String jwt = tokenProvider.createToken( authentication, user.getId(), user.getIsTutor(), user.getNickname());
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(jwt);
+
         }
         return ResponseEntity.ok(result);
 
