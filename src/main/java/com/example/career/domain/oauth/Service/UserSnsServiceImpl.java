@@ -14,7 +14,7 @@ public class UserSnsServiceImpl implements UserSnsService {
 
     @Transactional
     @Override
-    public void snsSignup(Long userId, int type, Long snsId) {
+    public void snsSignup(Long userId, String type, Long snsId) {
         if (userSnsRepository.findBySnsId(snsId) != null) {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }

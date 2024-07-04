@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface UserSnsService {
     @Transactional
-    void snsSignup(Long userId, int type, Long snsId);
+    void snsSignup(Long userId, String type, Long snsId);
 
     UserSns findBySnsId(Long snsId);
 }

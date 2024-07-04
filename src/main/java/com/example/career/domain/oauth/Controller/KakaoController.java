@@ -2,6 +2,7 @@ package com.example.career.domain.oauth.Controller;
 
 import com.example.career.domain.oauth.Dto.SnsSignUpReqDto;
 import com.example.career.domain.oauth.Entity.UserSns;
+import com.example.career.domain.oauth.Repository.UserSnsRepository;
 import com.example.career.domain.oauth.Service.KakaoService;
 import com.example.career.domain.oauth.Service.SnsIdCheckService;
 import com.example.career.domain.oauth.Service.UserSnsService;
@@ -41,6 +42,8 @@ public class KakaoController {
     private final RestTemplate restTemplate;
     private final KakaoService kakaoService;
     private final SnsIdCheckService snsIdCheckService;
+    private final UserSnsRepository userSnsRepository;
+    private final UserSnsService userSnsService;
     private final UserService userService;
 
     private final TokenProvider tokenProvider;
@@ -148,9 +151,16 @@ public class KakaoController {
     @PostMapping("/kakao/signup")
     public ResponseEntity<TokenDto> signUpAndAuthorizeWithKakao(@RequestBody SnsSignUpReqDto snsSignUpReqDto) throws Exception {
         // SNS 회원가입
-        SignUpReqDto signUpReqDto = snsSignUpReqDto.toSignUpReqDto();
-        userService.signupTutor(signUpReqDto, true);
 
+        SignUpReqDto signUpReqDto = snsSignUpReqDto.toSignUpReqDto();
+        if(signUpReqDto.getIsTutor()) {
+            SignUpReqDto registeredUserDto = userService.signupTutor(signUpReqDto, true); // 저장된 User 정보가 담긴 DTO 반환
+            userSnsService.snsSignup(registeredUserDto.getId(), "kakao", snsSignUpReqDto.getSnsId());
+        }
+        else {
+            SignUpReqDto registeredUserDto = userService.signupStudent(signUpReqDto, true); // 저장된 User 정보가 담긴 DTO 반환
+            userSnsService.snsSignup(registeredUserDto.getId(), "kakao", snsSignUpReqDto.getSnsId());
+        }
         // 로그인 처리
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(signUpReqDto.getUsername(), snsSignUpReqDto.getSnsId());

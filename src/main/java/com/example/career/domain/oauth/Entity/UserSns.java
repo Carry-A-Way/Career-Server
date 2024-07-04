@@ -20,8 +20,8 @@ public class UserSns {
     @Id
     private Long id;
 
-    @Column(nullable = false)
-    private int type;
+    @Column(length = 20)
+    private String type;
 
     @Column(nullable = false)
     private Long snsId;
