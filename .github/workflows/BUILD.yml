@@ -32,31 +32,6 @@ jobs:
           echo "zipStoreBase=GRADLE_USER_HOME" >> ./gradle/wrapper/gradle-wrapper.properties
           echo "zipStorePath=wrapper/dists" >> ./gradle/wrapper/gradle-wrapper.properties
           
-        
-     # AWS Credencials
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_JM_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_JM_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-          
-      - name: Check Gradle Cache
-        id: cache
-        run: |
-          RESULT=$(curl \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
-            "${{ secrets.CACHE_PATH }}-1")
-      
-          if [[ $RESULT == *"created_at"* ]]
-          then
-            echo "new=2" >> $GITHUB_OUTPUT
-            echo "old=1" >> $GITHUB_OUTPUT
-          else
-            echo "new=1" >> $GITHUB_OUTPUT
-            echo "old=2" >> $GITHUB_OUTPUT
-          fi
       
       - name: Cache Gradle packages
         uses: actions/cache@v3
